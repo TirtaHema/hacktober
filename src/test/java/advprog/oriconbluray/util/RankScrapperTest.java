@@ -28,8 +28,8 @@ public class RankScrapperTest {
             + "(7) カードキャプターさくら クリアカード編 Vol.1＜初回仕様版＞ "
             + "- アニメーション - 2018-05-09\n"
             + "(8) スター・ウォーズ/最後のジェダイ MovieNEX(初回版) - "
-            + "マーク・ハミル - 2018-04-25\n" +
-            "(9) 超英雄祭 KAMEN RIDER×SUPER SENTAI LIVE&SHOW 2018 "
+            + "マーク・ハミル - 2018-04-25\n"
+            + "(9) 超英雄祭 KAMEN RIDER×SUPER SENTAI LIVE&SHOW 2018 "
             + "- - - 2018-05-09\n"
             + "(10) ワイルド・スピード ICE BREAK - ヴィン・ディーゼル - 2018-05-09";
 
