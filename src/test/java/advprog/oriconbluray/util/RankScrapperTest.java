@@ -5,8 +5,12 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import java.io.IOException;
 
 import org.junit.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 
 public class RankScrapperTest {
+
+    @Autowired
+    private RankScrapper scrapper;
 
     private String sampleDailyUrl = "https://www.oricon.co.jp/rank/bd/d/2018-05-08/";
     private String sampleWeeklyUrl = "https://www.oricon.co.jp/rank/bd/w/2018-05-07/";
@@ -57,25 +61,25 @@ public class RankScrapperTest {
 
     @Test
     public void testDailyScrapping() throws IOException {
-        scrapOutput = RankScrapper.scrapRank(sampleDailyUrl);
+        scrapOutput = scrapper.scrapRank(sampleDailyUrl);
         assertEquals(sampleDaily, scrapOutput);
     }
 
     @Test
     public void testWeeklyScrapping() throws IOException {
-        scrapOutput = RankScrapper.scrapRank(sampleWeeklyUrl);
+        scrapOutput = scrapper.scrapRank(sampleWeeklyUrl);
         assertEquals(sampleWeekly, scrapOutput);
     }
 
     @Test
     public void testInvalidDailyScrapping() throws IOException {
-        scrapOutput = RankScrapper.scrapRank(invalidDailyUrl);
+        scrapOutput = scrapper.scrapRank(invalidDailyUrl);
         assertEquals(errorMsg, scrapOutput);
     }
 
     @Test
     public void testInvalidWeeklyScrapping() throws IOException {
-        scrapOutput = RankScrapper.scrapRank(invalidWeeklyUrl);
+        scrapOutput = scrapper.scrapRank(invalidWeeklyUrl);
         assertEquals(errorMsg, scrapOutput);
     }
 
