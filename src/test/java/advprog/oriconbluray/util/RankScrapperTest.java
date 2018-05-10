@@ -53,7 +53,7 @@ public class RankScrapperTest {
             + "(10) アイドルマスター SideM 5(完全生産限定版) - アニメーション - 2018-04-25";
 
     private String scrapOutput;
-    private String errorMsg = RankScrapper
+    private String errorMsg = scrapper
             .scrapRank("https://www.oricon.co.jp/rank/bd/w/2018-05-10/");
 
     public RankScrapperTest() throws IOException {
