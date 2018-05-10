@@ -72,6 +72,7 @@ public class YoutubeInfoFetcherTest {
                 2188652, 151698, 1929);
         assertEquals(expectedVideo, actualVideo);
         assertEquals(expectedVideo.hashCode(), actualVideo.hashCode());
+        assertEquals(expectedVideo.toString(), actualVideo.toString());
     }
 
     private void setFakeResponse(Call mockCall, String responseStr) throws IOException {
