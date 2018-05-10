@@ -1,10 +1,10 @@
 package advprog.oriconbluray.util;
 
-import org.junit.Test;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.io.IOException;
 
-import static org.junit.jupiter.api.Assertions.*;
+import org.junit.Test;
 
 public class RankScrapperTest {
 
