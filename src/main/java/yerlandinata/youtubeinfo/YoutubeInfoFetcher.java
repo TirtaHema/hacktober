@@ -1,0 +1,62 @@
+package yerlandinata.youtubeinfo;
+
+import java.io.IOException;
+
+import okhttp3.HttpUrl;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
+import org.json.JSONException;
+import org.json.JSONObject;
+import org.springframework.stereotype.Service;
+
+@Service
+public class YoutubeInfoFetcher {
+
+    private final String apiKey;
+    private final OkHttpClient okHttpClient;
+    private static final String YOUTUBE_API_URL = "https://www.googleapis.com/youtube/v3/videos/";
+
+    public YoutubeInfoFetcher(String apiKey, OkHttpClient okHttpClient) {
+        this.apiKey = apiKey;
+        this.okHttpClient = okHttpClient;
+    }
+
+    public YoutubeVideo fetchData(String videoId) throws IOException, JSONException {
+        HttpUrl.Builder urlBuilder = HttpUrl.parse(YOUTUBE_API_URL).newBuilder();
+        urlBuilder.addQueryParameter("key", apiKey);
+        urlBuilder.addQueryParameter("part", "snippet,statistics");
+        urlBuilder.addQueryParameter("id", videoId);
+        Request request = new Request.Builder()
+                .url(urlBuilder.build().toString())
+                .build();
+        Response response = okHttpClient.newCall(request).execute();
+        return parseJson(response.body().string());
+    }
+
+    private YoutubeVideo parseJson(String jsonResponse) throws JSONException {
+        JSONObject video = new JSONObject(jsonResponse);
+        String title = video.getJSONArray("items")
+                .getJSONObject(0)
+                .getJSONObject("snippet")
+                .getString("title");
+        String channel = video.getJSONArray("items")
+                .getJSONObject(0)
+                .getJSONObject("snippet")
+                .getString("channelTitle");
+        int views = video.getJSONArray("items")
+                .getJSONObject(0)
+                .getJSONObject("statistics")
+                .getInt("viewCount");
+        int likes = video.getJSONArray("items")
+                .getJSONObject(0)
+                .getJSONObject("statistics")
+                .getInt("likeCount");
+        int dislike = video.getJSONArray("items")
+                .getJSONObject(0)
+                .getJSONObject("statistics")
+                .getInt("dislikeCount");
+        return new YoutubeVideo(title, channel, views, likes, dislike);
+    }
+
+}
