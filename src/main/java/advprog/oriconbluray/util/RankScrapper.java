@@ -8,10 +8,12 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
+import org.springframework.stereotype.Service;
 
+@Service
 public class RankScrapper {
 
-    public static String scrapRank(String url) throws IOException {
+    public String scrapRank(String url) throws IOException {
         try {
             Document docs = Jsoup.connect(url).get();
             Elements blurays = docs.select("section.box-rank-entry");
@@ -24,7 +26,7 @@ public class RankScrapper {
         }
     }
 
-    private static String scrapRank(Element movieHtml) {
+    private String scrapRank(Element movieHtml) {
         String rank = movieHtml.select("p.num").text();
         Element info = movieHtml.selectFirst("div.wrap-text");
         String title = info.select("h2.title").text();
@@ -34,7 +36,7 @@ public class RankScrapper {
                 rank, title, artist, date);
     }
 
-    private static String cleanedDate(String date) {
+    private String cleanedDate(String date) {
         return date.replace("発売日： ", "")
                 .replace("年", "-")
                 .replace("月", "-")
