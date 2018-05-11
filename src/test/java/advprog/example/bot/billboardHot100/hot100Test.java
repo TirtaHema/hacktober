@@ -12,15 +12,15 @@ public class hot100Test {
     private hot100 hot100;
 
     @Before
-    public void setUp(){
+    public void setUp() {
         hot100 = new hot100();
     }
 
     @Test
-    public void Test(){
+    public void Test() {
         String charts = hot100.GetChart();
         assertNotNull(charts);
     }
 
-    
+
 }
