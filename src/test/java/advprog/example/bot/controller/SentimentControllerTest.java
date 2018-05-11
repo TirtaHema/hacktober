@@ -41,7 +41,7 @@ public class SentimentControllerTest {
     @Test
     void testHandleTextMessageEvent() {
         MessageEvent<TextMessageContent> event =
-                EventTestUtil.createDummyTextMessage("/echo Lorem Ipsum");
+                EventTestUtil.createDummyTextMessage("/sentiment Lorem Ipsum");
 
         TextMessage reply = sentimentController.handleTextMessageEvent(event);
 
