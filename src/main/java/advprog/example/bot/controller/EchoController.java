@@ -8,6 +8,7 @@ import com.linecorp.bot.model.event.message.TextMessageContent;
 import com.linecorp.bot.model.event.source.GroupSource;
 import com.linecorp.bot.model.event.source.RoomSource;
 import com.linecorp.bot.model.event.source.Source;
+import com.linecorp.bot.model.event.source.UserSource;
 import com.linecorp.bot.model.message.TextMessage;
 import com.linecorp.bot.model.profile.UserProfileResponse;
 import com.linecorp.bot.spring.boot.annotation.EventMapping;
@@ -33,7 +34,7 @@ public class EchoController {
         TextMessageContent content = event.getMessage();
         String contentText = content.getText();
 
-        TextMessage replayMessage = new TextMessage(contentText);
+        TextMessage replayMessage = new TextMessage("");
 
         switch (contentText.split(" ")[0]) {
             case "/echo" : {
@@ -53,7 +54,7 @@ public class EchoController {
                 String userId = source.getUserId();
                 String groupId = getGroupId(event);
 
-                if (groupId == null || (!contentText.contains("haha") && !contentText.contains("wkwk")))
+                if (!contentText.toLowerCase().contains("haha") && !contentText.toLowerCase().contains("wkwk"))
                     break;
 
                 if (!groupLaughCounter.containsKey(groupId)) {
@@ -94,8 +95,7 @@ public class EchoController {
                 "4. \n" +
                 "5. \n";
 
-        if (groupId == null || !groupLaughCounter.containsKey(groupId)
-                || groupLaughCounter.get(groupId).size() == 0) {
+        if (!groupLaughCounter.containsKey(groupId) || groupLaughCounter.get(groupId).size() == 0) {
             return new TextMessage(message);
         }
 
@@ -154,6 +154,8 @@ public class EchoController {
             groupId = ((GroupSource) source).getGroupId();
         } else if (source instanceof RoomSource) {
             groupId = ((RoomSource) source).getRoomId();
+        } else {
+            groupId = source.getUserId();
         }
 
         return groupId;
