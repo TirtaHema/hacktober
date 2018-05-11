@@ -107,10 +107,10 @@ public class EchoController {
 
         if (groupLaughCounter.containsKey(groupId)) {
             ArrayList<UserLaughCounter> userList = groupLaughCounter.get(groupId);
-            ArrayList<String>[] rankedLaugh = new ArrayList[10];
+            ArrayList<ArrayList<String> > rankedLaugh = new ArrayList<>();
 
             for (int i = 0; i < 10; i++) {
-                rankedLaugh[i] = new ArrayList<>();
+                rankedLaugh.add(new ArrayList<>());
             }
 
             userList.sort(new Comparator<UserLaughCounter>() {
@@ -131,18 +131,18 @@ public class EchoController {
                     rankCounter++;
                 }
 
-                rankedLaugh[rankCounter]
+                rankedLaugh.get(rankCounter)
                         .add(lineMessagingClient
                                 .getGroupMemberProfile(groupId, currentUser.getUserId()).get().getDisplayName());
             }
 
             for (int i = 1; i <= 5; i++) {
                 message += i + ". ";
-                for (int j = 0; j < rankedLaugh[i].size(); j++) {
+                for (int j = 0; j < rankedLaugh.get(i).size(); j++) {
                     if (j > 0) {
                         message += ", ";
                     }
-                    message += rankedLaugh[i].get(j);
+                    message += rankedLaugh.get(i).get(j);
                 }
                 message += "\n";
             }
