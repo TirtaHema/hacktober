@@ -1,8 +1,8 @@
-package advprog.example.bot.billboardHot100;
+package advprog.example.bot.billboardhot100;
 
 
-public class hot100 {
-    public String GetChart() {
+public class Hot100 {
+    public String getChart() {
         return "";
     }
 }

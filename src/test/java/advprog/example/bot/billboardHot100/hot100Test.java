@@ -1,4 +1,4 @@
-package advprog.example.bot.billboardHot100;
+package advprog.example.bot.billboardhot100;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
@@ -7,18 +7,18 @@ import static org.junit.Assert.assertNull;
 import org.junit.Before;
 import org.junit.Test;
 
-public class hot100Test {
+public class Hot100Test {
 
-    private hot100 hot100;
+    private Hot100 Hot100;
 
     @Before
     public void setUp() {
-        hot100 = new hot100();
+        Hot100 = new Hot100();
     }
 
     @Test
     public void Test() {
-        String charts = hot100.GetChart();
+        String charts = Hot100.getChart();
         assertNotNull(charts);
     }
 
