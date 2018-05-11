@@ -1,12 +1,13 @@
 package advprog.oriconbluray.util.commands;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 import com.linecorp.bot.model.message.TextMessage;
-import org.junit.Test;
 
 import java.io.IOException;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import org.junit.Test;
 
 public class WeeklyRankCommandTest {
 
@@ -47,7 +48,7 @@ public class WeeklyRankCommandTest {
         reply = command.execute(invalidDate);
 
         assertEquals("It seems there's no rank charts on that date"
-                        + ". Make sure the date you assign is on monday"
-                , reply.getText());
+                        + ". Make sure the date you assign is on monday",
+                reply.getText());
     }
 }
