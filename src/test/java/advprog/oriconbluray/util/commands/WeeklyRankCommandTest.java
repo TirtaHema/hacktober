@@ -13,6 +13,8 @@ public class WeeklyRankCommandTest {
 
     private String sampleDate = "2018-05-07";
     private String invalidDate = "2018-05-09";
+    private String invalidFormatDate = "20180507";
+    private String absurdDate = "2018-04-32";
     private RankCommand command = new WeeklyRankCommand();
     private TextMessage reply;
 
@@ -50,5 +52,27 @@ public class WeeklyRankCommandTest {
         assertEquals("It seems there's no rank charts on that date"
                         + ". Make sure the date you assign is on monday",
                 reply.getText());
+    }
+
+    @Test
+    public void testInvalidFormatDateReturnErrorMsg() throws IOException {
+        reply = command.execute(invalidFormatDate);
+
+        assertEquals("Hmmmmm, forget about the date format?"
+                + " No worries~ I can help you~ Here's the format\n\n"
+                + "YYYY-MM-DD\n\nRemember it well, kay?",
+                reply.getText());
+
+    }
+
+    @Test
+    public void testAbsurdDateReturnErrorMsg() throws IOException {
+        reply = command.execute(absurdDate);
+
+        assertEquals("N-nani?! Is such date even exist?! You would"
+                + " like to check the calendar... and enter an existing "
+                + "date...",
+                reply.getText());
+
     }
 }
