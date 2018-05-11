@@ -1,5 +1,6 @@
 package advprog.example.bot.controller;
 
+import advprog.example.bot.service.FakeJsonHelper;
 import com.linecorp.bot.model.event.Event;
 import com.linecorp.bot.model.event.MessageEvent;
 import com.linecorp.bot.model.event.message.TextMessageContent;
@@ -13,6 +14,7 @@ import java.util.logging.Logger;
 public class EchoController {
 
     private static final Logger LOGGER = Logger.getLogger(EchoController.class.getName());
+    private final FakeJsonHelper fakeJsonHelper = new FakeJsonHelper();
 
     @EventMapping
     public TextMessage handleTextMessageEvent(MessageEvent<TextMessageContent> event) {
@@ -38,6 +40,6 @@ public class EchoController {
     }
 
     public String handleFakeJson(String contentText) {
-        return "{halo}";
+        return fakeJsonHelper.getFakeJsonObject();
     }
 }
