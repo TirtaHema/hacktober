@@ -40,7 +40,6 @@ public class EchoController {
     }
 
     public String handleDocumentsSimilarity(String contentText) {
-        double similarity = dsh.getSimilarity(contentText.substring(10));
-        return (similarity * 100 + "").split("\\.")[0] + "%";
+        return dsh.getSimilarity(contentText.substring(10));
     }
 }
