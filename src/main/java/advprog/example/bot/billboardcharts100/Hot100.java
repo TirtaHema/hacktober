@@ -1,4 +1,4 @@
-package advprog.example.bot.billboardhot100;
+package advprog.example.bot.billboardcharts100;
 
 
 import org.jsoup.Jsoup;

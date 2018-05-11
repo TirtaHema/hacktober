@@ -1,4 +1,4 @@
-package advprog.example.bot.billboardhot100;
+package advprog.example.bot.billboardcharts100;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
