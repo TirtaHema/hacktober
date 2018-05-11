@@ -1,12 +1,10 @@
 package advprog.example.bot.billboardcharts100;
 
-
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
-import org.jsoup.select.Elements;
-
 import java.io.IOException;
 import java.net.SocketTimeoutException;
+import org.jsoup.select.Elements;
 
 public class Hot100 {
 
@@ -18,14 +16,14 @@ public class Hot100 {
             Elements link = document.getElementsByClass("chart-row");
 
             for (int i = 0; i < 10; i++) {
-                concate += "(" + (i+1) + ") ";
+                concate += "(" + ( i + 1 ) + ") ";
                 concate += link.get(i).getElementsByClass("chart-row__song").html()
                         .replaceAll("&amp;","&") + " - ";
                 concate += link.get(i).getElementsByClass("chart-row__artist").html()
                         .replaceAll("&amp;","&") + "\n";
             }
 
-        } catch (SocketTimeoutException e){
+        } catch (SocketTimeoutException e) {
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
