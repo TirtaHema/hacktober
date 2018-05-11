@@ -19,7 +19,7 @@ public class ChartSingle {
             Elements elements = document.select("section.box-rank-entry");
             String output = "Ryokai desu~ This is your top 10 songs as you "
                     + "requested~\n\n";
-            output += elements.stream().map(js -> scrapChartElement(js))
+            output += elements.stream().map(js -> scrapChartElement(js) + " - " + price(js))
                     .collect(Collectors.joining("\n"));
             return output;
         } catch (HttpStatusException e) {
@@ -34,6 +34,17 @@ public class ChartSingle {
         String artist = info.select("p.name").text();
         String date = FormatDate(info.selectFirst("li").text());
         return String.format("(%s) %s - %s - %s", rank, title, artist, date);
+    }
+
+    private String price(Element song) {
+        try {
+            song.selectFirst("div.wrap-text").select("li").get(2).text();
+            String price = song.selectFirst("div.wrap-text").select("li").get(1).text();
+            return price.replace("推定売上枚数：", "").replace("枚", "")
+                    .replace(",","");
+        } catch (Exception e) {
+            return "Not Given";
+        }
     }
 
     private String FormatDate(String date) {

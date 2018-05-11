@@ -1,30 +1,23 @@
-package advprog.oriconSingle.util.service.scrapper;
+package advprog.oriconSingle.util.commands;
 
-import static org.junit.jupiter.api.Assertions.*;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 import java.io.IOException;
 
+import com.linecorp.bot.model.message.TextMessage;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-@RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes = {ChartSingleConfig.class})
-public class ChartSingleTest {
+public class ChartCommandControlTest {
 
-    @Autowired
-    private ChartSingle chartScrapper;
+    private ChartCommandControl controller = new ChartCommandControl();
+    private ChartCommand emptyCommand = new DailyChartCommand();
 
-    private String sampleDailyUrl = "https://www.oricon.co.jp/rank/js/d/2018-05-09/";
-    private String sampleWeeklyUrl = "https://www.oricon.co.jp/rank/js/w/2018-05-07/";
-    private String sampleMonthlyUrl = "https://www.oricon.co.jp/rank/js/m/2018-04/";
-    private String sampleYearlyUrl = "https://www.oricon.co.jp/rank/js/y/2017/";
-    private String falseDailyUrl =  "https://www.oricon.co.jp/rank/js/d/2030-05-09/";
-    private String falseWeeklyUrl = "https://www.oricon.co.jp/rank/js/w/2018-05-06/";
-    private String falseMonthlyUrl = "https://www.oricon.co.jp/rank/js/m/2030-04/";
-    private String falseYearlyUrl = "https://www.oricon.co.jp/rank/js/y/2030/";
+    private String dailyDate = "2018-05-09";
+    private String weeklyDate = "2018-05-07";
+    private String monthlyDate = "2018-04";
+    private String yearlyDate = "2017";
 
     private String sampleDailyOutput = "Ryokai desu~ This is your top 10 songs as you "
             + "requested~\n" + "\n(1) 進化理論 - BOYS AND MEN - 2018-05-09 - Not Given\n"
@@ -80,58 +73,32 @@ public class ChartSingleTest {
             + "(9) 風に吹かれても - 欅坂46 - 2017-10-25 - Not Given\n"
             + "(10) Doors 〜勇気の軌跡〜 - 嵐 - 2017-11-08 - Not Given";
 
-    private String output;
-    private String errorMessage = "Not a valid URL, please use a proper Oricon link";
-
-    public ChartSingleTest() throws IOException {
-
+    @Test
+    public void testKeyReturnNull() {
+        assertNull(controller.addCommand("sample", emptyCommand));
     }
 
     @Test
-    public void testScrapDaily() throws IOException {
-        output = chartScrapper.scrapChart(sampleDailyUrl);
-        assertEquals(sampleDailyOutput,output);
+    public void testExecuteDailyCommandIsWorking() throws IOException {
+        TextMessage message = controller.execute("daily", dailyDate);
+        assertEquals(sampleDailyOutput, message.getText());
     }
 
     @Test
-    public void testScrapWeekly() throws IOException {
-        output = chartScrapper.scrapChart(sampleWeeklyUrl);
-        assertEquals(sampleWeeklyOutput, output);
+    public void testExecuteWeeklyCommandIsWorking() throws IOException {
+        TextMessage message = controller.execute("weekly", weeklyDate);
+        assertEquals(sampleWeeklyOutput, message.getText());
     }
 
     @Test
-    public void testScrapMonthly() throws IOException {
-        output = chartScrapper.scrapChart(sampleMonthlyUrl);
-        assertEquals(sampleMonthlyOutput, output);
+    public void testExecuteMonthlyCommandIsWorking() throws IOException {
+        TextMessage message = controller.execute("monthly", monthlyDate);
+        assertEquals(sampleMonthlyOutput, message.getText());
     }
 
     @Test
-    public void testScrapYearly() throws IOException {
-        output = chartScrapper.scrapChart(sampleYearlyUrl);
-        assertEquals(sampleYearlyOutput, output);
-    }
-
-    @Test
-    public void testFalseScrapDaily() throws IOException {
-        output = chartScrapper.scrapChart(falseDailyUrl);
-        assertEquals(errorMessage, output);
-    }
-
-    @Test
-    public void testFalseScrapWeekly() throws IOException {
-        output = chartScrapper.scrapChart(falseWeeklyUrl);
-        assertEquals(errorMessage, output);
-    }
-
-    @Test
-    public void testFalseScrapMonthly() throws IOException {
-        output = chartScrapper.scrapChart(falseMonthlyUrl);
-        assertEquals(errorMessage, output);
-    }
-
-    @Test
-    public void testFalseScrapYearly() throws IOException {
-        output = chartScrapper.scrapChart(falseYearlyUrl);
-        assertEquals(errorMessage, output);
+    public void testExecuteYearlyCommandIsWorking() throws IOException {
+        TextMessage message = controller.execute("yearly", yearlyDate);
+        assertEquals(sampleYearlyOutput, message.getText());
     }
 }

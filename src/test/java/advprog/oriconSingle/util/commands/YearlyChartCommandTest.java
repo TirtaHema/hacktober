@@ -17,16 +17,16 @@ public class YearlyChartCommandTest {
     private TextMessage message;
 
     private String sampleYearlyOutput = "Ryokai desu~ This is your top 10 songs as you "
-            + "requested~\n" + "\n(1) 願いごとの持ち腐れ - AKB48 - 2017-05-31\n"
-            + "(2) #好きなんだ - AKB48 - 2017-08-30\n"
-            + "(3) 11月のアンクレット - AKB48 - 2017-11-22\n"
-            + "(4) シュートサイン - AKB48 - 2017-03-15\n"
-            + "(5) 逃げ水 - 乃木坂46 - 2017-08-09\n"
-            + "(6) インフルエンサー - 乃木坂46 - 2017-03-22\n"
-            + "(7) いつかできるから今日できる - 乃木坂46 - 2017-10-11\n"
-            + "(8) 不協和音 - 欅坂46 - 2017-04-05\n"
-            + "(9) 風に吹かれても - 欅坂46 - 2017-10-25\n"
-            + "(10) Doors 〜勇気の軌跡〜 - 嵐 - 2017-11-08";
+            + "requested~\n" + "\n(1) 願いごとの持ち腐れ - AKB48 - 2017-05-31 - Not Given\n"
+            + "(2) #好きなんだ - AKB48 - 2017-08-30 - Not Given\n"
+            + "(3) 11月のアンクレット - AKB48 - 2017-11-22 - Not Given\n"
+            + "(4) シュートサイン - AKB48 - 2017-03-15 - Not Given\n"
+            + "(5) 逃げ水 - 乃木坂46 - 2017-08-09 - Not Given\n"
+            + "(6) インフルエンサー - 乃木坂46 - 2017-03-22 - Not Given\n"
+            + "(7) いつかできるから今日できる - 乃木坂46 - 2017-10-11 - Not Given\n"
+            + "(8) 不協和音 - 欅坂46 - 2017-04-05 - Not Given\n"
+            + "(9) 風に吹かれても - 欅坂46 - 2017-10-25 - Not Given\n"
+            + "(10) Doors 〜勇気の軌跡〜 - 嵐 - 2017-11-08 - Not Given";
 
     @Test
     public void testValidYearlyChart() throws IOException {

@@ -14,7 +14,6 @@ public class YearlyChartCommand implements ChartCommand {
     @Override
     public TextMessage execute(String date) throws IOException {
         String chartList = chartSingle.scrapChart(YEARLY_URL + date + "/");
-
         chartList = chartList.contains("Not a valid URL")
                 ? "Sorry-masen! There's no chart on that year"
                 : chartList;
