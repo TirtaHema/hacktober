@@ -27,19 +27,19 @@ public class WeeklyChartCommandTest {
             + "(ZETTAI × BREAK!! トゥインクルリズム) - トゥインクルリズム[中谷育(原嶋あかり),"
             + "七尾百合子(伊藤美来),松田亜利沙(村川梨衣)] - 2018-04-25\n"
             + "(8) 春はどこから来るのか? - NGT48 - 2018-04-11\n"
-            + "(9) Ask Youself - KAT-TUN - 2018-04-18\n"
+            + "(9) Ask Yourself - KAT-TUN - 2018-04-18\n"
             + "(10) 鍵穴 - the Raid. - 2018-04-25";
 
     @Test
     public void testValidWeeklyChart() throws IOException {
         message = command.execute(sampleDate);
-        assertEquals(message, sampleWeeklyOutput);
+        assertEquals(message.getText(), sampleWeeklyOutput);
     }
 
     @Test
     public void testInvalidWeeklyChart() throws IOException {
         message = command.execute(falseDate);
-        assertEquals(message, "Sorry-masen! There's no chart on that date"
+        assertEquals(message.getText(), "Sorry-masen! There's no chart on that date"
                 + ". Make sure the date you assign in on monday");
     }
 }

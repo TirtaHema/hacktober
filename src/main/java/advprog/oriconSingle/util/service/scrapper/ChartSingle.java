@@ -18,7 +18,7 @@ public class ChartSingle {
             Document document = Jsoup.connect(url).get();
             Elements elements = document.select("section.box-rank-entry");
             String output = "Ryokai desu~ This is your top 10 songs as you "
-                    + "requested\n\n";
+                    + "requested~\n\n";
             output += elements.stream().map(js -> scrapChartElement(js))
                     .collect(Collectors.joining("\n"));
             return output;

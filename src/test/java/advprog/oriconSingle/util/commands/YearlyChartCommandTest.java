@@ -26,17 +26,17 @@ public class YearlyChartCommandTest {
             + "(7) いつかできるから今日できる - 乃木坂46 - 2017-10-11\n"
             + "(8) 不協和音 - 欅坂46 - 2017-04-05\n"
             + "(9) 風に吹かれても - 欅坂46 - 2017-10-25\n"
-            + "(10) Doors ～勇気の軌跡～ - 嵐 - 2017-11-08";
+            + "(10) Doors 〜勇気の軌跡〜 - 嵐 - 2017-11-08";
 
     @Test
     public void testValidYearlyChart() throws IOException {
         message = command.execute(sampleYear);
-        assertEquals(message, sampleYearlyOutput);
+        assertEquals(message.getText(), sampleYearlyOutput);
     }
 
     @Test
     public void testInvalidYearlyChart() throws IOException {
         message = command.execute(falseYear);
-        assertEquals(message, "Sorry-masen! There's no chart on that year");
+        assertEquals(message.getText(), "Sorry-masen! There's no chart on that year");
     }
 }

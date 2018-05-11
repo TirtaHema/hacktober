@@ -19,7 +19,7 @@ public class MonthlyChartCommandTest {
     private String sampleMonthlyOutput = "Ryokai desu~ This is your top 10 songs as you "
             + "requested~\n" + "\n(1) シンクロニシティ - 乃木坂46 - 2018-04-25\n"
             + "(2) 早送りカレンダー - HKT48 - 2018-05-02\n"
-            + "(3) Ask Youself - KAT-TUN - 2018-04-18\n"
+            + "(3) Ask Yourself - KAT-TUN - 2018-04-18\n"
             + "(4) 春はどこから来るのか? - NGT48 - 2018-04-11\n"
             + "(5) 君のAchoo! - ラストアイドル(シュークリームロケッツ) - 2018-04-18\n"
             + "(6) SEXY SEXY/泣いていいよ/Vivid Midnight - Juice=Juice - 2018-04-18\n"
@@ -31,12 +31,12 @@ public class MonthlyChartCommandTest {
     @Test
     public void testValidMonthlyChart() throws IOException {
         message = command.execute(sampleMonth);
-        assertEquals(message, sampleMonthlyOutput);
+        assertEquals(message.getText(), sampleMonthlyOutput);
     }
 
     @Test
     public void testInvalidMonthlyChart() throws IOException {
         message = command.execute(falseMonth);
-        assertEquals(message, "Sorry-masen! There's no chart on that month");
+        assertEquals(message.getText(), "Sorry-masen! There's no chart on that month");
     }
 }
