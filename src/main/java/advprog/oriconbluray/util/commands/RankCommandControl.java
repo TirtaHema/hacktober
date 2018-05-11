@@ -25,6 +25,7 @@ public class RankCommandControl {
     public TextMessage execute(String key, String date) throws IOException {
         return commandMap.get(key).execute(date);
     }
+    
     private void registerCommands() {
         commandMap = new HashMap<>();
         commandMap.put("daily", new DailyRankCommand());
