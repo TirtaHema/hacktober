@@ -19,12 +19,12 @@ public class BillBoardJapanArtist100Controller {
         TextMessageContent content = event.getMessage();
         String contentText = content.getText();
         String replyText = "";
-//        if(contentText.equals("/billboard japan100 Drake")) {
-//            replyText = "Drake\nNice For What\n2";
-//        }
-//        else {
-//            replyText = "The artist Coldplay is not in Japan Top 100 chart";
-//        }
+        if(contentText.equals("/billboard japan100 Drake")) {
+            replyText = "Drake\nNice For What\n2";
+        }
+        else {
+            replyText = "The artist Coldplay is not in Japan Top 100 chart";
+        }
         return new TextMessage(replyText);
     }
 
