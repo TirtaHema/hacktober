@@ -2,11 +2,9 @@ package advprog.oriconbluray.util.commands;
 
 import advprog.oriconbluray.util.service.rankscrapper.RankScrapper;
 import com.linecorp.bot.model.message.TextMessage;
-import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 
-@Component
 public class DailyRankCommand implements RankCommand {
 
     private RankScrapper rankScrapper = new RankScrapper();
