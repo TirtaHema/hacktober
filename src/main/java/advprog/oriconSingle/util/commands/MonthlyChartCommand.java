@@ -16,7 +16,7 @@ public class MonthlyChartCommand implements ChartCommand {
         String chartList = chartSingle.scrapChart(MONTHLY_URL + date + "/");
 
         chartList = chartList.contains("Not A valid URL")
-                ? "There's no chart on that month"
+                ? "Sorry-masen! There's no chart on that month"
                 : chartList;
         return new TextMessage(chartList);
     }

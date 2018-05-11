@@ -16,8 +16,8 @@ public class WeeklyChartCommand implements ChartCommand {
         String chartList = chartSingle.scrapChart(WEEKLY_URL+ date + "/");
 
         chartList = chartList.contains("Not A valid URL")
-                ? "There's no chart on that date"
-                + ". Make sure the date you assing in on monday"
+                ? "Sorry-masen! There's no chart on that date"
+                + ". Make sure the date you assign in on monday"
                 : chartList;
         return new TextMessage(chartList);
     }

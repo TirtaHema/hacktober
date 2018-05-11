@@ -16,7 +16,7 @@ public class DailyChartCommand implements ChartCommand {
         String chartList = chartSingle.scrapChart(DAILY_URL + date + "/");
 
         chartList = chartList.contains("Not A valid URL")
-                ? "There's no chart on that date"
+                ? "Sorry-masen! There's no chart on that date"
                 : chartList;
         return new TextMessage(chartList);
     }
