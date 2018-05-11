@@ -50,6 +50,10 @@ public class YoutubeInfoFetcherTest {
     private static final String SAMPLE_VIDEO_ID = "Il-an3K9pjg";
 
     private static final String VIDEO_CORRECT_RESPONSE = "{\n"
+            + "    \"pageInfo\": {\n"
+            + "        \"totalResults\": 1,\n"
+            + "        \"resultsPerPage\": 1\n"
+            + "    },"
             + "    \"items\": [\n"
             + "        {\n"
             + "            \"id\": \"Il-an3K9pjg\",\n"
@@ -70,13 +74,23 @@ public class YoutubeInfoFetcherTest {
             + "    ]\n"
             + "}";
 
+    private static final String VIDEO_NOT_FOUND_RESPONSE = "{\n" +
+            "    \"kind\": \"youtube#videoListResponse\",\n" +
+            "    \"etag\": \"\\\"95M1zlW0txkV42I4OG1Zscxrg5A/q9wh51deRpP1b7X8Nc3D-bdBxqs\\\"\",\n" +
+            "    \"pageInfo\": {\n" +
+            "        \"totalResults\": 0,\n" +
+            "        \"resultsPerPage\": 0\n" +
+            "    },\n" +
+            "    \"items\": []\n" +
+            "}";
+
     @Test
     public void testConstruct() {
         assertNotNull(youtubeInfoFetcher);
     }
 
     @Test
-    public void testFetchData() throws IOException, JSONException {
+    public void testFetchDataFound() throws IOException, JSONException {
         Call mockCall1 = mock(Call.class);
         setFakeResponse(mockCall1, VIDEO_CORRECT_RESPONSE);
         when(okHttpClient.newCall(any(Request.class)))
@@ -88,6 +102,16 @@ public class YoutubeInfoFetcherTest {
         assertEquals(expectedVideo, actualVideo);
         assertEquals(expectedVideo.hashCode(), actualVideo.hashCode());
         assertEquals(expectedVideo.toString(), actualVideo.toString());
+    }
+
+    @Test(expected = YoutubeVideoNotFoundException.class)
+    public void testFetchDataNotFound() throws IOException, JSONException {
+        Call mockCall = mock(Call.class);
+        setFakeResponse(mockCall, VIDEO_NOT_FOUND_RESPONSE);
+        when(okHttpClient.newCall(any(Request.class)))
+                .thenReturn(mockCall);
+        youtubeInfoFetcher.fetchData(SAMPLE_VIDEO_ID);
+
     }
 
     private void setFakeResponse(Call mockCall, String responseStr) throws IOException {

@@ -31,11 +31,17 @@ public class YoutubeInfoFetcher {
                 .url(urlBuilder.build().toString())
                 .build();
         Response response = okHttpClient.newCall(request).execute();
-        return parseJson(response.body().string());
+        return parseJson(response.body().string(), videoId);
     }
 
-    private YoutubeVideo parseJson(String jsonResponse) throws JSONException {
+    private YoutubeVideo parseJson(String jsonResponse, String videoId) throws JSONException {
         JSONObject video = new JSONObject(jsonResponse);
+        if (video.getJSONObject("pageInfo")
+                .getInt("totalResults") == 0) {
+            throw new YoutubeVideoNotFoundException(
+                    String.format("Video with id %s yields 0 result", videoId)
+            );
+        }
         String title = video.getJSONArray("items")
                 .getJSONObject(0)
                 .getJSONObject("snippet")
