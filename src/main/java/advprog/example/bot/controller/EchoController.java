@@ -9,12 +9,14 @@ import com.linecorp.bot.model.event.source.GroupSource;
 import com.linecorp.bot.model.event.source.RoomSource;
 import com.linecorp.bot.model.event.source.Source;
 import com.linecorp.bot.model.message.TextMessage;
+import com.linecorp.bot.model.profile.UserProfileResponse;
 import com.linecorp.bot.spring.boot.annotation.EventMapping;
 import com.linecorp.bot.spring.boot.annotation.LineMessageHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.xml.soap.Text;
 import java.util.*;
+import java.util.concurrent.ExecutionException;
 import java.util.logging.Logger;
 
 @LineMessageHandler
@@ -22,7 +24,7 @@ public class EchoController {
     @Autowired
     private LineMessagingClient lineMessagingClient;
     private static final Logger LOGGER = Logger.getLogger(EchoController.class.getName());
-    private HashMap<String, ArrayList<UserLaughCounter>> groupLaughCounter = new HashMap<>();
+    private HashMap<String, ArrayList<UserLaughCounter> > groupLaughCounter = new HashMap<>();
 
     @EventMapping
     public TextMessage handleTextMessageEvent(MessageEvent<TextMessageContent> event) {
@@ -31,7 +33,7 @@ public class EchoController {
         TextMessageContent content = event.getMessage();
         String contentText = content.getText();
 
-        TextMessage replayMessage;
+        TextMessage replayMessage = null;
 
         switch (contentText.split(" ")[0]) {
             case "/echo" : {
@@ -39,7 +41,13 @@ public class EchoController {
                 break;
             }
             case "/toplaughers" : {
-                replayMessage = handleTopLaughers(event);
+                try {
+                    replayMessage = handleTopLaughers(event);
+                } catch (ExecutionException e) {
+                    e.printStackTrace();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
                 break;
             }
             default: {
@@ -54,16 +62,18 @@ public class EchoController {
 
                 if (!groupLaughCounter.containsKey(groupId)) {
                     groupLaughCounter.put(groupId, new ArrayList<>());
-                } else {
-                    ArrayList<UserLaughCounter> userList = groupLaughCounter.get(groupId);
-                    if (userList.stream().anyMatch(user -> user.getUserId().equals((userId))))
-                        userList
+                }
+
+                ArrayList<UserLaughCounter> userList = groupLaughCounter.get(groupId);
+                if (userList.stream().anyMatch(user -> user.getUserId().equals((userId)))) {
+                    userList
                             .stream()
                             .filter(userLaugh -> userLaugh.getUserId().equals(userId))
                             .forEach(userLaugh -> userLaugh.increment());
-                    else
-                        userList.add(new UserLaughCounter(userId));
+                } else {
+                    userList.add(new UserLaughCounter(userId));
                 }
+
                 break;
             }
         }
@@ -77,7 +87,7 @@ public class EchoController {
                 event.getTimestamp(), event.getSource()));
     }
 
-    public TextMessage handleTopLaughers(Event event) {
+    public TextMessage handleTopLaughers(Event event) throws ExecutionException, InterruptedException {
         LOGGER.fine(String.format("Giving top 5 laughers in the group"));
 
         String groupId = getGroupId(event);
@@ -89,8 +99,9 @@ public class EchoController {
                 "5. \n";
 
         if (groupId == null || !groupLaughCounter.containsKey(groupId)
-                || groupLaughCounter.get(groupId).size() == 0)
+                || groupLaughCounter.get(groupId).size() == 0) {
             return new TextMessage(message);
+        }
 
         message = "";
 
@@ -120,11 +131,9 @@ public class EchoController {
                     rankCounter++;
                 }
 
-                int finalRankCounter = rankCounter;
-                lineMessagingClient
-                        .getProfile(currentUser.getUserId())
-                        .whenComplete((profile, throwable) ->
-                            rankedLaugh[finalRankCounter].add(profile.getDisplayName()));
+                rankedLaugh[rankCounter]
+                        .add(lineMessagingClient
+                                .getGroupMemberProfile(groupId, currentUser.getUserId()).get().getDisplayName());
             }
 
             for (int i = 1; i <= 5; i++) {

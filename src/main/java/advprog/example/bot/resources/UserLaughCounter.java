@@ -7,7 +7,7 @@ public class UserLaughCounter {
 
     public UserLaughCounter(String userId) {
         this.userId = userId;
-        this.counter = 0;
+        this.counter = 1;
     }
 
     public void increment() {
