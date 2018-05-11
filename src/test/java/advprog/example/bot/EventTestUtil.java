@@ -17,4 +17,10 @@ public class EventTestUtil {
                 new TextMessageContent("id", text),
                 Instant.parse("2018-01-01T00:00:00.000Z"));
     }
+
+    public static MessageEvent<TextMessageContent> createDummyTextMessageWithDummyUser(String text, String userId) {
+        return new MessageEvent<>("replyToken", new UserSource(userId),
+                new TextMessageContent("id", text),
+                Instant.parse("2018-01-01T00:00:00.000Z"));
+    }
 }

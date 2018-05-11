@@ -57,4 +57,42 @@ public class EchoControllerTest {
         verify(event, atLeastOnce()).getSource();
         verify(event, atLeastOnce()).getTimestamp();
     }
+
+    @Test
+    void testHandleTopLaughers() {
+        MessageEvent<TextMessageContent> event;
+        TextMessage reply;
+        String expected;
+
+        event = EventTestUtil.createDummyTextMessageWithDummyUser("hi hahahah", "User1");
+        reply = echoController.handleTextMessageEvent(event);echoController.handleTextMessageEvent(event);
+
+        expected = "1. User1\n" +
+                "2. \n" +
+                "3. \n" +
+                "4. \n" +
+                "5. \n";
+
+        assertEquals(expected, reply.getText());
+
+        event = EventTestUtil.createDummyTextMessageWithDummyUser("wkwkwk*", "User1");
+        echoController.handleTextMessageEvent(event);
+
+        event = EventTestUtil.createDummyTextMessageWithDummyUser("haha aja", "User2");
+        echoController.handleTextMessageEvent(event);
+
+        event = EventTestUtil.createDummyTextMessageWithDummyUser("wkwk lah", "User3");
+        echoController.handleTextMessageEvent(event);
+
+        event = EventTestUtil.createDummyTextMessageWithDummyUser("/toplaughers", "User1");
+        echoController.handleTextMessageEvent(event);
+
+        expected = "1. User1\n" +
+                "2. User2, User3\n" +
+                "3. \n" +
+                "4. \n" +
+                "5. \n";
+
+        assertEquals(expected, reply.getText());
+    }
 }
