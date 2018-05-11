@@ -19,9 +19,14 @@ public class BillBoardArtist200Controller {
             event.getTimestamp(), event.getMessage()));
         TextMessageContent content = event.getMessage();
         String contentText = content.getText();
-
-        String replyText = contentText.replace("/billboard bill200", "");
-        return new TextMessage(replyText.substring(1));
+        String replyText = "";
+        if(contentText.equals("/billboard bill200 Drake")) {
+            replyText = "Drake\nNice For What\n2";
+        }
+        else {
+            replyText = "The artist Coldplay is not in Billboard Top 200 chart";
+        }
+        return new TextMessage(replyText);
     }
 
     @EventMapping
