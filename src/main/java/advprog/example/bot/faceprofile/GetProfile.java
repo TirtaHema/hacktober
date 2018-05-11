@@ -17,5 +17,5 @@ public class getProfile {
     public String getGender() {
         return "";
     }
-    
+
 }
