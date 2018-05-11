@@ -4,6 +4,7 @@ import com.linecorp.bot.model.message.TextMessage;
 import org.junit.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class WeeklyRankCommandTest {
 
@@ -26,6 +27,11 @@ public class WeeklyRankCommandTest {
             + "(8) アイドリッシュセブン Blu-ray 3【特装限定版】 - アニメーション - 2018-04-24\n"
             + "(9) アウトレイジ 最終章 - ビートたけし - 2018-04-24\n"
             + "(10) アイドルマスター SideM 5(完全生産限定版) - アニメーション - 2018-04-25";
+
+    @Test
+    public void testRightinstance() {
+        assertTrue(command instanceof WeeklyRankCommand);
+    }
 
     @Test
     public void testValidDateReturnRank() {

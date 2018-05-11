@@ -1,6 +1,7 @@
 package advprog.oriconbluray.util.commands;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import com.linecorp.bot.model.message.TextMessage;
 
@@ -32,6 +33,12 @@ public class DailyRankCommandTest {
             + "(9) 超英雄祭 KAMEN RIDER×SUPER SENTAI LIVE&SHOW 2018 "
             + "- - - 2018-05-09\n"
             + "(10) ワイルド・スピード ICE BREAK - ヴィン・ディーゼル - 2018-05-09";
+
+    @Test
+    public void testRightinstance() {
+        assertTrue(command instanceof DailyRankCommand);
+    }
+
 
     @Test
     public void testValidDateReturnRank() {
