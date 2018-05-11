@@ -34,8 +34,7 @@ public class EchoControllerTest {
 
     @Autowired
     private EchoController echoController;
-
-
+    
     private EchoController mock;
 
     @Test
@@ -80,7 +79,7 @@ public class EchoControllerTest {
         event = EventTestUtil.createDummyGroupTextMessageWithDummyUser("/toplaughers", "Group1", "User1");
         reply = mock.handleTextMessageEvent(event);
 
-        expected = "1. User1\n" +
+        expected = "1. User1(100%)\n" +
                 "2. \n" +
                 "3. \n" +
                 "4. \n" +
@@ -103,8 +102,8 @@ public class EchoControllerTest {
         event = EventTestUtil.createDummyGroupTextMessageWithDummyUser("/toplaughers", "Group1", "User1");
         reply = mock.handleTextMessageEvent(event);
 
-        expected = "1. User1\n" +
-                "2. User2, User3\n" +
+        expected = "1. User1(50%)\n" +
+                "2. User2(25%), User3(25%)\n" +
                 "3. \n" +
                 "4. \n" +
                 "5. \n";

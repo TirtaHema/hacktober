@@ -24,8 +24,11 @@ import java.util.logging.Logger;
 public class EchoController {
     @Autowired
     private LineMessagingClient lineMessagingClient;
+
     private static final Logger LOGGER = Logger.getLogger(EchoController.class.getName());
+
     private HashMap<String, ArrayList<UserLaughCounter> > groupLaughCounter = new HashMap<>();
+    private HashMap<String, Integer> groupTotalLaughCounter = new HashMap<>();
 
     @EventMapping
     public TextMessage handleTextMessageEvent(MessageEvent<TextMessageContent> event) {
@@ -59,8 +62,10 @@ public class EchoController {
 
                 if (!groupLaughCounter.containsKey(groupId)) {
                     groupLaughCounter.put(groupId, new ArrayList<>());
+                    groupTotalLaughCounter.put(groupId, 0);
                 }
 
+                groupTotalLaughCounter.put(groupId, groupTotalLaughCounter.get(groupId) + 1);
                 ArrayList<UserLaughCounter> userList = groupLaughCounter.get(groupId);
                 if (userList.stream().anyMatch(user -> user.getUserId().equals((userId)))) {
                     userList
@@ -104,9 +109,13 @@ public class EchoController {
         if (groupLaughCounter.containsKey(groupId)) {
             ArrayList<UserLaughCounter> userList = groupLaughCounter.get(groupId);
             ArrayList<ArrayList<String> > rankedLaugh = new ArrayList<>();
+            ArrayList<ArrayList<Integer> > laughCounts = new ArrayList<>();
+
+            Integer groupTotalLaugh = groupTotalLaughCounter.get(groupId);
 
             for (int i = 0; i < 10; i++) {
                 rankedLaugh.add(new ArrayList<>());
+                laughCounts.add(new ArrayList<>());
             }
 
             userList.sort(new Comparator<UserLaughCounter>() {
@@ -129,6 +138,8 @@ public class EchoController {
 
                 rankedLaugh.get(rankCounter)
                         .add(getUserDisplayName(groupId, currentUser.getUserId()));
+                laughCounts.get(rankCounter)
+                        .add(currentUser.getCounter());
             }
 
             for (int i = 1; i <= 5; i++) {
@@ -137,7 +148,9 @@ public class EchoController {
                     if (j > 0) {
                         message += ", ";
                     }
-                    message += rankedLaugh.get(i).get(j);
+                    message += rankedLaugh.get(i).get(j)
+                                + "(" + getLaughPercentage(laughCounts.get(i).get(j), groupTotalLaugh)
+                                + ")";
                 }
                 message += "\n";
             }
@@ -169,5 +182,15 @@ public class EchoController {
             e.printStackTrace();
             return "Error detected!";
         }
+    }
+
+    public String getLaughPercentage(Integer laughCounter, Integer groupTotalLaugh) {
+        Double nominator = Double.parseDouble(laughCounter.toString());
+        Double denominator = Double.parseDouble(groupTotalLaugh.toString());
+
+        Double doublePercentage = nominator / denominator * 100;
+        Integer intPercentage = doublePercentage.intValue();
+
+        return intPercentage.toString() + "%";
     }
 }
