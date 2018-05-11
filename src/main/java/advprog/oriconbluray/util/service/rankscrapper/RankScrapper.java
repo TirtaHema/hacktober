@@ -13,6 +13,10 @@ import org.springframework.stereotype.Service;
 @Service
 public class RankScrapper {
 
+    public RankScrapper() {
+
+    }
+
     public String scrapRank(String url) throws IOException {
         try {
             Document docs = Jsoup.connect(url).get();

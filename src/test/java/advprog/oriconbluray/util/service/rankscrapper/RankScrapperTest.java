@@ -1,6 +1,7 @@
 package advprog.oriconbluray.util.service.rankscrapper;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import java.io.IOException;
 
@@ -10,7 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-@RunWith(SpringJUnit4ClassRunner)
+@RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = {RankScrapperConfig.class})
 public class RankScrapperTest {
 
@@ -58,11 +59,16 @@ public class RankScrapperTest {
             + "(10) アイドルマスター SideM 5(完全生産限定版) - アニメーション - 2018-04-25";
 
     private String scrapOutput;
-    private String errorMsg = scrapper
-            .scrapRank("https://www.oricon.co.jp/rank/bd/w/2018-05-10/");
+    private String errorMsg = "Not a valid URL, please use a proper Oricon link";
 
     public RankScrapperTest() throws IOException {
     }
+
+    @Test
+    public void testConstructor() {
+        assertNotNull(scrapper);
+    }
+
 
     @Test
     public void testDailyScrapping() throws IOException {
