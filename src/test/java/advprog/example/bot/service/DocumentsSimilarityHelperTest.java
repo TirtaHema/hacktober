@@ -32,7 +32,7 @@ public class DocumentsSimilarityHelperTest {
     }
 
     @Test
-    public void testGetSimilarityFromText() {
+    public void testGetSimilarityFromTextSuccess() {
         String similarity = documentsSimilarityHelper.getSimilarityFromText(
                 "my name is fahmi",
                 "your name is fahmi"
@@ -41,20 +41,29 @@ public class DocumentsSimilarityHelperTest {
     }
 
     @Test
-    public void testGetSimilarityFromText2() {
+    public void testGetSimilarityFromTextBadRequest() {
         String similarity = documentsSimilarityHelper.getSimilarityFromText(
                 "hey ho",
                 "ho hey"
         );
-        assertEquals("Unmanaged language [so]", similarity);
+        assertEquals("Text yang diberikan tidak valid", similarity);
     }
 
     @Test
-    public void testGetSimilarityFromUrl() {
+    public void testGetSimilarityFromUrlSuccess() {
         String similarity = documentsSimilarityHelper.getSimilarityFromUrl(
                 "https://www.biography.com/people/adolf-hitler-9340144",
                 "https://en.wikipedia.org/wiki/Adolf_Hitler"
         );
         assertEquals("87%", similarity);
+    }
+
+    @Test
+    void testGetSimilarityFromUrlBadRequest() {
+        String similarity = documentsSimilarityHelper.getSimilarityFromUrl(
+                "https://yahoo.com",
+                "https://google.com"
+        );
+        assertEquals("Url yang diberikan tidak valid", similarity);
     }
 }
