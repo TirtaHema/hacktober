@@ -18,9 +18,14 @@ public class BillBoardJapanArtist100Controller {
             event.getTimestamp(), event.getMessage()));
         TextMessageContent content = event.getMessage();
         String contentText = content.getText();
-
-        String replyText = contentText.replace("/billboardjapan japan100", "");
-        return new TextMessage(replyText.substring(1));
+        String replyText = "";
+//        if(contentText.equals("/billboard japan100 Drake")) {
+//            replyText = "Drake\nNice For What\n2";
+//        }
+//        else {
+//            replyText = "The artist Coldplay is not in Japan Top 100 chart";
+//        }
+        return new TextMessage(replyText);
     }
 
     @EventMapping
