@@ -12,6 +12,7 @@ import java.util.logging.Logger;
 @LineMessageHandler
 public class BillBoardJapanArtist100Controller {
     private static final Logger LOGGER = Logger.getLogger(BillBoardJapanArtist100Controller.class.getName());
+
     @EventMapping
     public TextMessage handleTextMessageEvent(MessageEvent<TextMessageContent> event) {
         LOGGER.fine(String.format("TextMessageContent(timestamp='%s',content='%s')",
@@ -19,10 +20,9 @@ public class BillBoardJapanArtist100Controller {
         TextMessageContent content = event.getMessage();
         String contentText = content.getText();
         String replyText = "";
-        if(contentText.equals("/billboard japan100 Drake")) {
+        if (contentText.equals("/billboard japan100 Drake")) {
             replyText = "Drake\nNice For What\n2";
-        }
-        else {
+        } else {
             replyText = "The artist Coldplay is not in Japan Top 100 chart";
         }
         return new TextMessage(replyText);
