@@ -20,11 +20,11 @@ public class EchoController {
                 event.getTimestamp(), event.getMessage()));
         TextMessageContent content = event.getMessage();
         String contentText = content.getText();
-
+        gambar(contentText);
         String replyText = contentText.replace("/echo", "");
         return new TextMessage(replyText.substring(1));
     }
-
+    
     @EventMapping
     public void handleDefaultMessage(Event event) {
         LOGGER.fine(String.format("Event(timestamp='%s',source='%s')",

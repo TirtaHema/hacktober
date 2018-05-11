@@ -14,13 +14,12 @@ public class hot100Test {
 
     @Before
     public void setUp() {
-        image = new image();
+
     }
 
     @Test
     public void Test() {
-        String image = image.image();
-        assertNotNull(image);
+
     }
 
 
