@@ -14,6 +14,9 @@ import com.linecorp.bot.model.event.MessageEvent;
 import com.linecorp.bot.model.event.message.TextMessageContent;
 import com.linecorp.bot.model.message.TextMessage;
 
+import org.assertj.core.api.Assertions;
+import org.json.JSONObject;
+
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 
@@ -56,5 +59,15 @@ public class EchoControllerTest {
 
         verify(event, atLeastOnce()).getSource();
         verify(event, atLeastOnce()).getTimestamp();
+    }
+
+    @Test
+    void testHandleFakeJson() throws Exception{
+        MessageEvent<TextMessageContent> event =
+                EventTestUtil.createDummyTextMessage("/fake_json");
+
+        TextMessage reply = echoController.handleTextMessageEvent(event);
+        Assertions.assertThatCode(() -> (new JSONObject(reply.getText())).get("id"))
+                .doesNotThrowAnyException();
     }
 }
