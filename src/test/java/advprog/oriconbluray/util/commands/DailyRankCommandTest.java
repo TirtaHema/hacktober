@@ -7,6 +7,8 @@ import com.linecorp.bot.model.message.TextMessage;
 
 import org.junit.Test;
 
+import java.io.IOException;
+
 public class DailyRankCommandTest {
 
     private String sampleDate = "2018-05-08";
@@ -41,14 +43,14 @@ public class DailyRankCommandTest {
 
 
     @Test
-    public void testValidDateReturnRank() {
+    public void testValidDateReturnRank() throws IOException {
         reply = command.execute(sampleDate);
 
         assertEquals(sampleDaily, reply.getText());
     }
 
     @Test
-    public void  testInvalidDateReturnErrorMsg() {
+    public void  testInvalidDateReturnErrorMsg() throws IOException {
         reply = command.execute(invalidDate);
 
         assertEquals("It seems there's no rank charts on that date"

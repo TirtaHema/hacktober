@@ -3,6 +3,8 @@ package advprog.oriconbluray.util.commands;
 import com.linecorp.bot.model.message.TextMessage;
 import org.junit.Test;
 
+import java.io.IOException;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -34,14 +36,14 @@ public class WeeklyRankCommandTest {
     }
 
     @Test
-    public void testValidDateReturnRank() {
+    public void testValidDateReturnRank() throws IOException {
         reply = command.execute(sampleDate);
 
         assertEquals(sampleWeekly, reply.getText());
     }
 
     @Test
-    public void  testInvalidDateReturnErrorMsg() {
+    public void  testInvalidDateReturnErrorMsg() throws IOException {
         reply = command.execute(invalidDate);
 
         assertEquals("It seems there's no rank charts on that date"
