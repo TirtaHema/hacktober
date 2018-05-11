@@ -1,10 +1,12 @@
 package advprog.oriconbluray.util.commands;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 import com.linecorp.bot.model.message.TextMessage;
 import org.junit.Test;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import java.io.IOException;
 
 public class RankCommandControlTest {
 
@@ -60,14 +62,14 @@ public class RankCommandControlTest {
     }
 
     @Test
-    public void testExecuteDailyCommandIsWorking() {
+    public void testExecuteDailyCommandIsWorking() throws IOException {
         TextMessage message = controller.execute("daily", dailyDate);
         assertEquals(sampleDaily, message.getText());
 
     }
 
     @Test
-    public void testExecuteWeeklyCommandIsWorking() {
+    public void testExecuteWeeklyCommandIsWorking() throws IOException {
         TextMessage message = controller.execute("daily", weeklyDate);
         assertEquals(sampleWeekly, message.getText());
     }
