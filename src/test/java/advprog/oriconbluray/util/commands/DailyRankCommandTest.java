@@ -53,8 +53,8 @@ public class DailyRankCommandTest {
     public void  testInvalidDateReturnErrorMsg() throws IOException {
         reply = command.execute(invalidDate);
 
-        assertEquals("It seems there's no rank charts on that date"
-                , reply.getText());
+        assertEquals("It seems there's no rank charts on that date",
+                reply.getText());
     }
 }
 
