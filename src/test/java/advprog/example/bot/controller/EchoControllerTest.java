@@ -52,7 +52,7 @@ public class EchoControllerTest {
     void testHandleDocumentsSimilarityTextCheck() {
         MessageEvent<TextMessageContent> event =
                 EventTestUtil.createDummyTextMessage("/docs_sim "
-                        + "'my name is fahmi' 'your name is fahmi");
+                        + "'my name is fahmi' 'your name is fahmi'");
 
         TextMessage reply = echoController.handleTextMessageEvent(event);
         assertEquals("100%", reply.getText());
