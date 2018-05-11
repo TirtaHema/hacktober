@@ -11,7 +11,7 @@ import com.linecorp.bot.spring.boot.annotation.LineMessageHandler;
 import java.util.logging.Logger;
 
 @LineMessageHandler
-public class billboardController {
+public class BillBoardController {
     private static final Logger LOGGER = Logger.getLogger(EchoController.class.getName());
     @EventMapping
     public TextMessage handleTextMessageEvent(MessageEvent<TextMessageContent> event) {
