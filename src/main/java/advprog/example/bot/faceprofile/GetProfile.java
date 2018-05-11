@@ -1,6 +1,6 @@
-package advprog.example.bot.faceProfile;
+package advprog.example.bot.faceprofile;
 
-public class getProfile {
+public class GetProfile {
 
     public String profileDetect() {
         return "";
