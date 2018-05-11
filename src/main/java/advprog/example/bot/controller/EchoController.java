@@ -13,9 +13,11 @@ import com.linecorp.bot.model.message.TextMessage;
 import com.linecorp.bot.model.profile.UserProfileResponse;
 import com.linecorp.bot.spring.boot.annotation.EventMapping;
 import com.linecorp.bot.spring.boot.annotation.LineMessageHandler;
+import org.apache.catalina.User;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.xml.soap.Text;
+import java.security.acl.Group;
 import java.util.*;
 import java.util.concurrent.ExecutionException;
 import java.util.logging.Logger;
@@ -55,7 +57,7 @@ public class EchoController {
             default: {
                 Source source = event.getSource();
                 String userId = source.getUserId();
-                String groupId = getGroupId(event);
+                String groupId = getGroupId(source);
 
                 if (!contentText.toLowerCase().contains("haha") && !contentText.toLowerCase().contains("wkwk"))
                     break;
@@ -92,7 +94,8 @@ public class EchoController {
     public TextMessage handleTopLaughers(Event event) throws ExecutionException, InterruptedException {
         LOGGER.fine(String.format("Giving top 5 laughers in the group"));
 
-        String groupId = getGroupId(event);
+        Source source = event.getSource();
+        String groupId = getGroupId(source);
 
         String message = "1. \n" +
                 "2. \n" +
@@ -136,8 +139,17 @@ public class EchoController {
                     rankCounter++;
                 }
 
-                rankedLaugh.get(rankCounter)
-                        .add(getUserDisplayName(groupId, currentUser.getUserId()));
+                String userId = currentUser.getUserId();
+                if (source instanceof GroupSource)
+                    rankedLaugh.get(rankCounter)
+                        .add(getUserDisplayName(new GroupSource(groupId, userId)));
+                else if (source instanceof RoomSource)
+                    rankedLaugh.get(rankCounter)
+                        .add(getUserDisplayName(new RoomSource(userId, groupId)));
+                else
+                    rankedLaugh.get(rankCounter)
+                        .add(getUserDisplayName(new UserSource(userId)));
+
                 laughCounts.get(rankCounter)
                         .add(currentUser.getCounter());
             }
@@ -159,9 +171,8 @@ public class EchoController {
         return new TextMessage(message);
     }
 
-    public String getGroupId(Event event) {
-        Source source = event.getSource();
-        String groupId = null;
+    public String getGroupId(Source source) {
+        String groupId;
 
         if (source instanceof GroupSource) {
             groupId = ((GroupSource) source).getGroupId();
@@ -174,14 +185,21 @@ public class EchoController {
         return groupId;
     }
 
-    public String getUserDisplayName(String groupId, String userId) {
+    public String getUserDisplayName(Source source) {
+        String groupId = getGroupId(source);
+        String userId = source.getUserId();
+        String displayName = "";
         try {
-            return lineMessagingClient
-                    .getGroupMemberProfile(groupId, userId).get().getDisplayName();
+            if (source instanceof GroupSource)
+                displayName = lineMessagingClient.getGroupMemberProfile(groupId, userId).get().getDisplayName();
+            else if (source instanceof RoomSource)
+                displayName = lineMessagingClient.getRoomMemberProfile(groupId, userId).get().getDisplayName();
+            else
+                displayName = lineMessagingClient.getProfile(userId).get().getDisplayName();
         } catch (InterruptedException | ExecutionException e) {
             e.printStackTrace();
-            return "Error detected!";
         }
+        return displayName;
     }
 
     public String getLaughPercentage(Integer laughCounter, Integer groupTotalLaugh) {
