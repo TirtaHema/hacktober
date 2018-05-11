@@ -1,4 +1,4 @@
-package advprog.oriconbluray.util;
+package advprog.oriconbluray.util.service.rankscrapper;
 
 import java.io.IOException;
 import java.util.stream.Collectors;

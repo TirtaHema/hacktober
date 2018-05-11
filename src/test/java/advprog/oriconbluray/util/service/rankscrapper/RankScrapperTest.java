@@ -1,4 +1,4 @@
-package advprog.oriconbluray.util;
+package advprog.oriconbluray.util.service.rankscrapper;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
