@@ -14,12 +14,12 @@ public class RankCommandControl {
         registerCommands();
     }
 
-    public boolean addCommand(String key, RankCommand command) {
-        return commandMap.put(key, command) != null;
+    public RankCommand addCommand(String key, RankCommand command) {
+        return commandMap.put(key, command);
     }
 
-    public boolean removeCommand(String key) {
-        return commandMap.remove(key) != null;
+    public RankCommand removeCommand(String key) {
+        return commandMap.remove(key);
     }
 
     public TextMessage execute(String key, String date) throws IOException {
