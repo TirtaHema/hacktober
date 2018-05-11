@@ -14,7 +14,6 @@ import com.linecorp.bot.model.event.MessageEvent;
 import com.linecorp.bot.model.event.message.TextMessageContent;
 import com.linecorp.bot.model.message.TextMessage;
 
-import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,12 +32,12 @@ public class EchoControllerTest {
     @Autowired
     private EchoController echoController;
 
-    @Test
+    @org.junit.Test
     void testContextLoads() {
         assertNotNull(echoController);
     }
 
-    @Test
+    @org.junit.Test
     void testHandleTextMessageEvent() {
         MessageEvent<TextMessageContent> event =
                 EventTestUtil.createDummyTextMessage("/echo Lorem Ipsum");
@@ -48,7 +47,7 @@ public class EchoControllerTest {
         assertEquals("Lorem Ipsum", reply.getText());
     }
 
-    @Test
+    @org.junit.Test
     void testHandleDefaultMessage() {
         Event event = mock(Event.class);
 
@@ -58,7 +57,7 @@ public class EchoControllerTest {
         verify(event, atLeastOnce()).getTimestamp();
     }
 
-    @Test
+    @org.junit.Test
     void testThisIsJustAFunction() {
         String result = echoController.thisIsJustAFunction();
         String expected = "Ok";
