@@ -7,13 +7,15 @@ import com.linecorp.bot.model.message.TextMessage;
 import com.linecorp.bot.spring.boot.annotation.EventMapping;
 import com.linecorp.bot.spring.boot.annotation.LineMessageHandler;
 
+import java.io.IOException;
+import java.util.logging.Logger;
+
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
-import java.io.IOException;
-import java.util.logging.Logger;
+
 
 @LineMessageHandler
 public class BillboardController {
@@ -21,7 +23,8 @@ public class BillboardController {
     private static final Logger LOGGER = Logger.getLogger(BillboardController.class.getName());
 
     @EventMapping
-    public TextMessage handleTextMessageEvent(MessageEvent<TextMessageContent> event) throws IOException {
+    public static TextMessage handleTextMessageEvent(MessageEvent<TextMessageContent> event)
+            throws IOException {
         LOGGER.fine(String.format("TextMessageContent(timestamp='%s',content='%s')",
                 event.getTimestamp(), event.getMessage()));
         TextMessageContent content = event.getMessage();
@@ -38,13 +41,13 @@ public class BillboardController {
                 event.getTimestamp(), event.getSource()));
     }
 
-    public String cekArtist(String artist) throws IOException {
+    public static String cekArtist(String artist) throws IOException {
         Document doc = Jsoup.connect("https://www.billboard.com/charts/tropical-songs").get();
         Elements container = doc.select(".chart-row__artist");
         String hasil = "";
-        for(int i = 0; i < 25; i++) {
+        for (int i = 0; i < 25; i++) {
             Element elements = container.get(i);
-            if(elements.text().equalsIgnoreCase(artist)) {
+            if (elements.text().equalsIgnoreCase(artist)) {
                 hasil += "\n" + elements.select(".chart-row__artist").text() + "\n"
                         + elements.select(".chart-row__song").text() + "\n"
                         + "Position : " + (i + 1) + "\n";
