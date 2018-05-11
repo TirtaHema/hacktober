@@ -9,16 +9,16 @@ import org.junit.Test;
 
 public class Hot100Test {
 
-    private Hot100 Hot100;
+    private Hot100 hot100;
 
     @Before
     public void setUp() {
-        Hot100 = new Hot100();
+        hot100 = new Hot100();
     }
 
     @Test
-    public void Test() {
-        String charts = Hot100.getChart();
+    public void testHot100() {
+        String charts = hot100.getChart();
         assertNotNull(charts);
     }
 
