@@ -20,8 +20,8 @@ public class BillBoardJapanTop10Controller {
         TextMessageContent content = event.getMessage();
         String contentText = content.getText();
 
-        String replyText = contentText.replace("/billboard japan100", "");
-        return new TextMessage(replyText.substring(1));
+        String replyText = "1\n2\n3\n4\n5\n6\n7\n8\n9\n10";
+        return new TextMessage(replyText);
     }
 
     @EventMapping

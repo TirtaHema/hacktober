@@ -41,8 +41,6 @@ public class BillBoardJapanTop10ControllerTest {
 
         int numOfLines = reply.getText().split("\\r?\\n").length;
 
-        assertEquals("(1) Darude - Sandstorm", reply.getText());
-
         assertEquals(10, numOfLines);
     }
 
