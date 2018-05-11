@@ -1,5 +1,6 @@
 package advprog.example.bot.controller;
 
+import advprog.example.bot.service.DocumentsSimilarityHelper;
 import com.linecorp.bot.model.event.Event;
 import com.linecorp.bot.model.event.MessageEvent;
 import com.linecorp.bot.model.event.message.TextMessageContent;
@@ -13,6 +14,7 @@ import java.util.logging.Logger;
 public class EchoController {
 
     private static final Logger LOGGER = Logger.getLogger(EchoController.class.getName());
+    private static final DocumentsSimilarityHelper dsh = new DocumentsSimilarityHelper();
 
     @EventMapping
     public TextMessage handleTextMessageEvent(MessageEvent<TextMessageContent> event) {
@@ -22,7 +24,7 @@ public class EchoController {
         TextMessageContent content = event.getMessage();
         String contentText = content.getText();
 
-        if (contentText.startsWith("/docs_sim")) {
+        if (contentText.startsWith("/docs_sim ")) {
             return new TextMessage(handleDocumentsSimilarity(contentText));
 
         } else {
@@ -38,6 +40,7 @@ public class EchoController {
     }
 
     public String handleDocumentsSimilarity(String contentText) {
-        return "0%";
+        double similarity = dsh.getSimilarity(contentText.substring(10));
+        return (similarity * 100 + "").split("\\.")[0] + "%";
     }
 }
