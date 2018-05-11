@@ -107,7 +107,7 @@ public class EchoController {
 
         if (groupLaughCounter.containsKey(groupId)) {
             ArrayList<UserLaughCounter> userList = groupLaughCounter.get(groupId);
-            ArrayList<String>[] rankedLaugh = new ArrayList[10];
+            ArrayList[] rankedLaugh = new ArrayList[10];
 
             for (int i = 0; i < 10; i++) {
                 rankedLaugh[i] = new ArrayList<>();
