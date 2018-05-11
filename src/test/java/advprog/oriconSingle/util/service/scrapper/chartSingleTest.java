@@ -1,15 +1,20 @@
-package advprog.oriconSingle.util;
+package advprog.oriconSingle.util.service.scrapper;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.io.IOException;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ContextConfiguration;
 
+@RunWith(SpringJUnit4ClassRunner)
+@ContextConfiguration(classes = {ChartSingleConfig.class})
 public class chartSingleTest {
 
-    private chartSingle chartScrapper;
+    @Autowired
+    private ChartSingle chartScrapper;
 
     private String sampleDailyUrl = "https://www.oricon.co.jp/rank/js/d/2018-05-09/";
     private String sampleWeeklyUrl = "https://www.oricon.co.jp/rank/js/w/2018-05-07/";
@@ -75,7 +80,7 @@ public class chartSingleTest {
             + "(10) Doors ～勇気の軌跡～ - 嵐 - 2017-11-08";
 
     private String output;
-    private String errorMessage = chartScrapper.scrapChart("https://www.oricon.co.jp/rank/js/w/2018-05-06/");
+    private String errorMessage = "Not a valid URL, please use a proper Oricon link";
 
     public chartSingleTest() throws IOException {
 

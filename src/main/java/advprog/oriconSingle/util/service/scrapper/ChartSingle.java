@@ -1,4 +1,4 @@
-package advprog.oriconSingle.util;
+package advprog.oriconSingle.util.service.scrapper;
 
 import java.io.IOException;
 import java.util.stream.Collectors;
@@ -11,7 +11,7 @@ import org.jsoup.select.Elements;
 import org.springframework.stereotype.Service;
 
 @Service
-public class chartSingle {
+public class ChartSingle {
 
     public String scrapChart(String url) throws IOException {
         try {
@@ -22,7 +22,7 @@ public class chartSingle {
             output += elements.stream().map(js -> scrapChartElement(js))
                     .collect(Collectors.joining("\n"));
             return output;
-        } catch (HttpStatusException e) {
+        } catch (Exception e) {
             return "Not a valid URL, please use a proper Oricon link";
         }
     }
