@@ -1,13 +1,12 @@
 package advprog.oriconbluray.util.commands;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-
 import com.linecorp.bot.model.message.TextMessage;
 
 import java.io.IOException;
 
 import org.junit.Test;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 public class RankCommandControlTest {
 
@@ -53,13 +52,25 @@ public class RankCommandControlTest {
             + "(10) アイドルマスター SideM 5(完全生産限定版) - アニメーション - 2018-04-25";
 
     @Test
-    public void testAddCommandIsWorking() {
-        assertTrue(controller.addCommand("sample", mockCommand));
+    public void testAddNewKeyReturnsNull() {
+        assertNull(controller.addCommand("sample", mockCommand));
     }
 
     @Test
-    public void testDeleteCommandIsWorking() {
-        assertTrue(controller.removeCommand("weekly"));
+    public void testAddReplaceKeyReturnsCommand() {
+        assertTrue(controller.addCommand("sample", mockCommand)
+                instanceof RankCommand);
+    }
+
+    @Test
+    public void testDeleteExistingCommandReturnsCommand() {
+        assertTrue(controller.removeCommand("weekly")
+                instanceof RankCommand);
+    }
+
+    @Test
+    public void testDeleteUnknownCommandReturnsNull() {
+        assertNull(controller.removeCommand("weekly"));
     }
 
     @Test
