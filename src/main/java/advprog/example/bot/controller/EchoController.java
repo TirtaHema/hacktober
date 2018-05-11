@@ -21,13 +21,22 @@ public class EchoController {
         TextMessageContent content = event.getMessage();
         String contentText = content.getText();
 
-        String replyText = contentText.replace("/echo", "");
-        return new TextMessage(replyText.substring(1));
+        if (contentText.startsWith("/docs_sim")) {
+            return new TextMessage(handleDocumentsSimilarity(contentText));
+
+        } else {
+            String replyText = contentText.replace("/echo", "");
+            return new TextMessage(replyText.substring(1));
+        }
     }
 
     @EventMapping
     public void handleDefaultMessage(Event event) {
         LOGGER.fine(String.format("Event(timestamp='%s',source='%s')",
                 event.getTimestamp(), event.getSource()));
+    }
+
+    public String handleDocumentsSimilarity(String contentText) {
+        return "0%";
     }
 }
