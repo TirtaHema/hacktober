@@ -11,7 +11,7 @@ import org.springframework.test.context.ContextConfiguration;
 
 @RunWith(SpringJUnit4ClassRunner)
 @ContextConfiguration(classes = {ChartSingleConfig.class})
-public class chartSingleTest {
+public class ChartSingleTest {
 
     @Autowired
     private ChartSingle chartScrapper;
@@ -75,14 +75,14 @@ public class chartSingleTest {
             + "(5) 逃げ水 - 乃木坂46 - 2017-08-09\n"
             + "(6) インフルエンサー - 乃木坂46 - 2017-03-22\n"
             + "(7) いつかできるから今日できる - 乃木坂46 - 2017-10-11\n"
-            + "(8) 不協和音 - 乃木坂46 - 2017-04-05\n"
-            + "(9) 風に吹かれても - 乃木坂46 - 2017-10-25\n"
+            + "(8) 不協和音 - 欅坂46 - 2017-04-05\n"
+            + "(9) 風に吹かれても - 欅坂46 - 2017-10-25\n"
             + "(10) Doors ～勇気の軌跡～ - 嵐 - 2017-11-08";
 
     private String output;
     private String errorMessage = "Not a valid URL, please use a proper Oricon link";
 
-    public chartSingleTest() throws IOException {
+    public ChartSingleTest() throws IOException {
 
     }
 

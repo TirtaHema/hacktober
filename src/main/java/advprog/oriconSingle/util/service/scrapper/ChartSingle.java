@@ -22,7 +22,7 @@ public class ChartSingle {
             output += elements.stream().map(js -> scrapChartElement(js))
                     .collect(Collectors.joining("\n"));
             return output;
-        } catch (Exception e) {
+        } catch (HttpStatusException e) {
             return "Not a valid URL, please use a proper Oricon link";
         }
     }
