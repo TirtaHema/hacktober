@@ -24,7 +24,9 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes = YoutubeInfoChatResponderTest.YoutubeInfoChatResponderTestConfiguration.class)
+@ContextConfiguration(
+        classes = YoutubeInfoChatResponderTest.YoutubeInfoChatResponderTestConfiguration.class
+)
 public class YoutubeInfoChatResponderTest {
 
     @Configuration

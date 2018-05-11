@@ -25,7 +25,9 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes = YoutubeInfoFetcherTest.YoutubeInfoFetcherTestConfiguration.class)
+@ContextConfiguration(
+        classes = YoutubeInfoFetcherTest.YoutubeInfoFetcherTestConfiguration.class
+)
 public class YoutubeInfoFetcherTest {
 
     @Configuration
@@ -74,15 +76,14 @@ public class YoutubeInfoFetcherTest {
             + "    ]\n"
             + "}";
 
-    private static final String VIDEO_NOT_FOUND_RESPONSE = "{\n" +
-            "    \"kind\": \"youtube#videoListResponse\",\n" +
-            "    \"etag\": \"\\\"95M1zlW0txkV42I4OG1Zscxrg5A/q9wh51deRpP1b7X8Nc3D-bdBxqs\\\"\",\n" +
-            "    \"pageInfo\": {\n" +
-            "        \"totalResults\": 0,\n" +
-            "        \"resultsPerPage\": 0\n" +
-            "    },\n" +
-            "    \"items\": []\n" +
-            "}";
+    private static final String VIDEO_NOT_FOUND_RESPONSE = "{\n"
+            + "    \"kind\": \"youtube#videoListResponse\",\n"
+            + "    \"pageInfo\": {\n"
+            + "        \"totalResults\": 0,\n"
+            + "        \"resultsPerPage\": 0\n"
+            + "    },\n"
+            + "    \"items\": []\n"
+            + "}";
 
     @Test
     public void testConstruct() {
