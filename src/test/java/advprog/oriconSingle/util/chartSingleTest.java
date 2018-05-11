@@ -4,10 +4,12 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import java.io.IOException;
 
-import com.sun.xml.internal.ws.policy.privateutil.PolicyUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.junit.Test;
 
 public class chartSingleTest {
+
+    private chartSingle chartScrapper;
 
     private String sampleDailyUrl = "https://www.oricon.co.jp/rank/js/d/2018-05-09/";
     private String sampleWeeklyUrl = "https://www.oricon.co.jp/rank/js/w/2018-05-07/";
@@ -73,7 +75,7 @@ public class chartSingleTest {
             + "(10) Doors ～勇気の軌跡～ - 嵐 - 2017-11-08";
 
     private String output;
-    private String errorMessage = chartSingle.scrapChart("https://www.oricon.co.jp/rank/js/w/2018-05-06/");
+    private String errorMessage = chartScrapper.scrapChart("https://www.oricon.co.jp/rank/js/w/2018-05-06/");
 
     public chartSingleTest() throws IOException {
 
@@ -81,49 +83,49 @@ public class chartSingleTest {
 
     @Test
     public void testScrapDaily() throws IOException {
-        output = chartSingle.scrapChart(sampleDailyUrl);
+        output = chartScrapper.scrapChart(sampleDailyUrl);
         assertEquals(sampleDailyOutput,output);
     }
 
     @Test
     public void testScrapWeekly() throws IOException {
-        output = chartSingle.scrapChart(sampleWeeklyUrl);
+        output = chartScrapper.scrapChart(sampleWeeklyUrl);
         assertEquals(sampleWeeklyOutput, output);
     }
 
     @Test
     public void testScrapMonthly() throws IOException {
-        output = chartSingle.scrapChart(sampleMonthlyUrl);
+        output = chartScrapper.scrapChart(sampleMonthlyUrl);
         assertEquals(sampleMonthlyOutput, output);
     }
 
     @Test
     public void testScrapYearly() throws IOException {
-        output = chartSingle.scrapChart(sampleYearlyUrl);
+        output = chartScrapper.scrapChart(sampleYearlyUrl);
         assertEquals(sampleYearlyOutput, output);
     }
 
     @Test
     public void testFalseScrapDaily() throws IOException {
-        output = chartSingle.scrapChart(falseDailyUrl);
+        output = chartScrapper.scrapChart(falseDailyUrl);
         assertEquals(errorMessage, output);
     }
 
     @Test
     public void testFalseScrapWeekly() throws IOException {
-        output = chartSingle.scrapChart(falseWeeklyUrl);
+        output = chartScrapper.scrapChart(falseWeeklyUrl);
         assertEquals(errorMessage, output);
     }
 
     @Test
     public void testFalseScrapMonthly() throws IOException {
-        output = chartSingle.scrapChart(falseMonthlyUrl);
+        output = chartScrapper.scrapChart(falseMonthlyUrl);
         assertEquals(errorMessage, output);
     }
 
     @Test
     public void testFalseScrapYearly() throws IOException {
-        output = chartSingle.scrapChart(falseYearlyUrl);
+        output = chartScrapper.scrapChart(falseYearlyUrl);
         assertEquals(errorMessage, output);
     }
 }
