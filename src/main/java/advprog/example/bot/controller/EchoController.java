@@ -22,7 +22,8 @@ public class EchoController {
         String contentText = content.getText();
 
         String replyText = contentText.replace("/echo", "");
-        return new TextMessage(replyText.substring(1));
+        String finals = replyText.replace(" ","%20");
+        return new TextMessage(finals.substring(0));
     }
 
     @EventMapping
