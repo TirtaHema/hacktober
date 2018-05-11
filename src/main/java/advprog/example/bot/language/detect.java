@@ -1,7 +1,8 @@
 package advprog.example.bot.language;
 
-public class hot100 {
+public class detect {
     public String detect() {
         return "english 100%";
     }
 }
+s
