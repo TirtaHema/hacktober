@@ -18,11 +18,20 @@ public class DocumentsSimilarityHelperTest {
     }
 
     @Test
-    public void testGetSimilarity() {
+    public void testGetSimilarity1() {
         double similarity = documentsSimilarityHelper.getSimilarity(
                 "'my name is fahmi' 'your name is fahmi'"
         );
-        assertEquals(1, similarity, 1e-9);
+        assertEquals(1, similarity, 1e-2);
+    }
+
+    @Test
+    public void testGetSimilarity2() {
+        double similarity = documentsSimilarityHelper.getSimilarity(
+                "https://www.biography.com/people/adolf-hitler-9340144 "
+                + "https://en.wikipedia.org/wiki/Adolf_Hitler"
+        );
+        assertEquals(0.87, similarity, 1e-2);
     }
 
     @Test
@@ -31,7 +40,7 @@ public class DocumentsSimilarityHelperTest {
                 "my name is fahmi",
                 "your name is fahmi"
         );
-        assertEquals(1, similarity, 1e-9);
+        assertEquals(1, similarity, 1e-2);
     }
 
     @Test
@@ -40,6 +49,6 @@ public class DocumentsSimilarityHelperTest {
                 "https://www.biography.com/people/adolf-hitler-9340144",
                 "https://en.wikipedia.org/wiki/Adolf_Hitler"
         );
-        assertEquals(0.87, similarity, 1e-9);
+        assertEquals(0.87, similarity, 1e-2);
     }
 }
