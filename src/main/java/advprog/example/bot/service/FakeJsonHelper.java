@@ -1,12 +1,23 @@
 package advprog.example.bot.service;
 
+import java.util.Random;
+import org.springframework.web.client.RestTemplate;
+
 public class FakeJsonHelper {
+    static final int MAX_ID = 10;
+    static final Random RAND = new Random();
+    static final String[] RESOURCES = {"posts", "comments", "albums", "photos", "todos", "users"};
+    static final String URL_FORMAT = "https://jsonplaceholder.typicode.com/%s/%d";
 
     public String getUrl() {
-        return "https://";
+        String resource = RESOURCES[RAND.nextInt(RESOURCES.length)];
+        int id = RAND.nextInt(MAX_ID) + 1;
+        return String.format(URL_FORMAT, resource, id);
     }
 
     public String getFakeJsonObject() {
-        return "{asdf}";
+        String url = getUrl();
+        RestTemplate restTemplate = new RestTemplate();
+        return restTemplate.getForObject(url, String.class);
     }
 }

@@ -20,8 +20,8 @@ public class FakeJsonHelperTest {
     public void testGetUrl() {
         String url = fakeJsonHelper.getUrl();
         assertTrue(url.matches(
-                "https:\\/\\/jsonplaceholder\\.typicode\\.com\\/.+\\/([1-10]|10)")
-        );
+                "https:\\/\\/jsonplaceholder\\.typicode\\.com\\/.*\\/([1-9]|10)*"
+        ));
     }
 
     @Test
