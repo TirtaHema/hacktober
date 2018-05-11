@@ -39,7 +39,11 @@ public class BillBoardJapanTop10ControllerTest {
 
         TextMessage reply = billboardJapanTop10Controller.handleTextMessageEvent(event);
 
+        int numOfLines = reply.getText().split("\\r?\\n").length;
+
         assertEquals("(1) Darude - Sandstorm", reply.getText());
+
+        assertEquals(10, numOfLines);
     }
 
     @Test
