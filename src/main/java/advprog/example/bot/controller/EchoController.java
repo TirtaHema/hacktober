@@ -57,7 +57,7 @@ public class EchoController {
         } catch (Exception exception) {
             LOGGER.fine(exception.toString());
 
-            return null;
+            return "Artist not found";
         }
     }
 
