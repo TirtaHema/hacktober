@@ -13,13 +13,24 @@ public class DetectTest {
 
     @Before
     public void setUp() {
-        detect = new detect();
+        
     }
 
     @Test
-    public void Test() {
-        String charts = detect.detect;
-        assertNotNull(detect);
+    public void testInputString() {
+
+    }
+    @Test
+    public void testProses() {
+
+    }
+    @Test
+    public void testURLValidator() {
+
+    }
+    @Test
+    public void testHasil() {
+
     }
 
 

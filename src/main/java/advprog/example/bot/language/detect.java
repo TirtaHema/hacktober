@@ -12,7 +12,7 @@ public class Detect {
     private static RestTemplate restTemplate = new RestTemplate();
     private static HttpHeaders headers = new HttpHeaders();
 
-    public String inputString(String input) {
+    private String inputString(String input) {
         String[] detect = input.split(" ");
         if (detect[0].equals("/detect_lang")){
              if (detect[1].equals("TEXT")){
@@ -27,20 +27,21 @@ public class Detect {
                  }
              }
         }
-    }
+    }s
 
-    public void proses (String input){
+    public void proses (String input) {
         
         HttpEntity<String> entity = new HttpEntity<String>("parameters", headers);
 
         String result = restTemplate.getForObject(hasil(input), String.class, headers);
+        JSONobject tes = new JSONobject (result);
 
         System.out.println(result);
     }
     
     public static void main(String[] args) {
-        proses("facebook.com");
-    }
+       proses("facebook.com");
+   }
 
     private boolean URLValidator(String URL){
         UrlValidator urlValidator = new UrlValidator();
