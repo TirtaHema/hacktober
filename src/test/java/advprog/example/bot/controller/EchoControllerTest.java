@@ -3,6 +3,7 @@ package advprog.example.bot.controller;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.mockito.Mockito.atLeastOnce;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
@@ -56,5 +57,11 @@ public class EchoControllerTest {
 
         verify(event, atLeastOnce()).getSource();
         verify(event, atLeastOnce()).getTimestamp();
+    }
+
+    @Test
+    void testSearch() {
+        String res = fiveNews.search();
+        assertEquals("",res);
     }
 }
