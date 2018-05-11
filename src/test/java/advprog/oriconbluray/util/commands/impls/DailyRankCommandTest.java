@@ -3,20 +3,29 @@ package advprog.oriconbluray.util.commands.impls;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import advprog.oriconbluray.util.commands.config.DailyRankCommandConfig;
 import advprog.oriconbluray.util.commands.interfaces.RankCommand;
 import com.linecorp.bot.model.message.TextMessage;
 
 import java.io.IOException;
 
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(classes = {DailyRankCommandConfig.class})
 public class DailyRankCommandTest {
+
+    @Autowired
+    private RankCommand command;
 
     private String sampleDate = "2018-05-08";
     private String invalidDate = "2019-05-08";
     private String invalidFormatDate = "20180507";
     private String absurdDate = "2018-04-32";
-    private RankCommand command = new DailyRankCommand();
     private TextMessage reply;
 
     private String sampleDaily = "Haiiii~ Here's your top 10 bluray as you requested~\n"
