@@ -1,5 +1,6 @@
-package advprog.oriconbluray.util.commands;
+package advprog.oriconbluray.util.commands.impls;
 
+import advprog.oriconbluray.util.commands.interfaces.RankCommand;
 import advprog.oriconbluray.util.service.rankscrapper.RankScrapper;
 import com.linecorp.bot.model.message.TextMessage;
 
@@ -7,12 +8,11 @@ import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 
-public class DailyRankCommand implements RankCommand {
+public class WeeklyRankCommand implements RankCommand {
 
     private RankScrapper rankScrapper = new RankScrapper();
 
-    private static final String DAILY_URL = "https://www.oricon.co.jp/rank/bd/d/";
-
+    private static final String WEEKLY_URL = "https://www.oricon.co.jp/rank/bd/w/";
 
     @Override
     public TextMessage execute(String date) throws IOException {
@@ -22,10 +22,11 @@ public class DailyRankCommand implements RankCommand {
         }
 
         String rankList = rankScrapper
-                .scrapRank(DAILY_URL + date + "/");
+                .scrapRank(WEEKLY_URL + date + "/");
 
         rankList = rankList.contains("Not a valid URL")
                 ? "It seems there's no rank charts on that date"
+                + ". Make sure the date you assign is on monday"
                 : rankList;
         return new TextMessage(rankList);
     }
@@ -52,4 +53,5 @@ public class DailyRankCommand implements RankCommand {
 
         return null;
     }
+
 }

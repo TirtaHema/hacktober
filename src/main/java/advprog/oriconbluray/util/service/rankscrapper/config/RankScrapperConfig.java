@@ -1,5 +1,6 @@
-package advprog.oriconbluray.util.service.rankscrapper;
+package advprog.oriconbluray.util.service.rankscrapper.config;
 
+import advprog.oriconbluray.util.service.rankscrapper.RankScrapper;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 

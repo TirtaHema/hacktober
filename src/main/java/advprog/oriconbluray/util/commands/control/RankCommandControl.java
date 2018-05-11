@@ -1,5 +1,8 @@
-package advprog.oriconbluray.util.commands;
+package advprog.oriconbluray.util.commands.control;
 
+import advprog.oriconbluray.util.commands.impls.DailyRankCommand;
+import advprog.oriconbluray.util.commands.interfaces.RankCommand;
+import advprog.oriconbluray.util.commands.impls.WeeklyRankCommand;
 import com.linecorp.bot.model.message.TextMessage;
 
 import java.io.IOException;

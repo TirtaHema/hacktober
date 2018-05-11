@@ -1,8 +1,9 @@
-package advprog.oriconbluray.util.commands;
+package advprog.oriconbluray.util.commands.impls;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import advprog.oriconbluray.util.commands.interfaces.RankCommand;
 import com.linecorp.bot.model.message.TextMessage;
 
 import java.io.IOException;

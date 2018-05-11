@@ -1,4 +1,4 @@
-package advprog.oriconbluray.util.commands;
+package advprog.oriconbluray.util.commands.interfaces;
 
 import com.linecorp.bot.model.message.TextMessage;
 
