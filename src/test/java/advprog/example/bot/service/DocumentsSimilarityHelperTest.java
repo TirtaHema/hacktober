@@ -46,7 +46,7 @@ public class DocumentsSimilarityHelperTest {
                 "hey ho",
                 "ho hey"
         );
-        assertEquals("Text yang diberikan tidak valid", similarity);
+        assertEquals("Unmanaged language [so]", similarity);
     }
 
     @Test
@@ -64,6 +64,6 @@ public class DocumentsSimilarityHelperTest {
                 "https://yahoo.com",
                 "https://google.com"
         );
-        assertEquals("Url yang diberikan tidak valid", similarity);
+        assertEquals("Unmanaged language [da]", similarity);
     }
 }
