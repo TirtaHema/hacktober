@@ -38,16 +38,6 @@ public class BillBoardArtist200ControllerTest {
     }
 
     @Test
-    void testHandleTextMessageEvent() {
-        MessageEvent<TextMessageContent> event =
-            EventTestUtil.createDummyTextMessage("/billboard bill200 Drake");
-
-        TextMessage reply = billboardartistController.handleTextMessageEvent(event);
-
-        assertEquals("Drake is in Billboard 200 chart", reply.getText());
-    }
-
-    @Test
     void testHandleDefaultMessage() {
         Event event = mock(Event.class);
 
@@ -55,5 +45,26 @@ public class BillBoardArtist200ControllerTest {
 
         verify(event, atLeastOnce()).getSource();
         verify(event, atLeastOnce()).getTimestamp();
+    }
+
+    @Test
+    void testHandleTextMessageEventIfSuccess() {
+        MessageEvent<TextMessageContent> event =
+            EventTestUtil.createDummyTextMessage("/billboard bill200 Drake");
+
+        TextMessage reply = billboardartistController.handleTextMessageEvent(event);
+
+        assertEquals("Drake\nNice For What\n2", reply.getText());
+    }
+
+    @Test
+    void testHandleTextMessageEventIfFailed() {
+        MessageEvent<TextMessageContent> event =
+            EventTestUtil.createDummyTextMessage("/billboard bill200 Coldplay");
+
+        TextMessage reply = billboardartistController.handleTextMessageEvent(event);
+
+        assertEquals("The artist Coldplay is not in Billboard Top 200 chart", reply.getText());
+
     }
 }
