@@ -18,13 +18,28 @@ import org.json.JSONException;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes = YoutubeInfoConfigurationTest.class)
+@ContextConfiguration(classes = YoutubeInfoFetcherTest.YoutubeInfoFetcherTestConfiguration.class)
 public class YoutubeInfoFetcherTest {
+
+    @Configuration
+    static class YoutubeInfoFetcherTestConfiguration {
+        @Bean
+        YoutubeInfoFetcher youtubeInfoFetcher(OkHttpClient okHttpClient) {
+            return new YoutubeInfoFetcher(YoutubeInfoConfiguration.API_KEY, okHttpClient);
+        }
+
+        @Bean
+        OkHttpClient okHttpClient() {
+            return mock(OkHttpClient.class);
+        }
+    }
 
     @Autowired
     OkHttpClient okHttpClient;

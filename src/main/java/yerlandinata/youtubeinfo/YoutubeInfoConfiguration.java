@@ -7,7 +7,12 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class YoutubeInfoConfiguration {
 
-    private static final String API_KEY = "AIzaSyD3WEn-CKXOOrC36QA7QpGBnO8OnJFxO_Q";
+    public static final String API_KEY = "AIzaSyD3WEn-CKXOOrC36QA7QpGBnO8OnJFxO_Q";
+
+    @Bean
+    YoutubeInfoChatResponder youtubeInfoChatResponder(YoutubeInfoFetcher youtubeInfoFetcher) {
+        return new YoutubeInfoChatResponder(youtubeInfoFetcher);
+    }
 
     @Bean
     YoutubeInfoFetcher youtubeInfoFetcher(OkHttpClient okHttpClient) {
