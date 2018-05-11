@@ -33,7 +33,7 @@ public class EchoController {
         TextMessageContent content = event.getMessage();
         String contentText = content.getText();
 
-        TextMessage replayMessage = null;
+        TextMessage replayMessage = new TextMessage(contentText);
 
         switch (contentText.split(" ")[0]) {
             case "/echo" : {
@@ -43,16 +43,12 @@ public class EchoController {
             case "/toplaughers" : {
                 try {
                     replayMessage = handleTopLaughers(event);
-                } catch (ExecutionException e) {
-                    e.printStackTrace();
-                } catch (InterruptedException e) {
+                } catch (ExecutionException | InterruptedException e) {
                     e.printStackTrace();
                 }
                 break;
             }
             default: {
-                replayMessage = new TextMessage(contentText);
-
                 Source source = event.getSource();
                 String userId = source.getUserId();
                 String groupId = getGroupId(event);
@@ -132,8 +128,7 @@ public class EchoController {
                 }
 
                 rankedLaugh.get(rankCounter)
-                        .add(lineMessagingClient
-                                .getGroupMemberProfile(groupId, currentUser.getUserId()).get().getDisplayName());
+                        .add(getUserDisplayName(groupId, currentUser.getUserId()));
             }
 
             for (int i = 1; i <= 5; i++) {
@@ -151,7 +146,7 @@ public class EchoController {
         return new TextMessage(message);
     }
 
-    private String getGroupId(Event event) {
+    public String getGroupId(Event event) {
         Source source = event.getSource();
         String groupId = null;
 
@@ -162,5 +157,15 @@ public class EchoController {
         }
 
         return groupId;
+    }
+
+    public String getUserDisplayName(String groupId, String userId) {
+        try {
+            return lineMessagingClient
+                    .getGroupMemberProfile(groupId, userId).get().getDisplayName();
+        } catch (InterruptedException | ExecutionException e) {
+            e.printStackTrace();
+            return "Error detected!";
+        }
     }
 }
