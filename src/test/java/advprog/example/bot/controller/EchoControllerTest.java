@@ -57,4 +57,12 @@ public class EchoControllerTest {
         verify(event, atLeastOnce()).getSource();
         verify(event, atLeastOnce()).getTimestamp();
     }
+
+    @Test
+    void testThisIsJustAFunction() {
+        String result = echoController.thisIsJustAFunction();
+        String expected = "Ok";
+
+        assertEquals(expected, result);
+    }
 }
