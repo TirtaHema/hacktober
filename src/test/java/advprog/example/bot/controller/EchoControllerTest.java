@@ -85,7 +85,7 @@ public class EchoControllerTest {
         echoController.handleTextMessageEvent(event);
 
         event = EventTestUtil.createDummyTextMessageWithDummyUser("/toplaughers", "User1");
-        echoController.handleTextMessageEvent(event);
+        reply = echoController.handleTextMessageEvent(event);
 
         expected = "1. User1\n" +
                 "2. User2, User3\n" +
