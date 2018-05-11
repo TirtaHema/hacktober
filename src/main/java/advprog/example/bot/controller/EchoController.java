@@ -21,6 +21,10 @@ public class EchoController {
         TextMessageContent content = event.getMessage();
         String contentText = content.getText();
 
+        if (contentText.contains("/10albums")) {
+            return new TextMessage(queryArtistRecentAlbum(contentText.replace("/10albums ", "")));
+        }
+
         String replyText = contentText.replace("/echo", "");
         return new TextMessage(replyText.substring(1));
     }
@@ -30,4 +34,9 @@ public class EchoController {
         LOGGER.fine(String.format("Event(timestamp='%s',source='%s')",
                 event.getTimestamp(), event.getSource()));
     }
+
+    public String queryArtistRecentAlbum(String artist) {
+        return "Artist not found";
+    }
+
 }

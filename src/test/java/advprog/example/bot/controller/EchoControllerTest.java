@@ -57,4 +57,14 @@ public class EchoControllerTest {
         verify(event, atLeastOnce()).getSource();
         verify(event, atLeastOnce()).getTimestamp();
     }
+
+    @Test
+    void testQueryArtistRecentAlbumArtistNotFound() {
+        MessageEvent<TextMessageContent> event =
+                EventTestUtil.createDummyTextMessage("/10albums Nama Artist");
+
+        TextMessage reply = echoController.handleTextMessageEvent(event);
+
+        assertEquals("Artist not found", reply.getText());
+    }
 }
