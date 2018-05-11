@@ -64,10 +64,10 @@ public class EchoControllerTest {
         TextMessage reply;
         String expected;
 
-        event = EventTestUtil.createDummyTextMessageWithDummyUser("hi hahahah", "User1");
-        echoController.handleTextMessageEvent(event);echoController.handleTextMessageEvent(event);
+        event = EventTestUtil.createDummyGroupTextMessageWithDummyUser("hi hahahah", "Group1", "User1");
+        echoController.handleTextMessageEvent(event);
 
-        event = EventTestUtil.createDummyTextMessageWithDummyUser("/toplaughers", "User1");
+        event = EventTestUtil.createDummyGroupTextMessageWithDummyUser("/toplaughers", "Group1", "User1");
         reply = echoController.handleTextMessageEvent(event);
 
         expected = "1. User1\n" +
@@ -78,16 +78,16 @@ public class EchoControllerTest {
 
         assertEquals(expected, reply.getText());
 
-        event = EventTestUtil.createDummyTextMessageWithDummyUser("wkwkwk*", "User1");
+        event = EventTestUtil.createDummyGroupTextMessageWithDummyUser("wkwkwk*", "Group1", "User1");
         echoController.handleTextMessageEvent(event);
 
-        event = EventTestUtil.createDummyTextMessageWithDummyUser("haha aja", "User2");
+        event = EventTestUtil.createDummyGroupTextMessageWithDummyUser("haha aja", "Group1", "User2");
         echoController.handleTextMessageEvent(event);
 
-        event = EventTestUtil.createDummyTextMessageWithDummyUser("wkwk lah", "User3");
+        event = EventTestUtil.createDummyGroupTextMessageWithDummyUser("wkwk lah", "Group1", "User3");
         echoController.handleTextMessageEvent(event);
 
-        event = EventTestUtil.createDummyTextMessageWithDummyUser("/toplaughers", "User1");
+        event = EventTestUtil.createDummyGroupTextMessageWithDummyUser("/toplaughers", "Group1", "User1");
         reply = echoController.handleTextMessageEvent(event);
 
         expected = "1. User1\n" +
