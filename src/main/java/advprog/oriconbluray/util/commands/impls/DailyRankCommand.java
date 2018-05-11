@@ -3,17 +3,18 @@ package advprog.oriconbluray.util.commands.impls;
 import advprog.oriconbluray.util.commands.interfaces.RankCommand;
 import advprog.oriconbluray.util.service.rankscrapper.RankScrapper;
 import com.linecorp.bot.model.message.TextMessage;
+import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 
+@Component
 public class DailyRankCommand implements RankCommand {
 
     private RankScrapper rankScrapper = new RankScrapper();
 
     private static final String DAILY_URL = "https://www.oricon.co.jp/rank/bd/d/";
-
 
     @Override
     public TextMessage execute(String date) throws IOException {

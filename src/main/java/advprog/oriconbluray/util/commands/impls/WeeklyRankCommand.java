@@ -3,11 +3,13 @@ package advprog.oriconbluray.util.commands.impls;
 import advprog.oriconbluray.util.commands.interfaces.RankCommand;
 import advprog.oriconbluray.util.service.rankscrapper.RankScrapper;
 import com.linecorp.bot.model.message.TextMessage;
+import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 
+@Component
 public class WeeklyRankCommand implements RankCommand {
 
     private RankScrapper rankScrapper = new RankScrapper();

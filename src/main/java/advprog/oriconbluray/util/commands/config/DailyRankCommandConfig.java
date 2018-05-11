@@ -1,10 +1,14 @@
 package advprog.oriconbluray.util.commands.config;
 
 import advprog.oriconbluray.util.commands.impls.DailyRankCommand;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 
+@Configuration
 public class DailyRankCommandConfig {
 
+    @Bean
     DailyRankCommand dailyRankCommand() {
-        return null;
+        return new DailyRankCommand();
     }
 }
