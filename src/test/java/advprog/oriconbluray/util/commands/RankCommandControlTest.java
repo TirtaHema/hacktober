@@ -4,9 +4,10 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import com.linecorp.bot.model.message.TextMessage;
-import org.junit.Test;
 
 import java.io.IOException;
+
+import org.junit.Test;
 
 public class RankCommandControlTest {
 
