@@ -58,7 +58,7 @@ public class RankCommandControlTest {
 
     @Test
     public void testAddReplaceKeyReturnsCommand() {
-        assertTrue(controller.addCommand("sample", mockCommand)
+        assertTrue(controller.addCommand("daily", mockCommand)
                 instanceof RankCommand);
     }
 
@@ -70,7 +70,7 @@ public class RankCommandControlTest {
 
     @Test
     public void testDeleteUnknownCommandReturnsNull() {
-        assertNull(controller.removeCommand("weekly"));
+        assertNull(controller.removeCommand("monthly"));
     }
 
     @Test
@@ -82,7 +82,7 @@ public class RankCommandControlTest {
 
     @Test
     public void testExecuteWeeklyCommandIsWorking() throws IOException {
-        TextMessage message = controller.execute("daily", weeklyDate);
+        TextMessage message = controller.execute("weekly", weeklyDate);
         assertEquals(sampleWeekly, message.getText());
     }
 
