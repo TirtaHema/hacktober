@@ -204,8 +204,8 @@ private LineMessagingClient lineMessagingClient;
                 this.reply(replyToken, templateMessage);
                 break;
             }
-            case "gambar3" : {
-                List<ImageCarouselColumn> columns = new ArrayList<ImageCarouselColumn>();
+            case "gambar_3" : {
+                List<ImageCarouselColumn> columns = new ArrayList<>();
                 columns.add(new ImageCarouselColumn("https://farm1.staticflickr.com/957/28140732828_cb302019b4_m.jpg",null));
                 columns.add(new ImageCarouselColumn("https://pics.me.me/blyat-me-irl-15840371.png",null));
                 columns.add(new ImageCarouselColumn("https://funnypictures4.fjcdn.com/pictures/Cyka+blyat_9dc589_5835010.jpg",null));
