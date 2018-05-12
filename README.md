@@ -97,7 +97,7 @@ public class EchoChatHandlerConfiguration {
 ```
 DO NOT mix both way, pick only one: @Autowired or @Configuration + @Bean
 
-Or use the naive way you learn from ddp: use **new** keyword inside your class (Highly not recommended)
+Any other way than dependency injection is not recommended.
 
 
 ## About AbstractLineChatHandlerDecorator
