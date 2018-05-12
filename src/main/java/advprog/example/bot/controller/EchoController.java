@@ -10,6 +10,7 @@ import com.linecorp.bot.model.action.PostbackAction;
 import com.linecorp.bot.model.action.URIAction;
 import com.linecorp.bot.model.event.Event;
 import com.linecorp.bot.model.event.MessageEvent;
+import com.linecorp.bot.model.event.message.LocationMessageContent;
 import com.linecorp.bot.model.event.message.TextMessageContent;
 import com.linecorp.bot.model.event.source.GroupSource;
 import com.linecorp.bot.model.event.source.RoomSource;
@@ -39,6 +40,8 @@ import java.util.logging.Logger;
 public class EchoController {
 
     private static final Logger LOGGER = Logger.getLogger(EchoController.class.getName());
+
+    private String lastIntents;
 
 /*
     @EventMapping
@@ -76,6 +79,28 @@ public class EchoController {
 */
 @Autowired
 private LineMessagingClient lineMessagingClient;
+
+    @EventMapping
+    public void handleLocationMessageEvent(MessageEvent<LocationMessageContent> event) {
+        try{
+            if(lastIntents=="nearby photos"){
+                LocationMessageContent locationMessage = event.getMessage();
+                this.replyText(event.getReplyToken(), locationMessage.getTitle() + " "+ locationMessage.getLatitude()+" "+locationMessage.getLatitude());
+            }
+        }
+        catch (Exception ex){
+            this.replyText(event.getReplyToken(), ex.getMessage());
+        }
+
+//        LocationMessageContent locationMessage = event.getMessage();
+//        reply(event.getReplyToken(), new LocationMessage(
+//                locationMessage.getTitle(),
+//                locationMessage.getAddress(),
+//                locationMessage.getLatitude(),
+//                locationMessage.getLongitude()
+//        ));
+    }
+
 
     @EventMapping
     public void handleTextMessageEvent(MessageEvent<TextMessageContent> event) throws Exception {
@@ -233,6 +258,10 @@ private LineMessagingClient lineMessagingClient;
                 ));
                 break;
             }
+            case "nearby photos":{
+                this.replyText(replyToken, "Please share your location");
+                lastIntents = "nearby photos";
+            }
             case "tiga" : {
                 try {
                     List<ImageCarouselColumn> columns = new ArrayList<ImageCarouselColumn>();
@@ -292,10 +321,7 @@ private LineMessagingClient lineMessagingClient;
                 break;
             default:
                 LOGGER.fine(String.format("Returns echo message {}: {}", replyToken, text));
-                this.replyText(
-                        replyToken,
-                        text
-                );
+                //this.replyText(replyToken, text);
                 break;
         }
 
