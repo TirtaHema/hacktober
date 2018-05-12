@@ -69,7 +69,7 @@ public class EchoChatHandlerConfiguration {
 please follow exactly like this -- your handler class must decorate the existing handler
 
 ## Additional Line Functionality
-If you need to get more things from Line, just add LineMessagingClient to your use case class like this example:
+If you need to get more things from Line, just add LineMessagingClient to your use case class (NOT chat handler class) like this example:
 ```java
     private final LineMessagingClient client;
 
@@ -79,6 +79,24 @@ If you need to get more things from Line, just add LineMessagingClient to your u
         this.client = client;
     }
 ```
+
+anyway if you still want to add LineMessagingClient to the chat handler class, just modify the configuration class:
+```java
+@Configuration
+public class EchoChatHandlerConfiguration {
+
+    @Bean
+    EchoChatHandler echoChatHandler(BotController controller, LineMessaginClient client) {
+        LineChatHandler currenctChatHandler = controller.getLineChatHandler();
+        EchoChatHandler handler = new EchoChatHandler(currenctChatHandler, client);
+        controller.replaceLineChatHandler(handler);
+        return handler;
+    }
+
+}
+```
+DO NOT mix both way, pick only one: @Autowired or @Configuration + @Bean
+
 
 ## About AbstractLineChatHandlerDecorator
 This class is basically the textbook real-life implementation of decorator pattern and template method pattern.
