@@ -7,6 +7,7 @@ import com.linecorp.bot.model.event.message.StickerMessageContent;
 import com.linecorp.bot.model.event.message.TextMessageContent;
 import com.linecorp.bot.model.message.AudioMessage;
 import com.linecorp.bot.model.message.ImageMessage;
+import com.linecorp.bot.model.message.Message;
 import com.linecorp.bot.model.message.StickerMessage;
 import com.linecorp.bot.model.message.TextMessage;
 
@@ -17,15 +18,19 @@ public abstract class AbstractLineChatHandlerDecorator implements LineChatHandle
 
     protected LineChatHandler decoratedLineChatHandler;
 
+    public LineChatHandler getDecoratedLineChatHandler() {
+        return decoratedLineChatHandler;
+    }
+
     // here you can see our old friend Template Method pattern!
 
     @Override
-    public void handleTextMessageEvent(MessageEvent<TextMessageContent> event,
-                                       List<TextMessage> replyMessages) {
+    public List<Message> handleTextMessageEvent(MessageEvent<TextMessageContent> event,
+                                                List<TextMessage> replyMessages) {
         if (canHandleTextMessage(event)) {
             replyMessages.addAll(handleTextMessage(event));
         }
-        decoratedLineChatHandler.handleTextMessageEvent(event, replyMessages);
+        return decoratedLineChatHandler.handleTextMessageEvent(event, replyMessages);
     }
 
     protected List<TextMessage> handleTextMessage(MessageEvent<TextMessageContent> event) {
@@ -33,12 +38,12 @@ public abstract class AbstractLineChatHandlerDecorator implements LineChatHandle
     }
 
     @Override
-    public void handleImageMessageEvent(MessageEvent<ImageMessageContent> event,
-                                        List<ImageMessage> replyMessages) {
+    public List<Message> handleImageMessageEvent(MessageEvent<ImageMessageContent> event,
+                                                      List<ImageMessage> replyMessages) {
         if (canHandleImageMessage(event)) {
             replyMessages.addAll(handleImageMessage(event));
         }
-        decoratedLineChatHandler.handleImageMessageEvent(event, replyMessages);
+        return decoratedLineChatHandler.handleImageMessageEvent(event, replyMessages);
     }
 
     protected List<ImageMessage> handleImageMessage(MessageEvent<ImageMessageContent> event) {
@@ -46,12 +51,12 @@ public abstract class AbstractLineChatHandlerDecorator implements LineChatHandle
     }
 
     @Override
-    public void handleAudioMessageEvent(MessageEvent<AudioMessageContent> event,
-                                        List<AudioMessage> replyMessages) {
+    public List<Message> handleAudioMessageEvent(MessageEvent<AudioMessageContent> event,
+                                                      List<AudioMessage> replyMessages) {
         if (canHandleAudioMessage(event)) {
             replyMessages.addAll(handleAudioMessage(event));
         }
-        decoratedLineChatHandler.handleAudioMessageEvent(event, replyMessages);
+        return decoratedLineChatHandler.handleAudioMessageEvent(event, replyMessages);
     }
 
     protected List<AudioMessage> handleAudioMessage(MessageEvent<AudioMessageContent> event) {
@@ -59,12 +64,12 @@ public abstract class AbstractLineChatHandlerDecorator implements LineChatHandle
     }
 
     @Override
-    public void handleStickerMessageEvent(MessageEvent<StickerMessageContent> event,
-                                          List<StickerMessage> replyMessages) {
+    public List<Message> handleStickerMessageEvent(MessageEvent<StickerMessageContent> event,
+                                                          List<StickerMessage> replyMessages) {
         if (canHandleStickerMessage(event)) {
             replyMessages.addAll(handleStickerMessage(event));
         }
-        decoratedLineChatHandler.handleStickerMessageEvent(event, replyMessages);
+        return decoratedLineChatHandler.handleStickerMessageEvent(event, replyMessages);
     }
 
     protected List<StickerMessage> handleStickerMessage(MessageEvent<StickerMessageContent> e) {
