@@ -26,7 +26,8 @@ public class BotController {
     private LineChatHandler lineChatHandler;
 
     @Autowired
-    public BotController(LineMessageReplyService messageReplyService, LineChatHandler chatHandler) {
+    public BotController(LineMessageReplyService messageReplyService,
+                         LineChatHandler chatHandler) {
         lineMessageReplyService = messageReplyService;
         lineChatHandler = chatHandler;
     }
