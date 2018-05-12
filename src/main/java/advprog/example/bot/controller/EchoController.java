@@ -233,14 +233,21 @@ private LineMessagingClient lineMessagingClient;
                 ));
                 break;
             }
-            case "gambar_3" : {
-                List<ImageCarouselColumn> columns = new ArrayList<>();
-                columns.add(new ImageCarouselColumn("https://farm1.staticflickr.com/957/28140732828_cb302019b4_m.jpg",null));
-                columns.add(new ImageCarouselColumn("https://pics.me.me/blyat-me-irl-15840371.png",null));
-                columns.add(new ImageCarouselColumn("https://funnypictures4.fjcdn.com/pictures/Cyka+blyat_9dc589_5835010.jpg",null));
-                ImageCarouselTemplate imageCarouselTemplate = new ImageCarouselTemplate(columns);
-                TemplateMessage templateMessage = new TemplateMessage("ImageCarousel alt text", imageCarouselTemplate);
-                this.reply(replyToken, templateMessage);
+            case "tiga" : {
+                try {
+                    List<ImageCarouselColumn> columns = new ArrayList<>();
+                    columns.add(new ImageCarouselColumn("https://farm1.staticflickr.com/957/28140732828_cb302019b4_m.jpg", null));
+                    columns.add(new ImageCarouselColumn("https://pics.me.me/blyat-me-irl-15840371.png", null));
+                    columns.add(new ImageCarouselColumn("https://funnypictures4.fjcdn.com/pictures/Cyka+blyat_9dc589_5835010.jpg", null));
+                    ImageCarouselTemplate imageCarouselTemplate = new ImageCarouselTemplate(columns);
+                    TemplateMessage templateMessage = new TemplateMessage("ImageCarousel alt text", imageCarouselTemplate);
+                    this.reply(replyToken, templateMessage);
+                }catch (Exception ex){
+                    this.replyText(
+                            replyToken,
+                            ex.getMessage()
+                    );
+                }
                 break;
             }
             case "imagemap":
