@@ -27,6 +27,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.lang.NonNull;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -200,6 +201,16 @@ private LineMessagingClient lineMessagingClient;
                                 ))
                         ));
                 TemplateMessage templateMessage = new TemplateMessage("Carousel alt text", carouselTemplate);
+                this.reply(replyToken, templateMessage);
+                break;
+            }
+            case "gambar3" : {
+                List<ImageCarouselColumn> columns = new ArrayList<ImageCarouselColumn>();
+                columns.add(new ImageCarouselColumn("https://farm1.staticflickr.com/957/28140732828_cb302019b4_m.jpg",null));
+                columns.add(new ImageCarouselColumn("https://pics.me.me/blyat-me-irl-15840371.png",null));
+                columns.add(new ImageCarouselColumn("https://funnypictures4.fjcdn.com/pictures/Cyka+blyat_9dc589_5835010.jpg",null));
+                ImageCarouselTemplate imageCarouselTemplate = new ImageCarouselTemplate(columns);
+                TemplateMessage templateMessage = new TemplateMessage("ImageCarousel alt text", imageCarouselTemplate);
                 this.reply(replyToken, templateMessage);
                 break;
             }
