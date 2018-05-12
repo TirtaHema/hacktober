@@ -85,8 +85,26 @@ private LineMessagingClient lineMessagingClient;
         try{
             if(lastIntents=="nearby photos"){
                 LocationMessageContent locationMessage = event.getMessage();
-                this.replyText(event.getReplyToken(), locationMessage.getTitle() + " "+ locationMessage.getLatitude()+" "+locationMessage.getLatitude());
+                //this.replyText(event.getReplyToken(), locationMessage.getTitle() + " "+ locationMessage.getLatitude()+" "+locationMessage.getLatitude());
+
+                Double latitude = locationMessage.getLatitude();
+                Double longitude = locationMessage.getLongitude();
+
+                FlickrService service = new FlickrService();
+                List<String> urls = service.Get5Photos(new Location(latitude, longitude));
+
+                List<ImageCarouselColumn> columns = new ArrayList<ImageCarouselColumn>();
+
+                for(int i=0; i < urls.size(); i++){
+                    columns.add(new ImageCarouselColumn(urls.get(i), new URIAction("photo "+i,urls.get(i))));
+                }
+
+                ImageCarouselTemplate imageCarouselTemplate = new ImageCarouselTemplate(columns);
+                TemplateMessage templateMessage = new TemplateMessage("ImageCarousel alt text", imageCarouselTemplate);
+                this.reply(event.getReplyToken(), templateMessage);
             }
+
+            lastIntents ="";
         }
         catch (Exception ex){
             this.replyText(event.getReplyToken(), ex.getMessage());
@@ -112,6 +130,7 @@ private LineMessagingClient lineMessagingClient;
             throws Exception {
         String text = content.getText();
         LOGGER.fine(String.format("Got text message from {}: {}", replyToken, text));
+        lastIntents = "";
         switch (text) {
             case "profile": {
                 String userId = event.getSource().getUserId();
