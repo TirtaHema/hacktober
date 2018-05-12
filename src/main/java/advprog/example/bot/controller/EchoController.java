@@ -261,6 +261,7 @@ private LineMessagingClient lineMessagingClient;
             case "nearby photos":{
                 this.replyText(replyToken, "Please share your location");
                 lastIntents = "nearby photos";
+                break;
             }
             case "tiga" : {
                 try {
