@@ -14,10 +14,7 @@ import com.linecorp.bot.model.event.message.TextMessageContent;
 import com.linecorp.bot.model.event.source.GroupSource;
 import com.linecorp.bot.model.event.source.RoomSource;
 import com.linecorp.bot.model.event.source.Source;
-import com.linecorp.bot.model.message.ImagemapMessage;
-import com.linecorp.bot.model.message.Message;
-import com.linecorp.bot.model.message.TemplateMessage;
-import com.linecorp.bot.model.message.TextMessage;
+import com.linecorp.bot.model.message.*;
 import com.linecorp.bot.model.message.imagemap.ImagemapArea;
 import com.linecorp.bot.model.message.imagemap.ImagemapBaseSize;
 import com.linecorp.bot.model.message.imagemap.MessageImagemapAction;
@@ -226,6 +223,13 @@ private LineMessagingClient lineMessagingClient;
                         ));
                 TemplateMessage templateMessage = new TemplateMessage("ImageCarousel alt text", imageCarouselTemplate);
                 this.reply(replyToken, templateMessage);
+                break;
+            }
+            case "imagecuk":{
+                this.reply(replyToken, new ImageMessage(
+                        "https://farm1.staticflickr.com/957/28140732828_cb302019b4_m.jpg",
+                        "https://farm1.staticflickr.com/957/28140732828_cb302019b4_m.jpg"
+                ));
                 break;
             }
             case "imagemap":
