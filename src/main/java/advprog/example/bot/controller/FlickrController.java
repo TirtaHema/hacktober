@@ -97,6 +97,17 @@ public class FlickrController {
         handleTextContent(event.getReplyToken(), event, message);
     }
 
+    @EventMapping
+    public void handleLocationMessageEvent(MessageEvent<LocationMessageContent> event) {
+        LocationMessageContent locationMessage = event.getMessage();
+        reply(event.getReplyToken(), new LocationMessage(
+                locationMessage.getTitle(),
+                locationMessage.getAddress(),
+                locationMessage.getLatitude(),
+                locationMessage.getLongitude()
+        ));
+    }
+
     private void handleTextContent(String replyToken, Event event, TextMessageContent content)
             throws Exception {
         String text = content.getText();
@@ -108,6 +119,7 @@ public class FlickrController {
                 if (userId != null) {
                     lineMessagingClient
                             .getProfile(userId)
+
                             .whenComplete((profile, throwable) -> {
                                 if (throwable != null) {
                                     this.replyText(replyToken, throwable.getMessage());
