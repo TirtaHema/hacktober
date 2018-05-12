@@ -139,7 +139,7 @@ private LineMessagingClient lineMessagingClient;
                 break;
             }
             case "buttons": {
-                String imageUrl = "https://pics.me.me/blyat-17461815.png";
+                String imageUrl = "https://raw.githubusercontent.com/line/line-bot-sdk-java/master/sample-spring-boot-kitchensink/src/main/resources/static/buttons/1040.jpg";
                 ButtonsTemplate buttonsTemplate = new ButtonsTemplate(
                         imageUrl,
                         "My button sample",
@@ -230,35 +230,10 @@ private LineMessagingClient lineMessagingClient;
             }
             case "imagemap":
                 this.reply(replyToken, new ImagemapMessage(
-                        "https://pics.me.me/blyat-17461815.png",
+                        "https://farm1.staticflickr.com/957/28140732828_cb302019b4_z.jpg",
                         "This is alt text",
                         new ImagemapBaseSize(1040, 1040),
-                        Arrays.asList(
-                                new URIImagemapAction(
-                                        "https://store.line.me/family/manga/en",
-                                        new ImagemapArea(
-                                                0, 0, 520, 520
-                                        )
-                                ),
-                                new URIImagemapAction(
-                                        "https://store.line.me/family/music/en",
-                                        new ImagemapArea(
-                                                520, 0, 520, 520
-                                        )
-                                ),
-                                new URIImagemapAction(
-                                        "https://store.line.me/family/play/en",
-                                        new ImagemapArea(
-                                                0, 520, 520, 520
-                                        )
-                                ),
-                                new MessageImagemapAction(
-                                        "URANAI!",
-                                        new ImagemapArea(
-                                                520, 520, 520, 520
-                                        )
-                                )
-                        )
+                        null
                 ));
                 break;
             default:
