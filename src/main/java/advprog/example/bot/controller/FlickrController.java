@@ -3,81 +3,93 @@ package advprog.example.bot.controller;
 import advprog.example.bot.photos.nearby.FlickrService;
 import advprog.example.bot.photos.nearby.Location;
 import com.linecorp.bot.client.LineMessagingClient;
-import com.linecorp.bot.model.ReplyMessage;
-import com.linecorp.bot.model.action.DatetimePickerAction;
 import com.linecorp.bot.model.action.MessageAction;
-import com.linecorp.bot.model.action.PostbackAction;
-import com.linecorp.bot.model.action.URIAction;
 import com.linecorp.bot.model.event.Event;
 import com.linecorp.bot.model.event.MessageEvent;
 import com.linecorp.bot.model.event.message.TextMessageContent;
 import com.linecorp.bot.model.event.source.GroupSource;
 import com.linecorp.bot.model.event.source.RoomSource;
 import com.linecorp.bot.model.event.source.Source;
-import com.linecorp.bot.model.message.ImagemapMessage;
-import com.linecorp.bot.model.message.Message;
-import com.linecorp.bot.model.message.TemplateMessage;
 import com.linecorp.bot.model.message.TextMessage;
 import com.linecorp.bot.model.message.imagemap.ImagemapArea;
-import com.linecorp.bot.model.message.imagemap.ImagemapBaseSize;
 import com.linecorp.bot.model.message.imagemap.MessageImagemapAction;
 import com.linecorp.bot.model.message.imagemap.URIImagemapAction;
-import com.linecorp.bot.model.message.template.*;
-import com.linecorp.bot.model.response.BotApiResponse;
+import com.linecorp.bot.model.message.template.ConfirmTemplate;
 import com.linecorp.bot.spring.boot.annotation.EventMapping;
 import com.linecorp.bot.spring.boot.annotation.LineMessageHandler;
+import org.springframework.beans.factory.annotation.Autowired;
+
+import java.util.Arrays;
+import java.util.List;
+import java.util.logging.Logger;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.io.UncheckedIOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.time.LocalDateTime;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+import java.util.UUID;
+import java.util.concurrent.ExecutionException;
+import java.util.function.Consumer;
+
+import com.linecorp.bot.model.action.DatetimePickerAction;
+import com.linecorp.bot.model.message.template.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.lang.NonNull;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
-import java.util.concurrent.ExecutionException;
-import java.util.logging.Logger;
+import com.google.common.io.ByteStreams;
 
+import com.linecorp.bot.client.LineMessagingClient;
+import com.linecorp.bot.client.MessageContentResponse;
+import com.linecorp.bot.model.ReplyMessage;
+import com.linecorp.bot.model.action.MessageAction;
+import com.linecorp.bot.model.action.PostbackAction;
+import com.linecorp.bot.model.action.URIAction;
+import com.linecorp.bot.model.event.BeaconEvent;
+import com.linecorp.bot.model.event.Event;
+import com.linecorp.bot.model.event.FollowEvent;
+import com.linecorp.bot.model.event.JoinEvent;
+import com.linecorp.bot.model.event.MessageEvent;
+import com.linecorp.bot.model.event.PostbackEvent;
+import com.linecorp.bot.model.event.UnfollowEvent;
+import com.linecorp.bot.model.event.message.AudioMessageContent;
+import com.linecorp.bot.model.event.message.ImageMessageContent;
+import com.linecorp.bot.model.event.message.LocationMessageContent;
+import com.linecorp.bot.model.event.message.StickerMessageContent;
+import com.linecorp.bot.model.event.message.TextMessageContent;
+import com.linecorp.bot.model.event.message.VideoMessageContent;
+import com.linecorp.bot.model.event.source.GroupSource;
+import com.linecorp.bot.model.event.source.RoomSource;
+import com.linecorp.bot.model.event.source.Source;
+import com.linecorp.bot.model.message.AudioMessage;
+import com.linecorp.bot.model.message.ImageMessage;
+import com.linecorp.bot.model.message.ImagemapMessage;
+import com.linecorp.bot.model.message.LocationMessage;
+import com.linecorp.bot.model.message.Message;
+import com.linecorp.bot.model.message.StickerMessage;
+import com.linecorp.bot.model.message.TemplateMessage;
+import com.linecorp.bot.model.message.TextMessage;
+import com.linecorp.bot.model.message.VideoMessage;
+import com.linecorp.bot.model.message.imagemap.ImagemapArea;
+import com.linecorp.bot.model.message.imagemap.ImagemapBaseSize;
+import com.linecorp.bot.model.message.imagemap.MessageImagemapAction;
+import com.linecorp.bot.model.message.imagemap.URIImagemapAction;
+import com.linecorp.bot.model.response.BotApiResponse;
+import com.linecorp.bot.spring.boot.annotation.EventMapping;
+import com.linecorp.bot.spring.boot.annotation.LineMessageHandler;
+
+import static jdk.nashorn.internal.runtime.regexp.joni.Config.log;
 
 @LineMessageHandler
-public class EchoController {
-
-    private static final Logger LOGGER = Logger.getLogger(EchoController.class.getName());
-
-/*
-    @EventMapping
-    public TextMessage handleTextMessageEvent(MessageEvent<TextMessageContent> event) {
-        LOGGER.fine(String.format("TextMessageContent(timestamp='%s',content='%s')",
-                event.getTimestamp(), event.getMessage()));
-        TextMessageContent content = event.getMessage();
-        String contentText = content.getText();
+public class FlickrController {
 
 
-        String[] input = contentText.split(" ");
-
-
-
-        if (!isValidInput(input)) {
-            return new TextMessage("Masukkan 2 bilangan koordinat latitude dan longitude, format : double");
-        } else {
-            Double latitude = Double.parseDouble(input[0]);
-            Double longitude = Double.parseDouble(input[1]);
-
-            if (!validLatitude(latitude) || !validLongitude(longitude)) {
-                return new TextMessage("Masukkan latitude diantara -90 sampai 90, longitude -180 sampai 180");
-            }
-
-            FlickrService service = new FlickrService();
-            List<String> urls = service.Get5Photos(new Location(latitude, longitude));
-
-            String hasil = "";
-
-            for(String cur : urls) hasil += cur + "\n";
-
-            return new TextMessage(hasil);
-        }
-    }
-*/
-@Autowired
-private LineMessagingClient lineMessagingClient;
+    @Autowired
+    private LineMessagingClient lineMessagingClient;
 
     @EventMapping
     public void handleTextMessageEvent(MessageEvent<TextMessageContent> event) throws Exception {
@@ -88,7 +100,8 @@ private LineMessagingClient lineMessagingClient;
     private void handleTextContent(String replyToken, Event event, TextMessageContent content)
             throws Exception {
         String text = content.getText();
-        LOGGER.fine(String.format("Got text message from {}: {}", replyToken, text));
+
+        //log.info("Got text message from {}: {}", replyToken, text);
         switch (text) {
             case "profile": {
                 String userId = event.getSource().getUserId();
@@ -262,7 +275,7 @@ private LineMessagingClient lineMessagingClient;
                 ));
                 break;
             default:
-                LOGGER.fine(String.format("Returns echo message {}: {}", replyToken, text));
+                //log.info("Returns echo message {}: {}", replyToken, text);
                 this.replyText(
                         replyToken,
                         text
@@ -281,7 +294,7 @@ private LineMessagingClient lineMessagingClient;
             BotApiResponse apiResponse = lineMessagingClient
                     .replyMessage(new ReplyMessage(replyToken, messages))
                     .get();
-            LOGGER.fine(String.format("Sent messages: {}", apiResponse));
+            //log.info("Sent messages: {}", apiResponse);
         } catch (InterruptedException | ExecutionException e) {
             throw new RuntimeException(e);
         }
@@ -304,35 +317,4 @@ private LineMessagingClient lineMessagingClient;
     }
 
 
-    @EventMapping
-    public void handleDefaultMessage(Event event) {
-        LOGGER.fine(String.format("Event(timestamp='%s',source='%s')",
-                event.getTimestamp(), event.getSource()));
-    }
-
-    public boolean isValidInput( String[] input ) {
-        if (input.length != 2 || !isDouble(input[0]) || !isDouble(input[1])) {
-            return false;
-        } else {
-            return true;
-        }
-    }
-
-    public boolean validLatitude(Double latitude) {
-        return latitude >= -90.0 && latitude <= 90.0;
-    }
-
-    public boolean validLongitude(Double longitude) {
-        return longitude >= -180.0 && longitude <= 180.0;
-    }
-
-    public boolean isDouble( String str ){
-        try{
-            Double.parseDouble( str );
-            return true;
-        }
-        catch( Exception e ){
-            return false;
-        }
-    }
 }
