@@ -233,7 +233,32 @@ private LineMessagingClient lineMessagingClient;
                         "https://api.reh.tw/line/bot/example/assets/images/example/1040",
                         "This is alt text",
                         new ImagemapBaseSize(1040, 1040),
-                        null
+                        Arrays.asList(
+                                new URIImagemapAction(
+                                        "https://store.line.me/family/manga/en",
+                                        new ImagemapArea(
+                                                0, 0, 520, 520
+                                        )
+                                ),
+                                new URIImagemapAction(
+                                        "https://store.line.me/family/music/en",
+                                        new ImagemapArea(
+                                                520, 0, 520, 520
+                                        )
+                                ),
+                                new URIImagemapAction(
+                                        "https://store.line.me/family/play/en",
+                                        new ImagemapArea(
+                                                0, 520, 520, 520
+                                        )
+                                ),
+                                new MessageImagemapAction(
+                                        "URANAI!",
+                                        new ImagemapArea(
+                                                520, 520, 520, 520
+                                        )
+                                )
+                        )
                 ));
                 break;
             default:
