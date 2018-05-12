@@ -157,7 +157,7 @@ private LineMessagingClient lineMessagingClient;
                 break;
             }
             case "carousel": {
-                String imageUrl = createUri("/static/buttons/1040.jpg");
+                String imageUrl = createUri("https://farm1.staticflickr.com/957/28140732828_cb302019b4_m.jpg");
                 CarouselTemplate carouselTemplate = new CarouselTemplate(
                         Arrays.asList(
                                 new CarouselColumn(imageUrl, "hoge", "fuga", Arrays.asList(
