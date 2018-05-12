@@ -157,7 +157,7 @@ private LineMessagingClient lineMessagingClient;
                 break;
             }
             case "carousel": {
-                String imageUrl = createUri("https://farm1.staticflickr.com/957/28140732828_cb302019b4_m.jpg");
+                String imageUrl = "https://farm1.staticflickr.com/957/28140732828_cb302019b4_m.jpg";
                 CarouselTemplate carouselTemplate = new CarouselTemplate(
                         Arrays.asList(
                                 new CarouselColumn(imageUrl, "hoge", "fuga", Arrays.asList(
@@ -225,12 +225,13 @@ private LineMessagingClient lineMessagingClient;
                 this.reply(replyToken, templateMessage);
                 break;
             }
-            case "gambar":
+            case "gambar": {
                 this.reply(replyToken, new ImageMessage(
                         "https://farm1.staticflickr.com/957/28140732828_cb302019b4_m.jpg",
                         "https://farm1.staticflickr.com/957/28140732828_cb302019b4_m.jpg"
                 ));
                 break;
+            }
             case "imagemap":
                 this.reply(replyToken, new ImagemapMessage(
                         "https://api.reh.tw/line/bot/example/assets/images/example/1040",
