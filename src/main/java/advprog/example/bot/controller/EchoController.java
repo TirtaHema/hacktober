@@ -204,7 +204,7 @@ private LineMessagingClient lineMessagingClient;
                 this.reply(replyToken, templateMessage);
                 break;
             }
-            case "gambar_3" : {
+            /*case "gambar_3" : {
                 List<ImageCarouselColumn> columns = new ArrayList<>();
                 columns.add(new ImageCarouselColumn("https://farm1.staticflickr.com/957/28140732828_cb302019b4_m.jpg",null));
                 columns.add(new ImageCarouselColumn("https://pics.me.me/blyat-me-irl-15840371.png",null));
@@ -213,7 +213,7 @@ private LineMessagingClient lineMessagingClient;
                 TemplateMessage templateMessage = new TemplateMessage("ImageCarousel alt text", imageCarouselTemplate);
                 this.reply(replyToken, templateMessage);
                 break;
-            }
+            }*/
             case "image_carousel": {
                 String imageUrl = createUri("/static/buttons/1040.jpg");
                 ImageCarouselTemplate imageCarouselTemplate = new ImageCarouselTemplate(
