@@ -230,7 +230,7 @@ private LineMessagingClient lineMessagingClient;
             }
             case "imagemap":
                 this.reply(replyToken, new ImagemapMessage(
-                        "https://farm1.staticflickr.com/957/28140732828_cb302019b4_z.jpg",
+                        "https://farm1.staticflickr.com/957/28140732828_cb302019b4_z",
                         "This is alt text",
                         new ImagemapBaseSize(1040, 1040),
                         null
