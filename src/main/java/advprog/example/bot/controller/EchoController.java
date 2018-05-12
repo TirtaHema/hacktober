@@ -230,7 +230,7 @@ private LineMessagingClient lineMessagingClient;
             }
             case "imagemap":
                 this.reply(replyToken, new ImagemapMessage(
-                        createUri("/static/rich"),
+                        "https://pics.me.me/blyat-17461815.png",
                         "This is alt text",
                         new ImagemapBaseSize(1040, 1040),
                         Arrays.asList(
