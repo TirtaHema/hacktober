@@ -139,7 +139,7 @@ private LineMessagingClient lineMessagingClient;
                 break;
             }
             case "buttons": {
-                String imageUrl = createUri("/static/buttons/1040.jpg");
+                String imageUrl = "https://raw.githubusercontent.com/line/line-bot-sdk-java/master/sample-spring-boot-kitchensink/src/main/resources/static/buttons/1040.jpg";
                 ButtonsTemplate buttonsTemplate = new ButtonsTemplate(
                         imageUrl,
                         "My button sample",
