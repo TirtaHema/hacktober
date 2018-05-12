@@ -86,7 +86,7 @@ anyway if you still want to add LineMessagingClient to the chat handler class, j
 public class EchoChatHandlerConfiguration {
 
     @Bean
-    EchoChatHandler echoChatHandler(BotController controller, LineMessaginClient client) {
+    EchoChatHandler echoChatHandler(BotController controller, LineMessagingClient client) {
         LineChatHandler currenctChatHandler = controller.getLineChatHandler();
         EchoChatHandler handler = new EchoChatHandler(currenctChatHandler, client);
         controller.replaceLineChatHandler(handler);
@@ -96,6 +96,8 @@ public class EchoChatHandlerConfiguration {
 }
 ```
 DO NOT mix both way, pick only one: @Autowired or @Configuration + @Bean
+
+Or use the naive way you learn from ddp: use **new** keyword inside your class (Highly not recommended)
 
 
 ## About AbstractLineChatHandlerDecorator
