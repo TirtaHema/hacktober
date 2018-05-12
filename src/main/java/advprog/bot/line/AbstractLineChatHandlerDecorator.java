@@ -25,7 +25,7 @@ public abstract class AbstractLineChatHandlerDecorator implements LineChatHandle
     // here you can see our old friend Template Method pattern!
 
     @Override
-    public List<Message> handleTextMessageEvent(MessageEvent<TextMessageContent> event,
+    public List<TextMessage> handleTextMessageEvent(MessageEvent<TextMessageContent> event,
                                                 List<TextMessage> replyMessages) {
         if (canHandleTextMessage(event)) {
             replyMessages.addAll(handleTextMessage(event));
@@ -38,7 +38,7 @@ public abstract class AbstractLineChatHandlerDecorator implements LineChatHandle
     }
 
     @Override
-    public List<Message> handleImageMessageEvent(MessageEvent<ImageMessageContent> event,
+    public List<ImageMessage> handleImageMessageEvent(MessageEvent<ImageMessageContent> event,
                                                       List<ImageMessage> replyMessages) {
         if (canHandleImageMessage(event)) {
             replyMessages.addAll(handleImageMessage(event));
@@ -51,7 +51,7 @@ public abstract class AbstractLineChatHandlerDecorator implements LineChatHandle
     }
 
     @Override
-    public List<Message> handleAudioMessageEvent(MessageEvent<AudioMessageContent> event,
+    public List<AudioMessage> handleAudioMessageEvent(MessageEvent<AudioMessageContent> event,
                                                       List<AudioMessage> replyMessages) {
         if (canHandleAudioMessage(event)) {
             replyMessages.addAll(handleAudioMessage(event));
@@ -64,7 +64,7 @@ public abstract class AbstractLineChatHandlerDecorator implements LineChatHandle
     }
 
     @Override
-    public List<Message> handleStickerMessageEvent(MessageEvent<StickerMessageContent> event,
+    public List<StickerMessage> handleStickerMessageEvent(MessageEvent<StickerMessageContent> event,
                                                           List<StickerMessage> replyMessages) {
         if (canHandleStickerMessage(event)) {
             replyMessages.addAll(handleStickerMessage(event));

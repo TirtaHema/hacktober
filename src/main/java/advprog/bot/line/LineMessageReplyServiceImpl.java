@@ -7,6 +7,7 @@ import com.linecorp.bot.model.response.BotApiResponse;
 
 import java.util.List;
 import java.util.concurrent.ExecutionException;
+import java.util.stream.Collectors;
 
 import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,10 +24,13 @@ public class LineMessageReplyServiceImpl implements LineMessageReplyService {
     }
 
     @Override
-    public void reply(@NotNull String replyToken, @NotNull List<Message> messages) {
+    public void reply(@NotNull String replyToken, @NotNull List<? extends Message> messages) {
+        List<Message> messageList = messages.stream()
+                .map(e -> (Message) e)
+                .collect(Collectors.toList());
         try {
             BotApiResponse apiResponse = client
-                    .replyMessage(new ReplyMessage(replyToken, messages))
+                    .replyMessage(new ReplyMessage(replyToken, messageList))
                     .get();
         } catch (InterruptedException | ExecutionException e) {
             throw new RuntimeException(e);

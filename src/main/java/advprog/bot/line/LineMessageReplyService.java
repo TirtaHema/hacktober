@@ -7,5 +7,5 @@ import java.util.List;
 import org.springframework.lang.NonNull;
 
 public interface LineMessageReplyService {
-    void reply(@NonNull String replyToken, @NonNull List<Message> messages);
+    void reply(@NonNull String replyToken, @NonNull List<? extends Message> messages);
 }

@@ -17,6 +17,7 @@ import java.util.LinkedList;
 import java.util.logging.Logger;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 
 @LineMessageHandler
 public class BotController {
@@ -27,7 +28,7 @@ public class BotController {
 
     @Autowired
     public BotController(LineMessageReplyService messageReplyService,
-                         LineChatHandler chatHandler) {
+                         @Qualifier("base") LineChatHandler chatHandler) {
         lineMessageReplyService = messageReplyService;
         lineChatHandler = chatHandler;
     }
@@ -35,7 +36,10 @@ public class BotController {
     // IT WILL ENFORCE YOU TO DECORATE THE EXISTING HANDLER FIRST !!!
     public void replaceLineChatHandler(AbstractLineChatHandlerDecorator decorator) {
         if (decorator.getDecoratedLineChatHandler() != lineChatHandler) {
-            throw new IllegalStateException("You should decorate the existing chat handler first! Please read README.md in https://gitlab.com/csui-advprog-2018/B/B3");
+            throw new IllegalStateException(
+                    "You should decorate the existing chat handler first! "
+                    + "Please read README.md in https://gitlab.com/csui-advprog-2018/B/B3"
+            );
         }
         lineChatHandler = decorator;
     }

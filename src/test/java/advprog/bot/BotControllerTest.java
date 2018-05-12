@@ -1,6 +1,6 @@
 package advprog.bot;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.Assert.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.mock;
@@ -8,7 +8,6 @@ import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-import advprog.bot.BotController;
 import advprog.bot.line.AbstractLineChatHandlerDecorator;
 import advprog.bot.line.LineChatHandler;
 import advprog.bot.line.LineMessageReplyService;
@@ -22,7 +21,6 @@ import com.linecorp.bot.model.event.message.TextMessageContent;
 import com.linecorp.bot.model.event.source.Source;
 import com.linecorp.bot.model.message.AudioMessage;
 import com.linecorp.bot.model.message.ImageMessage;
-import com.linecorp.bot.model.message.Message;
 import com.linecorp.bot.model.message.StickerMessage;
 import com.linecorp.bot.model.message.TextMessage;
 
@@ -83,7 +81,7 @@ public class BotControllerTest {
 
     @Test
     public void testHandleTextMessageEvent() {
-        List<Message> expectedMessages = new LinkedList<>();
+        List<TextMessage> expectedMessages = new LinkedList<>();
         expectedMessages.add(new TextMessage("1"));
         expectedMessages.add(new TextMessage("2"));
         when(baseChatHandler.handleTextMessageEvent(any(), any()))
@@ -97,7 +95,7 @@ public class BotControllerTest {
 
     @Test
     public void testHandleImageMessageEvent() {
-        List<Message> expectedMessages = new LinkedList<>();
+        List<ImageMessage> expectedMessages = new LinkedList<>();
         String dummyUrl = "https://null.null";
         expectedMessages.add(new ImageMessage(dummyUrl, dummyUrl));
         expectedMessages.add(new ImageMessage(dummyUrl, dummyUrl));
@@ -112,7 +110,7 @@ public class BotControllerTest {
 
     @Test
     public void testHandleAudioMessageEvent() {
-        List<Message> expectedMessages = new LinkedList<>();
+        List<AudioMessage> expectedMessages = new LinkedList<>();
         String dummyUrl = "https://null.null";
         expectedMessages.add(new AudioMessage(dummyUrl, 1));
         expectedMessages.add(new AudioMessage(dummyUrl, 3));
@@ -127,7 +125,7 @@ public class BotControllerTest {
 
     @Test
     public void testHandleStickerMessageEvent() {
-        List<Message> expectedMessages = new LinkedList<>();
+        List<StickerMessage> expectedMessages = new LinkedList<>();
         String dummyId = "2fgfr874";
         expectedMessages.add(new StickerMessage(dummyId, dummyId));
         expectedMessages.add(new StickerMessage(dummyId, dummyId));

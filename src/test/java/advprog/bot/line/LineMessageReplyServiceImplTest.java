@@ -10,6 +10,7 @@ import com.linecorp.bot.model.message.Message;
 import com.linecorp.bot.model.response.BotApiResponse;
 
 import java.util.Collections;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
@@ -40,7 +41,7 @@ public class LineMessageReplyServiceImplTest {
     @Test
     public void testReply() throws ExecutionException, InterruptedException {
         String replyToken = "token";
-        List<Message> msg = Collections.emptyList();
+        List<Message> msg = new LinkedList<>();
         when(lineMessagingClient.replyMessage(eq(new ReplyMessage(replyToken, msg))))
                 .thenReturn(response);
         lineMessageReplyService.reply(replyToken,msg);

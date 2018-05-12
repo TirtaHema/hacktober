@@ -15,16 +15,16 @@ import java.util.List;
 
 //redundancy exists for a much less confusing usage
 public interface LineChatHandler {
-    List<Message> handleTextMessageEvent(MessageEvent<TextMessageContent> event,
+    List<TextMessage> handleTextMessageEvent(MessageEvent<TextMessageContent> event,
                                          List<TextMessage> replyMessages);
 
-    List<Message> handleImageMessageEvent(MessageEvent<ImageMessageContent> event,
+    List<ImageMessage> handleImageMessageEvent(MessageEvent<ImageMessageContent> event,
                                  List<ImageMessage> replyMessages);
 
-    List<Message>  handleAudioMessageEvent(MessageEvent<AudioMessageContent> event,
+    List<AudioMessage>  handleAudioMessageEvent(MessageEvent<AudioMessageContent> event,
                                  List<AudioMessage> replyMessages);
 
-    List<Message> handleStickerMessageEvent(MessageEvent<StickerMessageContent> event,
+    List<StickerMessage> handleStickerMessageEvent(MessageEvent<StickerMessageContent> event,
                                    List<StickerMessage> replyMessages);
 
 }
