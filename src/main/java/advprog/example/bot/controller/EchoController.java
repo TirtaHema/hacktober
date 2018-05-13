@@ -1,7 +1,9 @@
 package advprog.example.bot.controller;
 
 import advprog.example.bot.photos.nearby.FlickrService;
+import advprog.example.bot.photos.nearby.IPictureService;
 import advprog.example.bot.photos.nearby.Location;
+import advprog.example.bot.photos.nearby.Photo;
 import com.linecorp.bot.client.LineMessagingClient;
 import com.linecorp.bot.model.ReplyMessage;
 import com.linecorp.bot.model.action.DatetimePickerAction;
@@ -90,13 +92,13 @@ private LineMessagingClient lineMessagingClient;
                 Double latitude = locationMessage.getLatitude();
                 Double longitude = locationMessage.getLongitude();
 
-                FlickrService service = new FlickrService();
-                List<String> urls = service.Get5Photos(new Location(latitude, longitude));
+                IPictureService service = new FlickrService();
+                List<Photo> photos = service.get5Photos(new Location(latitude, longitude));
 
                 List<ImageCarouselColumn> columns = new ArrayList<ImageCarouselColumn>();
 
-                for(int i=0; i < urls.size(); i++){
-                    columns.add(new ImageCarouselColumn(urls.get(i), new URIAction("photo "+i,urls.get(i))));
+                for(Photo photo : photos){
+                    columns.add(new ImageCarouselColumn(photo.getUrl(), new URIAction(photo.getTitle(), photo.getUrl())));
                 }
 
                 ImageCarouselTemplate imageCarouselTemplate = new ImageCarouselTemplate(columns);

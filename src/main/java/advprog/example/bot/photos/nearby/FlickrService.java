@@ -8,8 +8,8 @@ import org.json.JSONObject;
 import org.springframework.http.*;
 import org.springframework.web.client.RestTemplate;
 
-public class FlickrService {
-    public List<String> Get5Photos(Location location)  {
+public class FlickrService implements IPictureService {
+    public List<Photo> get5Photos(Location location)  {
         final String BASE_URL = "https://api.flickr.com/services/rest/";
         final String API_KEY = "22fac7b1124ad64d303a50de7c529f8f";
         final String API_METHOD = "flickr.photos.search";
@@ -24,23 +24,20 @@ public class FlickrService {
 
         String result = restTemplate.getForObject(url, String.class, headers);
 
-        List<String> urls = new ArrayList<String>();
+        List<Photo> photos = new ArrayList<Photo>();
 
         try {
             JSONObject json = new JSONObject(result);
             JSONArray photo = json.getJSONObject("photos").getJSONArray("photo");
             for(int i = 0; i < photo.length(); i++) {
-                urls.add(createPhotoUrl(photo.getJSONObject(i).getString("farm"), photo.getJSONObject(i).getString("server"),
-                        photo.getJSONObject(i).getString("id"), photo.getJSONObject(i).getString("secret")));
+                photos.add(new Photo(createPhotoUrl(photo.getJSONObject(i).getString("farm"), photo.getJSONObject(i).getString("server"),
+                        photo.getJSONObject(i).getString("id"), photo.getJSONObject(i).getString("secret")), photo.getJSONObject(i).getString("title")));
             }
         } catch (Exception e) {
-            return urls;
+            return photos;
         }
 
-        return urls;
-
-        // List<Photo> top5 = new ArrayList<Photo>();
-        // return top5;
+        return photos;
     }
 
     // photo url : https://farm{farm-id}.staticflickr.com/{server-id}/{id}_{secret}_[mstzb].jpg

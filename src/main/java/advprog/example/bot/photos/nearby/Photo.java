@@ -1,36 +1,18 @@
 package advprog.example.bot.photos.nearby;
 
 public class Photo {
-    private Integer id;
-    private String name, url, data, fileType;
+    private String url, title;
 
-    public Photo(Integer id, String name, String url, String data, String fileType) {
-        this.id = id;
-        this.name = name;
+    public Photo(String url, String title) {
         this.url = url;
-        this.data = data;
-        this.fileType = fileType;
+        this.title = title;
     }
 
-    Integer getId() {
-        return id;
-    }
-
-    String getName() {
-        return name;
-    }
-
-    String getUrl() {
+    public String getUrl() {
         return url;
     }
 
-    String getData() {
-        return data;
-    }
-
-    String getFileType() {
-        return fileType;
-    }
+    public String getTitle() { return title; }
 }
 
 
