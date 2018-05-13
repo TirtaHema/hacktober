@@ -45,9 +45,9 @@ public class EchoControllerTest {
         MessageEvent<TextMessageContent> event =
                 EventTestUtil.createDummyTextMessage("/echo Lorem Ipsum");
 
-      //  TextMessage reply = echoController.handleTextMessageEvent(event);
+        TextMessage reply = echoController.handleTextMessageEvent(event);
 
-        //assertEquals("Lorem Ipsum", reply.getText());
+        assertEquals("Lorem Ipsum", reply.getText());
     }
 
     @Test
