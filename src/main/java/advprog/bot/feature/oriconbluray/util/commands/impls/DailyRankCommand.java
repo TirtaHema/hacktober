@@ -15,7 +15,7 @@ public class DailyRankCommand implements RankCommand {
 
     private RankScrapper rankScrapper = new RankScrapper();
 
-    private static final String DAILY_URL = "https://www.oricon.co.jp/rank/bd/d/";
+    private final String dailyUrl = "https://www.oricon.co.jp/rank/bd/d/";
 
     @Override
     public TextMessage execute(String date) throws IOException {
@@ -25,7 +25,7 @@ public class DailyRankCommand implements RankCommand {
         }
 
         String rankList = rankScrapper
-                .scrapRank(DAILY_URL + date + "/");
+                .scrapRank(dailyUrl + date + "/");
 
         rankList = rankList.contains("Not a valid URL")
                 ? "It seems there's no rank charts on that date"
