@@ -1,15 +1,16 @@
-package imagga;
+package advprog.imagga;
 
-import java.util.List;
 import imagga.config.APIConfig;
 
-public class SmartCrop {
+import java.util.List;
+
+public class SmartCropTest {
 
     private final APIConfig apiConfig;
 
     private String image;
 
-    public SmartCrop(String image){
+    public SmartCropTest(String image){
         this.image = image;
     }
 

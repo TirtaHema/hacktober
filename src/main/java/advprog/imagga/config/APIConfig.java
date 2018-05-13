@@ -1,4 +1,4 @@
-package imagga.config;
+package advprog.imagga.config;
 
 import java.net.URL;
 
