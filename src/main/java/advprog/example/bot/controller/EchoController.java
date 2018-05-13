@@ -87,7 +87,6 @@ private LineMessagingClient lineMessagingClient;
         try{
             if(lastIntents=="nearby photos"){
                 LocationMessageContent locationMessage = event.getMessage();
-                //this.replyText(event.getReplyToken(), locationMessage.getTitle() + " "+ locationMessage.getLatitude()+" "+locationMessage.getLatitude());
 
                 Double latitude = locationMessage.getLatitude();
                 Double longitude = locationMessage.getLongitude();
@@ -101,6 +100,11 @@ private LineMessagingClient lineMessagingClient;
                     columns.add(new ImageCarouselColumn(photo.getUrl(), new URIAction(photo.getTitle(), photo.getUrl())));
                 }
 
+                if (photos.size() == 0) {
+                    this.replyText(event.getReplyToken(), "NO PHOTOS");
+                    return;
+                }
+
                 ImageCarouselTemplate imageCarouselTemplate = new ImageCarouselTemplate(columns);
                 TemplateMessage templateMessage = new TemplateMessage("ImageCarousel alt text", imageCarouselTemplate);
                 this.reply(event.getReplyToken(), templateMessage);
@@ -112,13 +116,6 @@ private LineMessagingClient lineMessagingClient;
             this.replyText(event.getReplyToken(), ex.getMessage());
         }
 
-//        LocationMessageContent locationMessage = event.getMessage();
-//        reply(event.getReplyToken(), new LocationMessage(
-//                locationMessage.getTitle(),
-//                locationMessage.getAddress(),
-//                locationMessage.getLatitude(),
-//                locationMessage.getLongitude()
-//        ));
     }
 
 
@@ -134,213 +131,11 @@ private LineMessagingClient lineMessagingClient;
         LOGGER.fine(String.format("Got text message from {}: {}", replyToken, text));
         lastIntents = "";
         switch (text) {
-            case "profile": {
-                String userId = event.getSource().getUserId();
-                if (userId != null) {
-                    lineMessagingClient
-                            .getProfile(userId)
-                            .whenComplete((profile, throwable) -> {
-                                if (throwable != null) {
-                                    this.replyText(replyToken, throwable.getMessage());
-                                    return;
-                                }
-
-                                this.reply(
-                                        replyToken,
-                                        Arrays.asList(new TextMessage(
-                                                        "Display name: " + profile.getDisplayName()),
-                                                new TextMessage("Status message: "
-                                                        + profile.getStatusMessage()))
-                                );
-
-                            });
-                } else {
-                    this.replyText(replyToken, "Bot can't use profile API without user ID");
-                }
-                break;
-            }
-            case "bye": {
-                Source source = event.getSource();
-                if (source instanceof GroupSource) {
-                    this.replyText(replyToken, "Leaving group");
-                    lineMessagingClient.leaveGroup(((GroupSource) source).getGroupId()).get();
-                } else if (source instanceof RoomSource) {
-                    this.replyText(replyToken, "Leaving room");
-                    lineMessagingClient.leaveRoom(((RoomSource) source).getRoomId()).get();
-                } else {
-                    this.replyText(replyToken, "Bot can't leave from 1:1 chat");
-                }
-                break;
-            }
-            case "confirm": {
-                ConfirmTemplate confirmTemplate = new ConfirmTemplate(
-                        "Do it?",
-                        new MessageAction("Yes", "Yes!"),
-                        new MessageAction("No", "No!")
-                );
-                TemplateMessage templateMessage = new TemplateMessage("Confirm alt text", confirmTemplate);
-                this.reply(replyToken, templateMessage);
-                break;
-            }
-            case "buttons": {
-                String imageUrl = "https://raw.githubusercontent.com/line/line-bot-sdk-java/master/sample-spring-boot-kitchensink/src/main/resources/static/buttons/1040.jpg";
-                ButtonsTemplate buttonsTemplate = new ButtonsTemplate(
-                        imageUrl,
-                        "My button sample",
-                        "Hello, my button",
-                        Arrays.asList(
-                                new URIAction("Go to line.me",
-                                        "https://line.me"),
-                                new PostbackAction("Say hello1",
-                                        "hello こんにちは"),
-                                new PostbackAction("言 hello2",
-                                        "hello こんにちは",
-                                        "hello こんにちは"),
-                                new MessageAction("Say message",
-                                        "Rice=米")
-                        ));
-                TemplateMessage templateMessage = new TemplateMessage("Button alt text", buttonsTemplate);
-                this.reply(replyToken, templateMessage);
-                break;
-            }
-            case "carousel": {
-                String imageUrl = "https://farm1.staticflickr.com/957/28140732828_cb302019b4_m.jpg";
-                CarouselTemplate carouselTemplate = new CarouselTemplate(
-                        Arrays.asList(
-                                new CarouselColumn(imageUrl, "hoge", "fuga", Arrays.asList(
-                                        new URIAction("Go to line.me",
-                                                "https://line.me"),
-                                        new URIAction("Go to line.me",
-                                                "https://line.me"),
-                                        new PostbackAction("Say hello1",
-                                                "hello こんにちは")
-                                )),
-                                new CarouselColumn(imageUrl, "hoge", "fuga", Arrays.asList(
-                                        new PostbackAction("言 hello2",
-                                                "hello こんにちは",
-                                                "hello こんにちは"),
-                                        new PostbackAction("言 hello2",
-                                                "hello こんにちは",
-                                                "hello こんにちは"),
-                                        new MessageAction("Say message",
-                                                "Rice=米")
-                                )),
-                                new CarouselColumn(imageUrl, "Datetime Picker", "Please select a date, time or datetime", Arrays.asList(
-                                        new DatetimePickerAction("Datetime",
-                                                "action=sel",
-                                                "datetime",
-                                                "2017-06-18T06:15",
-                                                "2100-12-31T23:59",
-                                                "1900-01-01T00:00"),
-                                        new DatetimePickerAction("Date",
-                                                "action=sel&only=date",
-                                                "date",
-                                                "2017-06-18",
-                                                "2100-12-31",
-                                                "1900-01-01"),
-                                        new DatetimePickerAction("Time",
-                                                "action=sel&only=time",
-                                                "time",
-                                                "06:15",
-                                                "23:59",
-                                                "00:00")
-                                ))
-                        ));
-                TemplateMessage templateMessage = new TemplateMessage("Carousel alt text", carouselTemplate);
-                this.reply(replyToken, templateMessage);
-                break;
-            }
-            case "image_carousel": {
-                String imageUrl = createUri("/static/buttons/1040.jpg");
-                ImageCarouselTemplate imageCarouselTemplate = new ImageCarouselTemplate(
-                        Arrays.asList(
-                                new ImageCarouselColumn(imageUrl,
-                                        new URIAction("Goto line.me",
-                                                "https://line.me")
-                                ),
-                                new ImageCarouselColumn(imageUrl,
-                                        new MessageAction("Say message",
-                                                "Rice=米")
-                                ),
-                                new ImageCarouselColumn(imageUrl,
-                                        new PostbackAction("言 hello2",
-                                                "hello こんにちは",
-                                                "hello こんにちは")
-                                )
-                        ));
-                TemplateMessage templateMessage = new TemplateMessage("ImageCarousel alt text", imageCarouselTemplate);
-                this.reply(replyToken, templateMessage);
-                break;
-            }
-            case "gambar": {
-                this.reply(replyToken, new ImageMessage(
-                        "https://farm1.staticflickr.com/957/28140732828_cb302019b4_m.jpg",
-                        "https://farm1.staticflickr.com/957/28140732828_cb302019b4_m.jpg"
-                ));
-                break;
-            }
             case "nearby photos":{
                 this.replyText(replyToken, "Please share your location");
                 lastIntents = "nearby photos";
                 break;
             }
-            case "tiga" : {
-                try {
-                    List<ImageCarouselColumn> columns = new ArrayList<ImageCarouselColumn>();
-                    columns.add(new ImageCarouselColumn("https://farm1.staticflickr.com/957/28140732828_cb302019b4_m.jpg", new URIAction("Goto line.me","https://line.me")));
-                    columns.add(new ImageCarouselColumn("https://pics.me.me/blyat-me-irl-15840371.png", new URIAction("Goto line.me","https://line.me")));
-                    columns.add(new ImageCarouselColumn("https://funnypictures4.fjcdn.com/pictures/Cyka+blyat_9dc589_5835010.jpg", new URIAction("Goto line.me","https://line.me")));
-                    ImageCarouselTemplate imageCarouselTemplate = new ImageCarouselTemplate(columns);
-                    TemplateMessage templateMessage = new TemplateMessage("ImageCarousel alt text", imageCarouselTemplate);
-                    this.reply(replyToken, templateMessage);
-
-//                    this.reply(replyToken, new ImageMessage(
-//                            "https://funnypictures4.fjcdn.com/pictures/Cyka+blyat_9dc589_5835010.jpg",
-//                            "https://funnypictures4.fjcdn.com/pictures/Cyka+blyat_9dc589_5835010.jpg"
-//                    ));
-                }catch (Exception ex){
-
-                    this.replyText(
-                            replyToken,
-                            ex.getMessage()
-                    );
-                    LOGGER.fine(ex.getMessage());
-                }
-                break;
-            }
-            case "imagemap":
-                this.reply(replyToken, new ImagemapMessage(
-                        "https://api.reh.tw/line/bot/example/assets/images/example/1040",
-                        "This is alt text",
-                        new ImagemapBaseSize(1040, 1040),
-                        Arrays.asList(
-                                new URIImagemapAction(
-                                        "https://store.line.me/family/manga/en",
-                                        new ImagemapArea(
-                                                0, 0, 520, 520
-                                        )
-                                ),
-                                new URIImagemapAction(
-                                        "https://store.line.me/family/music/en",
-                                        new ImagemapArea(
-                                                520, 0, 520, 520
-                                        )
-                                ),
-                                new URIImagemapAction(
-                                        "https://store.line.me/family/play/en",
-                                        new ImagemapArea(
-                                                0, 520, 520, 520
-                                        )
-                                ),
-                                new MessageImagemapAction(
-                                        "URANAI!",
-                                        new ImagemapArea(
-                                                520, 520, 520, 520
-                                        )
-                                )
-                        )
-                ));
-                break;
             default:
                 LOGGER.fine(String.format("Returns echo message {}: {}", replyToken, text));
                 //this.replyText(replyToken, text);
@@ -387,29 +182,4 @@ private LineMessagingClient lineMessagingClient;
                 event.getTimestamp(), event.getSource()));
     }
 
-    public boolean isValidInput( String[] input ) {
-        if (input.length != 2 || !isDouble(input[0]) || !isDouble(input[1])) {
-            return false;
-        } else {
-            return true;
-        }
-    }
-
-    public boolean validLatitude(Double latitude) {
-        return latitude >= -90.0 && latitude <= 90.0;
-    }
-
-    public boolean validLongitude(Double longitude) {
-        return longitude >= -180.0 && longitude <= 180.0;
-    }
-
-    public boolean isDouble( String str ){
-        try{
-            Double.parseDouble( str );
-            return true;
-        }
-        catch( Exception e ){
-            return false;
-        }
-    }
 }
