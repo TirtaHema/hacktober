@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import advprog.oriconbluray.util.commands.config.control.RankCommandControlConfig;
 import advprog.oriconbluray.util.commands.impls.DailyRankCommand;
 import advprog.oriconbluray.util.commands.interfaces.RankCommand;
 import com.linecorp.bot.model.message.TextMessage;
@@ -11,11 +12,21 @@ import com.linecorp.bot.model.message.TextMessage;
 import java.io.IOException;
 
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(classes = {RankCommandControlConfig.class,
+        DailyRankCommand.class})
 public class RankCommandControlTest {
 
-    private RankCommandControl controller = new RankCommandControl();
-    private RankCommand mockCommand = new DailyRankCommand();
+    @Autowired
+    private RankCommandControl controller;
+
+    @Autowired
+    private RankCommand mockCommand;
 
     private String dailyDate = "2018-05-08";
     private String weeklyDate = "2018-05-07";
