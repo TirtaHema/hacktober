@@ -11,12 +11,8 @@ import org.springframework.web.client.RestTemplate;
 public class FlickrService implements IPictureService {
 
     public List<Photo> get5Photos(Location location)  {
-        final String BASE_URL = "https://api.flickr.com/services/rest/";
-        final String API_KEY = "22fac7b1124ad64d303a50de7c529f8f";
-        final String API_METHOD = "flickr.photos.search";
-        final String EXTENSION_PARAM = "&radius=0.5&accuracy=16&per_page=5&format=json&nojsoncallback=1";
 
-        String url = BASE_URL + "?method=" + API_METHOD + "&api_key=" + API_KEY + "&lat=" + Double.toString(location.getLat()) + "&lon=" + Double.toString(location.getLon()) + EXTENSION_PARAM;
+        String url = createUrlRequest(location);
 
         RestTemplate restTemplate = new RestTemplate();
         HttpHeaders headers = new HttpHeaders();
@@ -49,8 +45,17 @@ public class FlickrService implements IPictureService {
         return title;
     }
 
+    public String createUrlRequest(Location location) {
+        final String BASE_URL = "https://api.flickr.com/services/rest/";
+        final String API_KEY = "22fac7b1124ad64d303a50de7c529f8f";
+        final String API_METHOD = "flickr.photos.search";
+        final String EXTENSION_PARAM = "&radius=0.5&accuracy=16&per_page=5&format=json&nojsoncallback=1";
+
+        return BASE_URL + "?method=" + API_METHOD + "&api_key=" + API_KEY + "&lat=" + Double.toString(location.getLat()) + "&lon=" + Double.toString(location.getLon()) + EXTENSION_PARAM;
+    }
+
     // photo url : https://farm{farm-id}.staticflickr.com/{server-id}/{id}_{secret}_[mstzb].jpg
-    private String createPhotoUrl(String farmId, String serverId, String id, String secret) {
+    public String createPhotoUrl(String farmId, String serverId, String id, String secret) {
         return "https://farm" + farmId + ".staticflickr.com/" + serverId + "/" + id + "_" + secret + "_z.jpg";
     }
 }
