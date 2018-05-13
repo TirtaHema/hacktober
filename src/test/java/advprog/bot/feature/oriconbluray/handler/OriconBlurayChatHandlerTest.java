@@ -1,8 +1,10 @@
 package advprog.bot.feature.oriconbluray.handler;
 
+import static org.junit.Assert.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import advprog.bot.ChatHandlerTestUtil;
+import advprog.bot.line.BaseChatHandler;
 import com.linecorp.bot.model.event.MessageEvent;
 import com.linecorp.bot.model.event.message.TextMessageContent;
 import com.linecorp.bot.model.message.Message;
@@ -15,12 +17,15 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 @RunWith(MockitoJUnitRunner.class)
+@ContextConfiguration(classes = {OriconBlurayChatHandler.class})
 public class OriconBlurayChatHandlerTest {
 
-    @Autowired
-    OriconBlurayChatHandler handler;
+    OriconBlurayChatHandler handler =
+            new OriconBlurayChatHandler(new BaseChatHandler());
 
     private String sampleDaily = "Haiiii~ Here's your top 10 bluray as you requested~\n"
             + "\n(1) 劇場版「Fate/stay night[Heaven’s Feel]�T.presage flower」"
@@ -77,10 +82,10 @@ public class OriconBlurayChatHandlerTest {
 
         MessageEvent<TextMessageContent> input = ChatHandlerTestUtil
                 .fakeMessageEvent(
-                        "/oricon bluray weekly 2018-05-09", new LinkedList<>());
+                        "fff", "/oricon bluray weekly 2018-05-09");
 
         assertEquals(expectedMessages,
-                handler.handleAudioMessageEvent(input, expectedMessages));
+                handler.handleTextMessageEvent(input, expectedMessages));
     }
 
     @Test
@@ -90,10 +95,10 @@ public class OriconBlurayChatHandlerTest {
 
         MessageEvent<TextMessageContent> input = ChatHandlerTestUtil
                 .fakeMessageEvent(
-                        "/oricon bluray weekly 2018-05-07", new LinkedList<>());
+                        "eeee", "/oricon bluray weekly 2018-05-07");
 
         assertEquals(expectedMessages,
-                handler.handleAudioMessageEvent(input, expectedMessages));
+                handler.handleTextMessageEvent(input, expectedMessages));
     }
 
     @Test
@@ -103,10 +108,10 @@ public class OriconBlurayChatHandlerTest {
 
         MessageEvent<TextMessageContent> input = ChatHandlerTestUtil
                 .fakeMessageEvent(
-                        "/oricon bluray daily 2019-05-09", new LinkedList<>());
+                        "bbb", "/oricon bluray daily 2019-05-09");
 
         assertEquals(expectedMessages,
-                handler.handleAudioMessageEvent(input, expectedMessages));
+                handler.handleTextMessageEvent(input, expectedMessages));
     }
 
     @Test
@@ -116,10 +121,10 @@ public class OriconBlurayChatHandlerTest {
 
         MessageEvent<TextMessageContent> input = ChatHandlerTestUtil
                 .fakeMessageEvent(
-                        "/oricon bluray weekly 2018-05-09", new LinkedList<>());
+                        "aaa", "/oricon bluray weekly 2018-05-09");
 
         assertEquals(expectedMessages,
-                handler.handleAudioMessageEvent(input, expectedMessages));
+                handler.handleTextMessageEvent(input, expectedMessages));
     }
 
     @Test
@@ -129,10 +134,10 @@ public class OriconBlurayChatHandlerTest {
 
         MessageEvent<TextMessageContent> input = ChatHandlerTestUtil
                 .fakeMessageEvent(
-                        "/oricon bluray daily 20190507", new LinkedList<>());
+                        "cccc", "/oricon bluray daily 20190507");
 
         assertEquals(expectedMessages,
-                handler.handleAudioMessageEvent(input, expectedMessages));
+                handler.handleTextMessageEvent(input, expectedMessages));
     }
 
     @Test
@@ -142,11 +147,18 @@ public class OriconBlurayChatHandlerTest {
 
         MessageEvent<TextMessageContent> input = ChatHandlerTestUtil
                 .fakeMessageEvent(
-                        "/oricon bluray weekly 2018-05-32", new LinkedList<>());
+                        "aaa","/oricon bluray weekly 2018-05-32");
 
         assertEquals(expectedMessages,
-                handler.handleAudioMessageEvent(input, expectedMessages));
+                handler.handleTextMessageEvent(input, expectedMessages));
     }
 
+    @Test
+    public void testIgnoreNonTextMessageEvent() {
+        assertFalse(handler.canHandleAudioMessage(null));
+        assertFalse(handler.canHandleImageMessage(null));
+        assertFalse(handler.canHandleStickerMessage(null));
+        assertFalse(handler.canHandleLocationMessage(null));
+    }
 
 }
