@@ -109,6 +109,9 @@ DO NOT mix both way, pick only one: @Autowired or @Configuration + @Bean
 Any other way than dependency injection is not recommended.
 
 
+## Bonus: How to respond to an image, reply with an image, and reply multiple lines
+Please check https://gitlab.com/adprog/B3/tree/controller-experiment2/src/main/java/advprog/bot/feature/bonus
+
 ## About AbstractLineChatHandlerDecorator
 This class is basically the textbook real-life implementation of decorator pattern and template method pattern.
 The base handler is added from the beginning, and student's handler will be added at runtime. BotController prevents anyone
