@@ -1,4 +1,4 @@
-package advprog.bot.feature.yerlandinata.youtubeinfo;
+package advprog.bot.feature.yerlandinata.youtubeinfo.fetcher;
 
 @SuppressWarnings("serial")
 public class YoutubeVideoNotFoundException extends RuntimeException {

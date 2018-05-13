@@ -1,4 +1,6 @@
-package advprog.bot.feature.yerlandinata.youtubeinfo;
+package advprog.bot.feature.yerlandinata.youtubeinfo.fetcher;
+
+import advprog.bot.feature.yerlandinata.youtubeinfo.YoutubeVideo;
 
 import java.io.IOException;
 

@@ -7,6 +7,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import advprog.bot.ChatHandlerTestUtil;
+import advprog.bot.feature.yerlandinata.youtubeinfo.fetcher.YoutubeInfoFetcher;
 import advprog.bot.line.BaseChatHandler;
 
 import com.linecorp.bot.model.event.MessageEvent;
@@ -47,7 +48,7 @@ public class YoutubeInfoChatHandlerTest {
         String validUrl = "https://youtube.com/watch?v=" + videoId;
         String text = "/youtube " + validUrl;
         YoutubeVideo expectedVideo = new YoutubeVideo(
-                "How to pass Advanced Programming",
+                "How to pass Advanced Programming painlessly",
                 "Fahmi",
                 99999,
                 99999,

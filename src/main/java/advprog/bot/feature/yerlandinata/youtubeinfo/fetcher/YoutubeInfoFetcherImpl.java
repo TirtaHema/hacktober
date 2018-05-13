@@ -1,7 +1,8 @@
-package advprog.bot.feature.yerlandinata.youtubeinfo;
+package advprog.bot.feature.yerlandinata.youtubeinfo.fetcher;
 
 import java.io.IOException;
 
+import advprog.bot.feature.yerlandinata.youtubeinfo.YoutubeVideo;
 import okhttp3.HttpUrl;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;

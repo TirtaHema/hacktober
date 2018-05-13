@@ -1,5 +1,6 @@
 package advprog.bot.feature.yerlandinata.youtubeinfo;
 
+import advprog.bot.feature.yerlandinata.youtubeinfo.fetcher.YoutubeInfoFetcherImpl;
 import okhttp3.OkHttpClient;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
