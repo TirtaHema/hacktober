@@ -43,18 +43,19 @@ public class BillboardController {
 
     public static String cekArtist(String artist) throws IOException {
         Document doc = Jsoup.connect("https://www.billboard.com/charts/tropical-songs").get();
-        Elements container = doc.select(".chart-row__artist");
+        Elements container = doc.select(".chart-row__title");
         String hasil = "";
         for (int i = 0; i < 25; i++) {
             Element elements = container.get(i);
-            if (elements.text().equalsIgnoreCase(artist)) {
+            if (elements.select(".chart-row__artist").text().equalsIgnoreCase(artist)) {
                 hasil += "\n" + elements.select(".chart-row__artist").text() + "\n"
                         + elements.select(".chart-row__song").text() + "\n"
                         + "Position : " + (i + 1) + "\n";
             }
         }
+        if(hasil.equals("")) {
+            return "Artist is not present in Billboard's Tropical Songs music chart this week";
+        }
         return hasil;
-
-
     }
 }
