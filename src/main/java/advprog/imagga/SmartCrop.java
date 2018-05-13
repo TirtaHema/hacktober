@@ -1,6 +1,5 @@
 package advprog.imagga;
 
-import java.util.List;
 import advprog.imagga.config.APIConfig;
 
 public class SmartCrop {
@@ -9,11 +8,12 @@ public class SmartCrop {
 
     private String image;
 
-    public SmartCrop(String image){
+    public SmartCrop(APIConfig apiConfig, String image){
+        this.apiConfig = apiConfig;
         this.image = image;
     }
 
-    public List<Integer> getCoor(){
+    public void getCoor(){
         /*TBD*/
     }
 }
