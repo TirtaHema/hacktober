@@ -89,7 +89,7 @@ private LineMessagingClient lineMessagingClient;
                 List<ImageCarouselColumn> columns = new ArrayList<ImageCarouselColumn>();
 
                 for(Photo photo : photos){
-                    columns.add(new ImageCarouselColumn(photo.getUrl(), new URIAction(photo.getTitle(), "http://google.com")));
+                    columns.add(new ImageCarouselColumn(photo.getUrl(), new URIAction("wew", "http://google.com")));
                 }
 
                 if (photos.size() == 0) {
