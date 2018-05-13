@@ -1,22 +1,50 @@
 package advprog.bot.feature.oriconbluray.handler;
 
+import advprog.bot.feature.echo.EchoChatHandler;
+import advprog.bot.feature.oriconbluray.util.commands.control.RankCommandControl;
 import advprog.bot.line.AbstractLineChatHandlerDecorator;
+import advprog.bot.line.LineChatHandler;
 import com.linecorp.bot.model.event.MessageEvent;
 import com.linecorp.bot.model.event.message.*;
 import com.linecorp.bot.model.message.Message;
+import org.springframework.stereotype.Service;
 
+import java.io.IOException;
+import java.util.Collections;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.logging.Logger;
 
+@Service
 public class OriconBlurayChatHandler extends AbstractLineChatHandlerDecorator{
+
+    private static final Logger LOGGER = Logger
+            .getLogger(EchoChatHandler.class.getName());
+    private RankCommandControl control;
+
+    public OriconBlurayChatHandler(LineChatHandler decoratedHandler) {
+        this.decoratedLineChatHandler = decoratedHandler;
+        LOGGER.info("Oricon Bluray chat handler added!");
+        control = new RankCommandControl();
+    }
 
     @Override
     protected boolean canHandleTextMessage(MessageEvent<TextMessageContent> event) {
-        return false;
+        String[] msg = event.getMessage().getText().split(" ");
+        return msg[0].equals("/oricon") && msg[1].equals("bluray");
     }
 
     @Override
     protected List<Message> handleTextMessage(MessageEvent<TextMessageContent> event) {
-        return null;
+        try {
+            String[] msg = event.getMessage().getText().split(" ");
+            return Collections.singletonList(
+                    control.execute(msg[2], msg[3])
+            );
+        } catch (IOException e) {
+            return new LinkedList<>();
+        }
+
     }
 
     @Override
