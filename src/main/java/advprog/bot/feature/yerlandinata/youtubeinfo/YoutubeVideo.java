@@ -1,4 +1,4 @@
-package yerlandinata.youtubeinfo;
+package advprog.bot.feature.yerlandinata.youtubeinfo;
 
 public final class YoutubeVideo {
     private final String title;

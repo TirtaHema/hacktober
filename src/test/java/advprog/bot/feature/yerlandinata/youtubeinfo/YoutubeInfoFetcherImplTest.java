@@ -1,4 +1,4 @@
-package yerlandinata.youtubeinfo;
+package advprog.bot.feature.yerlandinata.youtubeinfo;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
@@ -15,39 +15,20 @@ import okhttp3.Request;
 import okhttp3.Response;
 import okhttp3.ResponseBody;
 import org.json.JSONException;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.mockito.Mock;
+import org.mockito.junit.MockitoJUnitRunner;
 
 
-@RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(
-        classes = YoutubeInfoFetcherTest.YoutubeInfoFetcherTestConfiguration.class
-)
-public class YoutubeInfoFetcherTest {
+@RunWith(MockitoJUnitRunner.class)
+public class YoutubeInfoFetcherImplTest {
 
-    @Configuration
-    static class YoutubeInfoFetcherTestConfiguration {
-        @Bean
-        YoutubeInfoFetcher youtubeInfoFetcher(OkHttpClient okHttpClient) {
-            return new YoutubeInfoFetcher(YoutubeInfoConfiguration.API_KEY, okHttpClient);
-        }
-
-        @Bean
-        OkHttpClient okHttpClient() {
-            return mock(OkHttpClient.class);
-        }
-    }
-
-    @Autowired
+    @Mock
     OkHttpClient okHttpClient;
 
-    @Autowired
-    YoutubeInfoFetcher youtubeInfoFetcher;
+    YoutubeInfoFetcherImpl youtubeInfoFetcher;
 
     private static final String SAMPLE_VIDEO_ID = "Il-an3K9pjg";
 
@@ -84,6 +65,11 @@ public class YoutubeInfoFetcherTest {
             + "    },\n"
             + "    \"items\": []\n"
             + "}";
+
+    @Before
+    public void setUp() {
+        youtubeInfoFetcher = new YoutubeInfoFetcherImpl("", okHttpClient);
+    }
 
     @Test
     public void testConstruct() {

@@ -1,4 +1,4 @@
-package yerlandinata.youtubeinfo;
+package advprog.bot.feature.yerlandinata.youtubeinfo;
 
 import java.io.IOException;
 
@@ -8,16 +8,14 @@ import okhttp3.Request;
 import okhttp3.Response;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.springframework.stereotype.Service;
 
-@Service
-public class YoutubeInfoFetcher {
+public class YoutubeInfoFetcherImpl implements YoutubeInfoFetcher {
 
     private final String apiKey;
     private final OkHttpClient okHttpClient;
     private static final String YOUTUBE_API_URL = "https://www.googleapis.com/youtube/v3/videos/";
 
-    public YoutubeInfoFetcher(String apiKey, OkHttpClient okHttpClient) {
+    public YoutubeInfoFetcherImpl(String apiKey, OkHttpClient okHttpClient) {
         this.apiKey = apiKey;
         this.okHttpClient = okHttpClient;
     }
