@@ -9,6 +9,7 @@ import org.springframework.http.*;
 import org.springframework.web.client.RestTemplate;
 
 public class FlickrService implements IPictureService {
+
     public List<Photo> get5Photos(Location location)  {
         final String BASE_URL = "https://api.flickr.com/services/rest/";
         final String API_KEY = "22fac7b1124ad64d303a50de7c529f8f";
@@ -38,6 +39,13 @@ public class FlickrService implements IPictureService {
         }
 
         return photos;
+    }
+
+    public String formatTitleForCarouselImages(String title) {
+        if(title.length()>20){
+            return title.substring(0,16) + "...";
+        }
+        return title;
     }
 
     // photo url : https://farm{farm-id}.staticflickr.com/{server-id}/{id}_{secret}_[mstzb].jpg
