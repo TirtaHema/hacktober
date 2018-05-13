@@ -1,14 +1,14 @@
 package advprog.imagga;
 
-import advprog.imagga.config.APIConfig;
+import advprog.imagga.config.ApiConfig;
 
 public class SmartCrop {
 
-    private final APIConfig apiConfig;
+    private final ApiConfig apiConfig;
 
     private String image;
 
-    public SmartCrop(APIConfig apiConfig, String image){
+    public SmartCrop(ApiConfig apiConfig, String image) {
         this.apiConfig = apiConfig;
         this.image = image;
     }
