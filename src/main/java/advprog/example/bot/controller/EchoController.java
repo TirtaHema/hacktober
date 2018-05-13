@@ -89,19 +89,20 @@ private LineMessagingClient lineMessagingClient;
                 List<ImageCarouselColumn> columns = new ArrayList<ImageCarouselColumn>();
 
                 for(Photo photo : photos){
-                    columns.add(new ImageCarouselColumn(photo.getUrl(), new URIAction(photo.getTitle(), photo.getUrl())));
+                    columns.add(new ImageCarouselColumn(photo.getUrl(), new URIAction(photo.getTitle(), "http://google.com")));
                 }
 
                 if (photos.size() == 0) {
                     this.replyText(event.getReplyToken(), "NO PHOTOS");
                     return;
-                } else {
-                    String ampas = "COBA ";
-                    for(Photo photo : photos) {
-                        ampas += photo.getUrl() + " " + photo.getTitle() + " ";
-                    }
-                    this.replyText(event.getReplyToken(), ampas);
                 }
+                //else {
+//                    String ampas = "COBA ";
+//                    for(Photo photo : photos) {
+//                        ampas += photo.getUrl() + " " + photo.getTitle() + " ";
+//                    }
+//                    this.replyText(event.getReplyToken(), ampas);
+//                }
 
                 ImageCarouselTemplate imageCarouselTemplate = new ImageCarouselTemplate(columns);
                 TemplateMessage templateMessage = new TemplateMessage("ImageCarousel alt text", imageCarouselTemplate);
