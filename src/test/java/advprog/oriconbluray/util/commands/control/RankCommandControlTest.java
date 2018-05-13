@@ -79,7 +79,7 @@ public class RankCommandControlTest {
 
     @Test
     public void testDeleteExistingCommandReturnsCommand() {
-        assertTrue(controller.removeCommand("weekly")
+        assertTrue(controller.removeCommand("sample")
                 instanceof RankCommand);
     }
 
