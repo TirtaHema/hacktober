@@ -1,7 +1,7 @@
 package advprog.imagga;
 
 import java.util.List;
-import imagga.config.APIConfig;
+import advprog.imagga.config.APIConfig;
 
 public class SmartCrop {
 
