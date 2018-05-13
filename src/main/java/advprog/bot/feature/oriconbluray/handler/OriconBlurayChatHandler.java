@@ -5,9 +5,12 @@ import advprog.bot.feature.oriconbluray.util.commands.control.RankCommandControl
 import advprog.bot.line.AbstractLineChatHandlerDecorator;
 import advprog.bot.line.LineChatHandler;
 import com.linecorp.bot.model.event.MessageEvent;
-import com.linecorp.bot.model.event.message.*;
+import com.linecorp.bot.model.event.message.AudioMessageContent;
+import com.linecorp.bot.model.event.message.ImageMessageContent;
+import com.linecorp.bot.model.event.message.LocationMessageContent;
+import com.linecorp.bot.model.event.message.StickerMessageContent;
+import com.linecorp.bot.model.event.message.TextMessageContent;
 import com.linecorp.bot.model.message.Message;
-import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 import java.util.Collections;
@@ -15,8 +18,10 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.logging.Logger;
 
+import org.springframework.stereotype.Service;
+
 @Service
-public class OriconBlurayChatHandler extends AbstractLineChatHandlerDecorator{
+public class OriconBlurayChatHandler extends AbstractLineChatHandlerDecorator {
 
     private static final Logger LOGGER = Logger
             .getLogger(EchoChatHandler.class.getName());
