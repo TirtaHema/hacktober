@@ -91,7 +91,7 @@ private LineMessagingClient lineMessagingClient;
                 Double latitude = locationMessage.getLatitude();
                 Double longitude = locationMessage.getLongitude();
 
-                IPictureService service = new FlickrService();
+                FlickrService service = new FlickrService();
                 List<Photo> photos = service.get5Photos(new Location(latitude, longitude));
 
                 List<ImageCarouselColumn> columns = new ArrayList<ImageCarouselColumn>();
