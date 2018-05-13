@@ -43,7 +43,7 @@ public class FlickrService implements IPictureService {
 
     public String formatTitleForCarouselImages(String title) {
         if(title.length()>10){
-            return title.substring(0,7) + "...";
+            return title.substring(0,10);
         }
         return title;
     }
