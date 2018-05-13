@@ -14,15 +14,18 @@ import com.linecorp.bot.model.message.TextMessage;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.logging.Logger;
 
 import org.springframework.stereotype.Service;
 
 // this is for example purpose !!!
-@Service
 public class EchoChatHandler extends AbstractLineChatHandlerDecorator {
+
+    private static final Logger LOGGER = Logger.getLogger(EchoChatHandler.class.getName());
 
     public EchoChatHandler(LineChatHandler decoratedHandler) {
         this.decoratedLineChatHandler = decoratedHandler;
+        LOGGER.info("Echo chat handler added!");
     }
 
     @Override

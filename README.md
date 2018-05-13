@@ -14,11 +14,13 @@ Public methods in AbstractLineChatHandlerDecorator are template methods, please 
 Why not just set them to be private? Because they are interface method exposed to controller.
 ```java
 // this is for example purpose !!!
-@Service
 public class EchoChatHandler extends AbstractLineChatHandlerDecorator {
+
+    private static final Logger LOGGER = Logger.getLogger(EchoChatHandler.class.getName());
 
     public EchoChatHandler(LineChatHandler decoratedHandler) {
         this.decoratedLineChatHandler = decoratedHandler;
+        LOGGER.info("Echo chat handler added!");
     }
 
     @Override

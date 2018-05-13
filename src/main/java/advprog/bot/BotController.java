@@ -39,11 +39,13 @@ public class BotController {
     // IT WILL ENFORCE YOU TO DECORATE THE EXISTING HANDLER FIRST !!!
     public void replaceLineChatHandler(AbstractLineChatHandlerDecorator decorator) {
         if (decorator.getDecoratedLineChatHandler() != lineChatHandler) {
+            LOGGER.severe("Illegal chat handler replacement detected!!!");
             throw new IllegalStateException(
                     "You should decorate the existing chat handler first! "
                     + "Please read README.md in https://gitlab.com/csui-advprog-2018/B/B3"
             );
         }
+        LOGGER.info("Added a chat handler");
         lineChatHandler = decorator;
     }
 
