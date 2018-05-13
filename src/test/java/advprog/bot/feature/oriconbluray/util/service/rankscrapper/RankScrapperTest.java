@@ -3,9 +3,10 @@ package advprog.bot.feature.oriconbluray.util.service.rankscrapper;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
+import advprog.bot.feature.oriconbluray.util.service.rankscrapper.config.RankScrapperConfig;
+
 import java.io.IOException;
 
-import advprog.bot.feature.oriconbluray.util.service.rankscrapper.config.RankScrapperConfig;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
