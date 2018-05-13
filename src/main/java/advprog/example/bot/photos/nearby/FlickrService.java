@@ -44,4 +44,14 @@ public class FlickrService implements IPictureService {
     private String createPhotoUrl(String farmId, String serverId, String id, String secret) {
         return "https://farm" + farmId + ".staticflickr.com/" + serverId + "/" + id + "_" + secret + "_z.jpg";
     }
+
+//    public static void main(String[] args) {
+//        IPictureService gg = new FlickrService();
+//        List<Photo> photos = gg.get5Photos(new Location( -6.121435, 106.774124));
+//
+//        for(Photo photo : photos) {
+//            System.out.println(photo.getUrl() + " " + photo.getTitle());
+//        }
+//    }
+
 }

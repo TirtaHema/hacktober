@@ -1,28 +1,20 @@
 package advprog.example.bot.controller;
 
 import advprog.example.bot.photos.nearby.FlickrService;
-import advprog.example.bot.photos.nearby.IPictureService;
 import advprog.example.bot.photos.nearby.Location;
 import advprog.example.bot.photos.nearby.Photo;
 import com.linecorp.bot.client.LineMessagingClient;
 import com.linecorp.bot.model.ReplyMessage;
-import com.linecorp.bot.model.action.DatetimePickerAction;
-import com.linecorp.bot.model.action.MessageAction;
-import com.linecorp.bot.model.action.PostbackAction;
 import com.linecorp.bot.model.action.URIAction;
 import com.linecorp.bot.model.event.Event;
 import com.linecorp.bot.model.event.MessageEvent;
 import com.linecorp.bot.model.event.message.LocationMessageContent;
 import com.linecorp.bot.model.event.message.TextMessageContent;
-import com.linecorp.bot.model.event.source.GroupSource;
-import com.linecorp.bot.model.event.source.RoomSource;
-import com.linecorp.bot.model.event.source.Source;
-import com.linecorp.bot.model.message.*;
-import com.linecorp.bot.model.message.imagemap.ImagemapArea;
-import com.linecorp.bot.model.message.imagemap.ImagemapBaseSize;
-import com.linecorp.bot.model.message.imagemap.MessageImagemapAction;
-import com.linecorp.bot.model.message.imagemap.URIImagemapAction;
-import com.linecorp.bot.model.message.template.*;
+import com.linecorp.bot.model.message.Message;
+import com.linecorp.bot.model.message.TemplateMessage;
+import com.linecorp.bot.model.message.TextMessage;
+import com.linecorp.bot.model.message.template.ImageCarouselColumn;
+import com.linecorp.bot.model.message.template.ImageCarouselTemplate;
 import com.linecorp.bot.model.response.BotApiResponse;
 import com.linecorp.bot.spring.boot.annotation.EventMapping;
 import com.linecorp.bot.spring.boot.annotation.LineMessageHandler;
@@ -31,7 +23,6 @@ import org.springframework.lang.NonNull;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
@@ -103,11 +94,18 @@ private LineMessagingClient lineMessagingClient;
                 if (photos.size() == 0) {
                     this.replyText(event.getReplyToken(), "NO PHOTOS");
                     return;
+                } else {
+                    String ampas = "COBA ";
+                    for(Photo photo : photos) {
+                        ampas += photo.getUrl() + " " + photo.getTitle() + " ";
+                    }
+                    this.replyText(event.getReplyToken(), ampas);
+                    return;
                 }
 
-                ImageCarouselTemplate imageCarouselTemplate = new ImageCarouselTemplate(columns);
-                TemplateMessage templateMessage = new TemplateMessage("ImageCarousel alt text", imageCarouselTemplate);
-                this.reply(event.getReplyToken(), templateMessage);
+//                ImageCarouselTemplate imageCarouselTemplate = new ImageCarouselTemplate(columns);
+//                TemplateMessage templateMessage = new TemplateMessage("ImageCarousel alt text", imageCarouselTemplate);
+//                this.reply(event.getReplyToken(), templateMessage);
             }
 
             lastIntents ="";
