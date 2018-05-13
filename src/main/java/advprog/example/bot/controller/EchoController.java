@@ -1,6 +1,7 @@
 package advprog.example.bot.controller;
 
 import advprog.example.bot.photos.nearby.FlickrService;
+import advprog.example.bot.photos.nearby.IPictureService;
 import advprog.example.bot.photos.nearby.Location;
 import advprog.example.bot.photos.nearby.Photo;
 import com.linecorp.bot.client.LineMessagingClient;
@@ -82,7 +83,7 @@ private LineMessagingClient lineMessagingClient;
                 Double latitude = locationMessage.getLatitude();
                 Double longitude = locationMessage.getLongitude();
 
-                FlickrService service = new FlickrService();
+                IPictureService service = new FlickrService();
                 List<Photo> photos = service.get5Photos(new Location(latitude, longitude));
 
                 List<ImageCarouselColumn> columns = new ArrayList<ImageCarouselColumn>();
@@ -100,12 +101,11 @@ private LineMessagingClient lineMessagingClient;
                         ampas += photo.getUrl() + " " + photo.getTitle() + " ";
                     }
                     this.replyText(event.getReplyToken(), ampas);
-                    return;
                 }
 
-//                ImageCarouselTemplate imageCarouselTemplate = new ImageCarouselTemplate(columns);
-//                TemplateMessage templateMessage = new TemplateMessage("ImageCarousel alt text", imageCarouselTemplate);
-//                this.reply(event.getReplyToken(), templateMessage);
+                ImageCarouselTemplate imageCarouselTemplate = new ImageCarouselTemplate(columns);
+                TemplateMessage templateMessage = new TemplateMessage("ImageCarousel alt text", imageCarouselTemplate);
+                this.reply(event.getReplyToken(), templateMessage);
             }
 
             lastIntents ="";
