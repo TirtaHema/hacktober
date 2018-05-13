@@ -46,6 +46,11 @@ public class EchoChatHandler extends AbstractLineChatHandlerDecorator {
     protected boolean canHandleStickerMessage(MessageEvent<StickerMessageContent> event) {
         return false;
     }
+    
+    @Override
+    protected boolean canHandleLocationMessage(MessageEvent<LocationMessageContent> event) {
+        return false;
+    }
 }
 
 ```

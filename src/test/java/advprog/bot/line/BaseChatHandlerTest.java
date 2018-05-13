@@ -4,6 +4,7 @@ import static org.junit.Assert.assertEquals;
 
 import com.linecorp.bot.model.message.AudioMessage;
 import com.linecorp.bot.model.message.ImageMessage;
+import com.linecorp.bot.model.message.LocationMessage;
 import com.linecorp.bot.model.message.StickerMessage;
 import com.linecorp.bot.model.message.TextMessage;
 
@@ -28,6 +29,8 @@ public class BaseChatHandlerTest {
                 baseChatHandler.handleAudioMessageEvent(null, new LinkedList<>()));
         assertEquals(new LinkedList<StickerMessage>(),
                 baseChatHandler.handleStickerMessageEvent(null, new LinkedList<>()));
+        assertEquals(new LinkedList<LocationMessage>(),
+                baseChatHandler.handleLocationMessageEvent(null, new LinkedList<>()));
     }
 
 }

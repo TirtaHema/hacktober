@@ -21,6 +21,8 @@ import com.linecorp.bot.model.event.message.TextMessageContent;
 import com.linecorp.bot.model.event.source.Source;
 import com.linecorp.bot.model.message.AudioMessage;
 import com.linecorp.bot.model.message.ImageMessage;
+import com.linecorp.bot.model.message.LocationMessage;
+import com.linecorp.bot.model.message.Message;
 import com.linecorp.bot.model.message.StickerMessage;
 import com.linecorp.bot.model.message.TextMessage;
 
@@ -81,7 +83,7 @@ public class BotControllerTest {
 
     @Test
     public void testHandleTextMessageEvent() {
-        List<TextMessage> expectedMessages = new LinkedList<>();
+        List<Message> expectedMessages = new LinkedList<>();
         expectedMessages.add(new TextMessage("1"));
         expectedMessages.add(new TextMessage("2"));
         when(baseChatHandler.handleTextMessageEvent(any(), any()))
@@ -95,7 +97,7 @@ public class BotControllerTest {
 
     @Test
     public void testHandleImageMessageEvent() {
-        List<ImageMessage> expectedMessages = new LinkedList<>();
+        List<Message> expectedMessages = new LinkedList<>();
         String dummyUrl = "https://null.null";
         expectedMessages.add(new ImageMessage(dummyUrl, dummyUrl));
         expectedMessages.add(new ImageMessage(dummyUrl, dummyUrl));
@@ -110,7 +112,7 @@ public class BotControllerTest {
 
     @Test
     public void testHandleAudioMessageEvent() {
-        List<AudioMessage> expectedMessages = new LinkedList<>();
+        List<Message> expectedMessages = new LinkedList<>();
         String dummyUrl = "https://null.null";
         expectedMessages.add(new AudioMessage(dummyUrl, 1));
         expectedMessages.add(new AudioMessage(dummyUrl, 3));
@@ -125,7 +127,7 @@ public class BotControllerTest {
 
     @Test
     public void testHandleStickerMessageEvent() {
-        List<StickerMessage> expectedMessages = new LinkedList<>();
+        List<Message> expectedMessages = new LinkedList<>();
         String dummyId = "2fgfr874";
         expectedMessages.add(new StickerMessage(dummyId, dummyId));
         expectedMessages.add(new StickerMessage(dummyId, dummyId));
@@ -133,6 +135,21 @@ public class BotControllerTest {
                 .thenReturn(expectedMessages);
         String expectedReplyToken = "re";
         botController.handleStickerMessageEvent(new MessageEvent<>(
+                expectedReplyToken, null, null, null
+        ));
+        verify(lineMessageReplyService).reply(eq(expectedReplyToken), eq(expectedMessages));
+    }
+
+    @Test
+    public void testHandleLocationMessageEvent() {
+        List<Message> expectedMessages = new LinkedList<>();
+        String dummyId = "2fgfr874";
+        expectedMessages.add(new LocationMessage(dummyId, dummyId, 23, 123));
+        expectedMessages.add(new TextMessage(dummyId));
+        when(baseChatHandler.handleLocationMessageEvent(any(), any()))
+                .thenReturn(expectedMessages);
+        String expectedReplyToken = "re";
+        botController.handleLocationMessageEvent(new MessageEvent<>(
                 expectedReplyToken, null, null, null
         ));
         verify(lineMessageReplyService).reply(eq(expectedReplyToken), eq(expectedMessages));

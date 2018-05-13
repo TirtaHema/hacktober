@@ -35,7 +35,7 @@ public class EchoChatHandlerTest {
 
     @Test
     public void testHandleTextMessageEvent() {
-        List<TextMessage> messages = new LinkedList<>();
+        List<Message> messages = new LinkedList<>();
         messages.add(new TextMessage("bbb"));
         List<TextMessage> expectedMessages = new LinkedList<>();
         expectedMessages.add(new TextMessage("bbb"));
@@ -52,6 +52,7 @@ public class EchoChatHandlerTest {
         assertFalse(echoChatHandler.canHandleAudioMessage(null));
         assertFalse(echoChatHandler.canHandleImageMessage(null));
         assertFalse(echoChatHandler.canHandleStickerMessage(null));
+        assertFalse(echoChatHandler.canHandleLocationMessage(null));
     }
 
 }

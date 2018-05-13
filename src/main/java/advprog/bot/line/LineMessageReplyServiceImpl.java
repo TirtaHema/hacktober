@@ -24,13 +24,10 @@ public class LineMessageReplyServiceImpl implements LineMessageReplyService {
     }
 
     @Override
-    public void reply(@NotNull String replyToken, @NotNull List<? extends Message> messages) {
-        List<Message> messageList = messages.stream()
-                .map(e -> (Message) e)
-                .collect(Collectors.toList());
+    public void reply(@NotNull String replyToken, @NotNull List<Message> messages) {
         try {
             BotApiResponse apiResponse = client
-                    .replyMessage(new ReplyMessage(replyToken, messageList))
+                    .replyMessage(new ReplyMessage(replyToken, messages))
                     .get();
         } catch (InterruptedException | ExecutionException e) {
             throw new RuntimeException(e);

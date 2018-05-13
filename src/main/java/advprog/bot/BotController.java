@@ -8,6 +8,7 @@ import com.linecorp.bot.model.event.Event;
 import com.linecorp.bot.model.event.MessageEvent;
 import com.linecorp.bot.model.event.message.AudioMessageContent;
 import com.linecorp.bot.model.event.message.ImageMessageContent;
+import com.linecorp.bot.model.event.message.LocationMessageContent;
 import com.linecorp.bot.model.event.message.StickerMessageContent;
 import com.linecorp.bot.model.event.message.TextMessageContent;
 import com.linecorp.bot.spring.boot.annotation.EventMapping;
@@ -15,6 +16,8 @@ import com.linecorp.bot.spring.boot.annotation.LineMessageHandler;
 
 import java.util.LinkedList;
 import java.util.logging.Logger;
+
+import javax.xml.stream.Location;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -73,6 +76,12 @@ public class BotController {
     public void handleStickerMessageEvent(MessageEvent<StickerMessageContent> event) {
         lineMessageReplyService.reply(event.getReplyToken(),
                 lineChatHandler.handleStickerMessageEvent(event, new LinkedList<>()));
+    }
+
+    @EventMapping
+    public void handleLocationMessageEvent(MessageEvent<LocationMessageContent> event) {
+        lineMessageReplyService.reply(event.getReplyToken(),
+                lineChatHandler.handleLocationMessageEvent(event, new LinkedList<>()));
     }
 
     @EventMapping
