@@ -10,6 +10,8 @@
 files: src/main/java/advprog/bot/feature/echo
 
 ### Handler class
+Public methods in AbstractLineChatHandlerDecorator are template methods, please DO NOT override them to make sure your work works and doesn't break other people's works.
+Why not just set them to be private? Because they are interface method exposed to controller.
 ```java
 // this is for example purpose !!!
 @Service
