@@ -53,14 +53,16 @@ public class NearbyPhotosChatHandler extends AbstractLineChatHandlerDecorator {
             );
         }
 
-        return new ArrayList<Message>();
+        return Collections.singletonList(
+                new TextMessage("No command found")
+        );
     }
 
     @Override
     protected List<Message> handleLocationMessage(MessageEvent<LocationMessageContent> event) {
         try
         {
-            if(lastIntents=="nearby photos"){
+            if(lastIntents.equals("nearby photos")){
                 lastIntents ="";
 
                 LocationMessageContent locationMessage = event.getMessage();
