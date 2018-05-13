@@ -2,7 +2,11 @@ package advprog.bot.feature.yerlandinata.youtubeinfo.parser;
 
 public abstract class AbstractYoutubeVideoIdParser {
 
-    protected AbstractYoutubeVideoIdParser nextParser;
+    private AbstractYoutubeVideoIdParser nextParser;
+
+    public void setNextParser(AbstractYoutubeVideoIdParser nextParser) {
+        this.nextParser = nextParser;
+    }
 
     public String parseYoutubeVideoId(String videoUrl) {
         try {
