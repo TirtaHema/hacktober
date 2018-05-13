@@ -38,11 +38,6 @@ public class NearbyPhotosChatHandler extends AbstractLineChatHandlerDecorator {
     }
 
     @Override
-    protected boolean canHandleTextMessage(MessageEvent<TextMessageContent> event) {
-        return event.getMessage().getText().split(" ")[0].equals("/echo");
-    }
-
-    @Override
     protected List<Message> handleTextMessage(MessageEvent<TextMessageContent> event) {
         lastIntents = "";
         TextMessageContent message = event.getMessage();
@@ -63,7 +58,7 @@ public class NearbyPhotosChatHandler extends AbstractLineChatHandlerDecorator {
         try
         {
             if(lastIntents.equals("nearby photos")){
-                lastIntents ="";
+                lastIntents = "";
 
                 LocationMessageContent locationMessage = event.getMessage();
 
@@ -104,6 +99,9 @@ public class NearbyPhotosChatHandler extends AbstractLineChatHandlerDecorator {
     }
 
     @Override
+    protected boolean canHandleTextMessage(MessageEvent<TextMessageContent> event) { return true; }
+
+    @Override
     protected boolean canHandleImageMessage(MessageEvent<ImageMessageContent> event) {
         return false;
     }
@@ -120,6 +118,6 @@ public class NearbyPhotosChatHandler extends AbstractLineChatHandlerDecorator {
 
     @Override
     protected boolean canHandleLocationMessage(MessageEvent<LocationMessageContent> event) {
-        return false;
+        return true;
     }
 }
