@@ -13,7 +13,7 @@ public class FlickrService {
         final String BASE_URL = "https://api.flickr.com/services/rest/";
         final String API_KEY = "22fac7b1124ad64d303a50de7c529f8f";
         final String API_METHOD = "flickr.photos.search";
-        final String EXTENSION_PARAM = "&per_page=5&format=json&nojsoncallback=1";
+        final String EXTENSION_PARAM = "&radius=0.5&accuracy=16&per_page=5&format=json&nojsoncallback=1";
 
         String url = BASE_URL + "?method=" + API_METHOD + "&api_key=" + API_KEY + "&lat=" + Double.toString(location.getLat()) + "&lon=" + Double.toString(location.getLon()) + EXTENSION_PARAM;
 
