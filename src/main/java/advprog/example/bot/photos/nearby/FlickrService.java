@@ -43,8 +43,8 @@ public class FlickrService implements IPictureService {
 
     // return kata dengan maximal panjang 10
     public String formatTitleForCarouselImages(String title) {
-        if(title.length()>10){
-            return title.substring(0, 15);
+        if(title.length()>12){
+            return title.substring(0, 12);
         }
         return title;
     }
