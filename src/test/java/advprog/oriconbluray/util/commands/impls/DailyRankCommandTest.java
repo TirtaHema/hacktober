@@ -3,7 +3,7 @@ package advprog.oriconbluray.util.commands.impls;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import advprog.oriconbluray.util.commands.config.DailyRankCommandConfig;
+import advprog.oriconbluray.util.commands.config.impls.DailyRankCommandConfig;
 import advprog.oriconbluray.util.commands.interfaces.RankCommand;
 import com.linecorp.bot.model.message.TextMessage;
 
