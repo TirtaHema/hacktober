@@ -66,6 +66,10 @@ public class RankCommandControlTest {
             + "(9) アウトレイジ 最終章 - ビートたけし - 2018-04-24\n"
             + "(10) アイドルマスター SideM 5(完全生産限定版) - アニメーション - 2018-04-25";
 
+    private String invalidMsg = "......... Imi wakanai....\n"
+            + "I can only give you daily or weekly ranks, otherwise, "
+            + "it's beyond my knowledge....";
+
     @Test
     public void testAddNewKeyReturnsNull() {
         assertNull(controller.addCommand("sample", mockCommand));
@@ -99,6 +103,12 @@ public class RankCommandControlTest {
     public void testExecuteWeeklyCommandIsWorking() throws IOException {
         TextMessage message = controller.execute("weekly", weeklyDate);
         assertEquals(sampleWeekly, message.getText());
+    }
+
+    @Test
+    public void testUnregisteredCommandReturnsInvalidMsg() throws  IOException {
+        TextMessage message = controller.execute("monthly", weeklyDate);
+        assertEquals(invalidMsg, message.getText());
     }
 
 }
