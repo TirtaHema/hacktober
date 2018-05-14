@@ -23,13 +23,13 @@ import com.linecorp.bot.model.message.TextMessage;
 import java.util.concurrent.ExecutionException;
 import java.util.logging.Logger;
 
-import org.springframework.beans.factory.annotation.Autowired;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
 
 public class TopLaughersChatHandler extends AbstractLineChatHandlerDecorator {
     @Autowired
@@ -178,12 +178,10 @@ public class TopLaughersChatHandler extends AbstractLineChatHandlerDecorator {
                 if (source instanceof GroupSource) {
                     rankedLaugh.get(rankCounter)
                             .add(getUserDisplayName(new GroupSource(groupId, userId)));
-                }
-                else if (source instanceof RoomSource) {
+                } else if (source instanceof RoomSource) {
                     rankedLaugh.get(rankCounter)
                             .add(getUserDisplayName(new RoomSource(userId, groupId)));
-                }
-                else {
+                } else {
                     rankedLaugh.get(rankCounter)
                             .add(getUserDisplayName(new UserSource(userId)));
                 }
@@ -229,14 +227,15 @@ public class TopLaughersChatHandler extends AbstractLineChatHandlerDecorator {
         String userId = source.getUserId();
         String displayName = "";
 
-        if (source instanceof GroupSource)
+        if (source instanceof GroupSource) {
             displayName = lineMessagingClient
                     .getGroupMemberProfile(groupId, userId).get().getDisplayName();
-        else if (source instanceof RoomSource)
+        } else if (source instanceof RoomSource) {
             displayName = lineMessagingClient
                     .getRoomMemberProfile(groupId, userId).get().getDisplayName();
-        else
+        } else {
             displayName = lineMessagingClient.getProfile(userId).get().getDisplayName();
+        }
 
         return displayName;
     }
