@@ -10,11 +10,12 @@ public class SmartCropTest {
 
     private String image;
 
-    public SmartCropTest(String image){
+    public SmartCropTest(ApiConfig apiConfig, String image){
+        this.apiConfig = apiConfig;
         this.image = image;
     }
-
-    public List<Integer> getCoor(){
+    
+    public void testCoor(){
         /*TBD*/
     }
 }
