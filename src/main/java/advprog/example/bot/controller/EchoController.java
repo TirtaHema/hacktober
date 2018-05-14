@@ -1,6 +1,5 @@
 package advprog.example.bot.controller;
 
-import advprog.example.bot.service.DocumentsSimilarityHelper;
 import com.linecorp.bot.model.event.Event;
 import com.linecorp.bot.model.event.MessageEvent;
 import com.linecorp.bot.model.event.message.TextMessageContent;
@@ -14,32 +13,21 @@ import java.util.logging.Logger;
 public class EchoController {
 
     private static final Logger LOGGER = Logger.getLogger(EchoController.class.getName());
-    private static final DocumentsSimilarityHelper dsh = new DocumentsSimilarityHelper();
 
     @EventMapping
     public TextMessage handleTextMessageEvent(MessageEvent<TextMessageContent> event) {
-
         LOGGER.fine(String.format("TextMessageContent(timestamp='%s',content='%s')",
                 event.getTimestamp(), event.getMessage()));
         TextMessageContent content = event.getMessage();
         String contentText = content.getText();
 
-        if (contentText.startsWith("/docs_sim ")) {
-            return new TextMessage(handleDocumentsSimilarity(contentText));
-
-        } else {
-            String replyText = contentText.replace("/echo", "");
-            return new TextMessage(replyText.substring(1));
-        }
+        String replyText = contentText.replace("/echo", "");
+        return new TextMessage(replyText.substring(1));
     }
 
     @EventMapping
     public void handleDefaultMessage(Event event) {
         LOGGER.fine(String.format("Event(timestamp='%s',source='%s')",
                 event.getTimestamp(), event.getSource()));
-    }
-
-    public String handleDocumentsSimilarity(String contentText) {
-        return dsh.getSimilarity(contentText.substring(10));
     }
 }
