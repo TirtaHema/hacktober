@@ -83,6 +83,8 @@ public class DocumentsSimilarityApiHelper {
             return getSimilarityFromUrl(url1, url2);
         }
 
-        return "format error";
+        return "Format harus mengikuti pilihan berikut:\n"
+                + "/docs_sim 'text1' 'text2'"
+                + "/docs_sim url1 url2";
     }
 }
