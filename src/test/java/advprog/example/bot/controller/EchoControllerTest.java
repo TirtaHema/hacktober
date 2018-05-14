@@ -51,27 +51,6 @@ public class EchoControllerTest {
     }
 
     @Test
-    void testHandleDocumentsSimilarityTextCheck() {
-        MessageEvent<TextMessageContent> event =
-                EventTestUtil.createDummyTextMessage("/docs_sim "
-                        + "'my name is fahmi' 'your name is fahmi'");
-
-        TextMessage reply = echoController.handleTextMessageEvent(event);
-        assertEquals("100%", reply.getText());
-    }
-
-    @Test
-    void testHandleDocumentsSimilarityUrlCheck() {
-        MessageEvent<TextMessageContent> event =
-                EventTestUtil.createDummyTextMessage("/docs_sim "
-                        + "https://www.biography.com/people/adolf-hitler-9340144 "
-                        + "https://en.wikipedia.org/wiki/Adolf_Hitler");
-
-        TextMessage reply = echoController.handleTextMessageEvent(event);
-        assertEquals("87%", reply.getText());
-    }
-
-    @Test
     void testHandleDefaultMessage() {
         Event event = mock(Event.class);
 
