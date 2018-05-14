@@ -13,26 +13,20 @@ public class TweetPostGetter {
     /**
      * Usage: java twitter4j.examples.timeline.GetUserTimeline
      *
-     * @param args String[]
+     * @param numTweet String[]
      */
-    public static void main(String[] args) {
+    public void getTweet(int numTweet) {
         // gets Twitter instance with default credentials
         Twitter twitter = new TwitterFactory().getInstance();
+        List<Status> statuses;
+        String user;
         try {
-            List<Status> statuses;
-            String user;
-            if (args.length == 1) {
-                user = args[0];
-            } else {
-                Scanner in = new Scanner(System.in);
-                System.out.print("Please input the username: ");
-                user = in.nextLine();
-//                user = twitter.verifyCredentials().getScreenName();
-//                statuses = twitter.getUserTimeline();
-            }
+            Scanner in = new Scanner(System.in);
+            System.out.print("Please input the username: ");
+            user = in.nextLine();
             statuses = twitter.getUserTimeline(user);
             System.out.println("Showing @" + user + "'s user timeline.");
-            for (int i=0; i < 5; i++) {
+            for (int i=0; i < numTweet; i++) {
                 System.out.println(statuses.get(i).getText() + "(" + statuses.get(i).getCreatedAt() + ")");
             }
         } catch (TwitterException te) {
