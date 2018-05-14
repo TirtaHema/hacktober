@@ -3,9 +3,15 @@ package advprog.bot.feature.oriconbluray.util.helper;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
+import advprog.bot.feature.oriconbluray.util.commands.config.helper.DateFormatCheckerConfig;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(classes = {DateFormatCheckerConfig.class})
 public class DateFormatCheckerTest {
 
     @Autowired
