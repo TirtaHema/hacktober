@@ -31,7 +31,7 @@ public class EchoController {
                 event.getTimestamp(), event.getSource()));
     }
 
-    public String thisIsJustAFunction() {
+    public String stubFunction() {
         return "Ok";
     }
 }

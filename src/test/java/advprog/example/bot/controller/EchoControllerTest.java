@@ -22,6 +22,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
+import advprog.example.bot.controller.EchoController;
+
 @SpringBootTest(properties = "line.bot.handler.enabled=false")
 @ExtendWith(SpringExtension.class)
 @ContextConfiguration(classes = EchoControllerTestConfiguration.class)
@@ -35,13 +37,17 @@ public class EchoControllerTest {
     @Autowired
     private EchoController echoController;
 
+    public EchoControllerTest() {
+        echoController = new EchoController();
+    }
+
     @Test
-    void testContextLoads() {
+    public void testContextLoads() {
         assertNotNull(echoController);
     }
 
     @Test
-    void testHandleTextMessageEvent() {
+    public void testHandleTextMessageEvent() {
         MessageEvent<TextMessageContent> event =
                 EventTestUtil.createDummyTextMessage("/echo Lorem Ipsum");
 
@@ -51,7 +57,7 @@ public class EchoControllerTest {
     }
 
     @Test
-    void testHandleDefaultMessage() {
+    public void testHandleDefaultMessage() {
         Event event = mock(Event.class);
 
         echoController.handleDefaultMessage(event);
@@ -61,8 +67,8 @@ public class EchoControllerTest {
     }
 
     @Test
-    void testThisIsJustAFunction() {
-        String result = echoController.thisIsJustAFunction();
+    public void testStubFunction() {
+        String result = echoController.stubFunction();
         String expected = "Ok";
 
         assertEquals(expected, result);
