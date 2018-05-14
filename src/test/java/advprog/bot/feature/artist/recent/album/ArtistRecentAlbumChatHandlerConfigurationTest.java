@@ -19,8 +19,10 @@ public class ArtistRecentAlbumChatHandlerConfigurationTest {
         BotController controller = mock(BotController.class);
         LineChatHandler decoratedHandler = mock(LineChatHandler.class);
         when(controller.getLineChatHandler()).thenReturn(decoratedHandler);
-        ArtistRecentAlbumChatHandlerConfiguration configuration = new ArtistRecentAlbumChatHandlerConfiguration();
-        ArtistRecentAlbumChatHandler echoChatHandler = configuration.artistRecentAlbumChatHandler(controller);
+        ArtistRecentAlbumChatHandlerConfiguration configuration =
+                new ArtistRecentAlbumChatHandlerConfiguration();
+        ArtistRecentAlbumChatHandler echoChatHandler = configuration
+                .artistRecentAlbumChatHandler(controller);
         assertEquals(decoratedHandler, echoChatHandler.getDecoratedLineChatHandler());
     }
 

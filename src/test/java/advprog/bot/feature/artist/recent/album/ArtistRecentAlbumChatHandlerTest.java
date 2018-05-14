@@ -39,7 +39,8 @@ public class ArtistRecentAlbumChatHandlerTest {
                 "dsf", msg
         );
 
-        assertEquals(expectedMessages, artistRecentAlbumChatHandler.handleTextMessageEvent(me, messages));
+        assertEquals(expectedMessages,
+                artistRecentAlbumChatHandler.handleTextMessageEvent(me, messages));
 
         expectedMessages.add(new TextMessage("Nama has no album"));
         msg = "/10albums Nama Artist";
@@ -47,7 +48,8 @@ public class ArtistRecentAlbumChatHandlerTest {
                 "dsf", msg
         );
 
-        assertEquals(expectedMessages, artistRecentAlbumChatHandler.handleTextMessageEvent(me, messages));
+        assertEquals(expectedMessages,
+                artistRecentAlbumChatHandler.handleTextMessageEvent(me, messages));
 
         expectedMessages.add(new TextMessage("Artist not found"));
         msg = "/10albums zczxxzcz";
@@ -55,7 +57,8 @@ public class ArtistRecentAlbumChatHandlerTest {
                 "dsf", msg
         );
 
-        assertEquals(expectedMessages, artistRecentAlbumChatHandler.handleTextMessageEvent(me, messages));
+        assertEquals(expectedMessages,
+                artistRecentAlbumChatHandler.handleTextMessageEvent(me, messages));
 
         expectedMessages.add(new TextMessage("Coldplay - Greatest Songs(2018)\n"
                 + "Coldplay - A Head Full of Dreams(2015-12-04)\n"
@@ -72,7 +75,8 @@ public class ArtistRecentAlbumChatHandlerTest {
                 "dsf", msg
         );
 
-        assertEquals(expectedMessages, artistRecentAlbumChatHandler.handleTextMessageEvent(me, messages));
+        assertEquals(expectedMessages,
+                artistRecentAlbumChatHandler.handleTextMessageEvent(me, messages));
     }
 
     @Test
