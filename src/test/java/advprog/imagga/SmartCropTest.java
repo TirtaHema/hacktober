@@ -1,12 +1,12 @@
 package advprog.imagga;
 
-import imagga.config.APIConfig;
+import advprog.imagga.config.ApiConfig;
 
 import java.util.List;
 
 public class SmartCropTest {
 
-    private final APIConfig apiConfig;
+    private final ApiConfig apiConfig;
 
     private String image;
 

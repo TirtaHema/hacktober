@@ -7,9 +7,9 @@ import org.junit.Test;
 import java.util.Arrays;
 
 
-public class APIClientTest {
+public class ApiConfigTest {
 
-    private APIConfig apiConfig;
+    private ApiConfig apiConfig;
 
     @Before
     public void setUp() throws Exception {
