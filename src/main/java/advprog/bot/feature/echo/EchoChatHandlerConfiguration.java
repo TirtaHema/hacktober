@@ -6,10 +6,10 @@ import advprog.bot.line.LineChatHandler;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-@Configuration
+//@Configuration
 public class EchoChatHandlerConfiguration {
 
-    @Bean
+    //@Bean
     EchoChatHandler echoChatHandler(BotController controller) {
         LineChatHandler currenctChatHandler = controller.getLineChatHandler();
         EchoChatHandler handler = new EchoChatHandler(currenctChatHandler);
