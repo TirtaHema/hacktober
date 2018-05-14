@@ -1,11 +1,11 @@
 package advprog.bot.feature.fakejson.helper;
 
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 import org.assertj.core.api.Assertions;
 import org.json.JSONObject;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class FakeJsonApiHelperTest {
     private FakeJsonApiHelper fakeJsonApiHelper;

@@ -1,21 +1,20 @@
 package advprog.bot.feature.fakejson;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+
 import advprog.bot.ChatHandlerTestUtil;
 import advprog.bot.line.BaseChatHandler;
 import com.linecorp.bot.model.event.MessageEvent;
 import com.linecorp.bot.model.event.message.TextMessageContent;
 import com.linecorp.bot.model.message.Message;
 import com.linecorp.bot.model.message.TextMessage;
+import java.util.LinkedList;
+import java.util.List;
 import org.assertj.core.api.Assertions;
 import org.json.JSONObject;
 import org.junit.Before;
 import org.junit.Test;
-
-import java.util.LinkedList;
-import java.util.List;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
 
 public class FakeJsonChatHandlerTest {
     FakeJsonChatHandler fakeJsonChatHandler;
