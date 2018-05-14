@@ -34,4 +34,4 @@ DeployProduction:
   when: manual
   environment:
     name: production
-    url: https://advprog2018b315.herokuapp.com
+    url: https://advprog2018b315.herokuapp.com/callback

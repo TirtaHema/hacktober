@@ -1,30 +1,22 @@
 package advprog.imagga.config;
 
-import java.net.MalformedURLException;
+import java.io.IOException;
+import java.net.HttpURLConnection;
 import java.net.URL;
+import java.nio.charset.StandardCharsets;
+import java.util.Base64;
 
 public class ApiConfig {
 
-    private String key;
-    private String secret;
-    private final URL urlObject = new URL("https://api.imagga.com/v1");
-    private String endpoint;
+    private static String key = "acc_c79690c6c890ef8";
+    private static String secret = "bad73ff16021bc16bcf944d0b40e9a3c";
+    public final static String URL = "https://api.imagga.com/v1";
+    private static HttpURLConnection connection;
 
-    public ApiConfig(String key, String secret) throws MalformedURLException {
-        this.key = key;
-        this.secret = secret;
-    }
-
-    public void setEndpoint(String endpoint) {
-        this.endpoint = endpoint;
-    }
-
-    public String getEndpointUrl() {
-        return urlObject + endpoint;
-    }
-
-    public void getAuth() {
-        /*TBD*/
+    public static String getAuth() {
+        String credentialsToEncode = key + ":" + secret;
+        String basicAuth = Base64.getEncoder().encodeToString(credentialsToEncode.getBytes(StandardCharsets.UTF_8));
+        return basicAuth;
     }
 
 }

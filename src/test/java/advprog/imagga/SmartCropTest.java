@@ -1,21 +1,38 @@
 package advprog.imagga;
 
 import advprog.imagga.config.ApiConfig;
+import org.json.JSONException;
+import org.junit.Before;
+import org.junit.Test;
 
+import java.io.IOException;
 import java.util.List;
+
+import static org.junit.Assert.assertEquals;
 
 public class SmartCropTest {
 
-    private final ApiConfig apiConfig;
+    String image;
+    SmartCrop smartCrop;
 
-    private String image;
-
-    public SmartCropTest(ApiConfig apiConfig, String image) {
-        this.apiConfig = apiConfig;
-        this.image = image;
+    @Before
+    public void setUp(){
+        image = "https://imagga.com/static/images/tagging/wind-farm-538576_640.jpg";
+        smartCrop = new SmartCrop(image);
+        try {
+            smartCrop.startCrop();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
-    public void testCoor(){
-        /*TBD*/
+    @Test
+    public void testResponseCode() throws IOException {
+        assertEquals(200, smartCrop.getResponseCode());
+    }
+
+    @Test
+    public void testCoor() throws IOException, JSONException {
+        assertEquals("Coor : [(65, 0), (513, 448)]", smartCrop.getCoor());
     }
 }
