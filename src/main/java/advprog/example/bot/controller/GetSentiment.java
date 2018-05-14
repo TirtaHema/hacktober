@@ -105,7 +105,7 @@ public class GetSentiment {
     public static void main (String[] args) {
         try {
             Documents documents = new Documents ();
-            documents.add ("1", "en", "I really enjoy the new XBox One S. It has a clean look, it has 4K/HDR resolution and it is affordable.");
+            documents.add ("1", "en", "I really enjoy the new XBox One S. It has a clean look, it has 5K/HDR resolution and it is affordable.");
             documents.add ("2", "es", "Este ha sido un dia terrible, llegué tarde al trabajo debido a un accidente automobilistico.");
 
             String response = GetSentiment (documents);
