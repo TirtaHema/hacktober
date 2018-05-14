@@ -1,0 +1,21 @@
+package advprog.bot.feature.artist.recent.album;
+
+import advprog.bot.BotController;
+import advprog.bot.line.LineChatHandler;
+
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+
+@Configuration
+public class ArtistRecentAlbumChatHandlerConfiguration {
+
+    @Bean
+    ArtistRecentAlbumChatHandler artistRecentAlbumChatHandler(BotController controller) {
+        LineChatHandler currentChatHandler = controller.getLineChatHandler();
+        ArtistRecentAlbumChatHandler handler = new ArtistRecentAlbumChatHandler(
+                currentChatHandler);
+        controller.replaceLineChatHandler(handler);
+        return handler;
+    }
+
+}
