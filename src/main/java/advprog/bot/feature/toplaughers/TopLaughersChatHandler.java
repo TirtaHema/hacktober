@@ -20,14 +20,14 @@ import com.linecorp.bot.model.event.source.UserSource;
 import com.linecorp.bot.model.message.Message;
 import com.linecorp.bot.model.message.TextMessage;
 
-import java.util.concurrent.ExecutionException;
-import java.util.logging.Logger;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
+
+import java.util.concurrent.ExecutionException;
+import java.util.logging.Logger;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
