@@ -1,7 +1,8 @@
 package advprog.bot.feature.nearbyphotos.flickr;
 
 public class Photo {
-    private String url, title;
+    private String url;
+    private String title;
 
     public Photo(String url, String title) {
         this.url = url;
@@ -12,7 +13,10 @@ public class Photo {
         return url;
     }
 
-    public String getTitle() { return title; }
+    public String getTitle() {
+        return title;
+    }
+
 }
 
 

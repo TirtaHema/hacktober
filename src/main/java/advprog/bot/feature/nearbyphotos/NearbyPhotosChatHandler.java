@@ -17,14 +17,14 @@ import com.linecorp.bot.model.event.message.TextMessageContent;
 import com.linecorp.bot.model.message.Message;
 import com.linecorp.bot.model.message.TemplateMessage;
 import com.linecorp.bot.model.message.TextMessage;
+import com.linecorp.bot.model.message.template.ImageCarouselColumn;
+import com.linecorp.bot.model.message.template.ImageCarouselTemplate;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.logging.Logger;
 
-import com.linecorp.bot.model.message.template.ImageCarouselColumn;
-import com.linecorp.bot.model.message.template.ImageCarouselTemplate;
 import org.springframework.stereotype.Service;
 
 public class NearbyPhotosChatHandler extends AbstractLineChatHandlerDecorator {
@@ -41,21 +41,20 @@ public class NearbyPhotosChatHandler extends AbstractLineChatHandlerDecorator {
     protected List<Message> handleTextMessage(MessageEvent<TextMessageContent> event) {
         lastIntents = "";
         TextMessageContent message = event.getMessage();
-        if(message.getText().equals("nearby photos")){
+        if (message.getText().equals("nearby photos")) {
             lastIntents = "nearby photos";
             return Collections.singletonList(
                     new TextMessage("Please share your location")
             );
         }
 
-        return new ArrayList<Message> ();
+        return new ArrayList<Message>();
     }
 
     @Override
     protected List<Message> handleLocationMessage(MessageEvent<LocationMessageContent> event) {
-        try
-        {
-            if(lastIntents.equals("nearby photos")){
+        try {
+            if (lastIntents.equals("nearby photos")) {
                 lastIntents = "";
 
                 LocationMessageContent locationMessage = event.getMessage();
@@ -68,8 +67,11 @@ public class NearbyPhotosChatHandler extends AbstractLineChatHandlerDecorator {
 
                 List<ImageCarouselColumn> columns = new ArrayList<ImageCarouselColumn>();
 
-                for(Photo photo : photos){
-                    columns.add(new ImageCarouselColumn(photo.getUrl(), new URIAction(service.formatTitleForCarouselImages(photo.getTitle()), photo.getUrl())));
+                for (Photo photo : photos) {
+                    columns.add(new ImageCarouselColumn(photo.getUrl(),
+                            new URIAction(
+                                    service.formatTitleForCarouselImages(photo.getTitle()),
+                                    photo.getUrl())));
                 }
 
                 if (photos.size() == 0) {
@@ -79,7 +81,9 @@ public class NearbyPhotosChatHandler extends AbstractLineChatHandlerDecorator {
                 }
 
                 ImageCarouselTemplate imageCarouselTemplate = new ImageCarouselTemplate(columns);
-                TemplateMessage templateMessage = new TemplateMessage("ImageCarousel alt text", imageCarouselTemplate);
+                TemplateMessage templateMessage =
+                        new TemplateMessage(
+                                "ImageCarousel alt text", imageCarouselTemplate);
                 return Collections.singletonList(
                         templateMessage
                 );
@@ -87,9 +91,7 @@ public class NearbyPhotosChatHandler extends AbstractLineChatHandlerDecorator {
 
             return new ArrayList<Message>();
 
-
-        }
-        catch (Exception ex){
+        } catch (Exception ex) {
             return Collections.singletonList(
                     new TextMessage("No photo found")
             );
@@ -97,7 +99,9 @@ public class NearbyPhotosChatHandler extends AbstractLineChatHandlerDecorator {
     }
 
     @Override
-    protected boolean canHandleTextMessage(MessageEvent<TextMessageContent> event) { return true; }
+    protected boolean canHandleTextMessage(MessageEvent<TextMessageContent> event) {
+        return true;
+    }
 
     @Override
     protected boolean canHandleImageMessage(MessageEvent<ImageMessageContent> event) {
