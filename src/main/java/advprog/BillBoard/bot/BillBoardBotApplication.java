@@ -5,7 +5,7 @@ import java.util.logging.Logger;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-@SpringBootApplication
+//@SpringBootApplication
 public class BillBoardBotApplication {
     private static final Logger LOGGER = Logger.getLogger(BillBoardBotApplication.class.getName());
 
