@@ -58,8 +58,4 @@ public class SentimentControllerTest {
         verify(event, atLeastOnce()).getTimestamp();
     }
 
-    @Test
-    void processTest() {
-        assertEquals(sentimentController.process(), null);
-    }
 }

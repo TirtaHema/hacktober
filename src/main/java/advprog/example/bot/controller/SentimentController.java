@@ -30,8 +30,5 @@ public class SentimentController {
         LOGGER.fine(String.format("Event(timestamp='%s',source='%s')",
                 event.getTimestamp(), event.getSource()));
     }
-
-    public String process() {
-        return null;
-    }
 }
+
