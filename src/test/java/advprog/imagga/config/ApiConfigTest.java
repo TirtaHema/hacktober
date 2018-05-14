@@ -1,10 +1,10 @@
 package advprog.imagga.config;
 
+import java.util.Arrays;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.util.Arrays;
 
 
 public class ApiConfigTest {
