@@ -18,6 +18,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.logging.Logger;
 
+import com.linecorp.bot.model.message.TextMessage;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -26,6 +27,10 @@ public class OriconBlurayChatHandler extends AbstractLineChatHandlerDecorator {
     private static final Logger LOGGER = Logger
             .getLogger(EchoChatHandler.class.getName());
     private RankCommandControl control;
+    private final String invalidFormatMsg = "....... Eh?\n"
+            + "I don't understand what're you saying....\n"
+            + "Please enter these format, kay?\n\n"
+            + "/oricon bluray [daily/weekly] [yyyy-mm-dd]";
 
     public OriconBlurayChatHandler(LineChatHandler decoratedHandler) {
         this.decoratedLineChatHandler = decoratedHandler;
@@ -43,11 +48,18 @@ public class OriconBlurayChatHandler extends AbstractLineChatHandlerDecorator {
     protected List<Message> handleTextMessage(MessageEvent<TextMessageContent> event) {
         try {
             String[] msg = event.getMessage().getText().split(" ");
+            if (msg.length != 4) {
+                throw new IllegalArgumentException();
+            }
             return Collections.singletonList(
                     control.execute(msg[2], msg[3])
             );
         } catch (IOException e) {
             return new LinkedList<>();
+        } catch (IllegalArgumentException e) {
+            return Collections.singletonList(
+                    new TextMessage(invalidFormatMsg)
+            );
         }
 
     }
