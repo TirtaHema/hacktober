@@ -61,9 +61,22 @@ public class DocumentsSimilarityHelperTest {
     @Test
     void testGetSimilarityFromUrlBadRequest() {
         String similarity = documentsSimilarityHelper.getSimilarityFromUrl(
-                "https://yahoo.com",
+                "https://haha.com",
                 "https://google.com"
         );
-        assertEquals("Unmanaged language [da]", similarity);
+        assertEquals("Unmanaged language [so]", similarity);
+    }
+
+    @Test
+    void testGetSimilarityErrorFormat() {
+        String response = documentsSimilarityHelper.getSimilarity(
+                "'gagal'"
+        );
+        assertEquals(
+                "Format harus mengikuti pilihan berikut:\n"
+                + "/docs_sim 'text1' 'text2'"
+                + "/docs_sim url1 url2",
+                response
+        );
     }
 }
