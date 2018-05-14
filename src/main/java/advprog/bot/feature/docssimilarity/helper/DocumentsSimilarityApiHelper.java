@@ -13,12 +13,17 @@ public class DocumentsSimilarityApiHelper {
     private static final String API_URL = "https://api.dandelion.eu/datatxt/sim/v1/";
     private static final String TOKEN = "629be95f2dc04dfda693ad5181344c45";
 
-    public String formatPercentage(double value) {
+    private String formatPercentage(double value) {
         return Double.toString(value * 100).split("\\.")[0] + "%";
     }
 
-    public String getSimilarityFromText(String text1, String text2) {
-        String url = String.format("%s?text1=%s&text2=%s&token=%s", API_URL, text1, text2, TOKEN);
+    private String getFullApiUrl(String param1, String val1, String param2, String val2) {
+        return String.format(
+                "%s?%s=%s&%s=%s&token=%s", API_URL, param1, val1, param2, val2, TOKEN
+        );
+    }
+
+    private String fetchSimilarity(String url) {
         RestTemplate restTemplate = new RestTemplate();
         String result;
         boolean error = false;
@@ -41,28 +46,14 @@ public class DocumentsSimilarityApiHelper {
         }
     }
 
+    public String getSimilarityFromText(String text1, String text2) {
+        String url = getFullApiUrl("text1", text1, "text2", text2);
+        return fetchSimilarity(url);
+    }
+
     public String getSimilarityFromUrl(String url1, String url2) {
-        String url = String.format("%s?url1=%s&url2=%s&token=%s", API_URL, url1, url2, TOKEN);
-        RestTemplate restTemplate = new RestTemplate();
-        String result;
-        boolean error = false;
-
-        try {
-            result = restTemplate.getForObject(url, String.class);
-        } catch (HttpClientErrorException e) {
-            result = e.getResponseBodyAsString();
-            error = true;
-        }
-
-        try {
-            if (error) {
-                return (String) (new JSONObject(result)).get("message");
-            } else {
-                return formatPercentage((double) (new JSONObject(result)).get("similarity"));
-            }
-        } catch (JSONException e) {
-            return e.getMessage();
-        }
+        String url = getFullApiUrl("url1", url1, "url2", url2);
+        return fetchSimilarity(url);
     }
 
     public String getSimilarity(String content) {

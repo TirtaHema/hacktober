@@ -1,6 +1,5 @@
 package advprog.bot.feature.docssimilarity.helper;
 
-import advprog.example.bot.service.DocumentsSimilarityHelper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -58,12 +57,25 @@ public class DocumentsSimilarityApiHelperTest {
         assertEquals("87%", similarity);
     }
 
-//    @Test
-//    void testGetSimilarityFromUrlBadRequest() {
-//        String similarity = documentsSimilarityHelper.getSimilarityFromUrl(
-//                "https://facebook.com",
-//                "https://google.com"
-//        );
-//        assertEquals("Unmanaged language [da]", similarity);
-//    }
+    @Test
+    void testGetSimilarityFromUrlBadRequest() {
+        String similarity = documentsSimilarityHelper.getSimilarityFromUrl(
+                "https://haha.com",
+                "https://google.com"
+        );
+        assertEquals("Unmanaged language [so]", similarity);
+    }
+
+    @Test
+    void testGetSimilarityErrorFormat() {
+        String response = documentsSimilarityHelper.getSimilarity(
+                "'gagal'"
+        );
+        assertEquals(
+                "Format harus mengikuti pilihan berikut:\n"
+                        + "/docs_sim 'text1' 'text2'"
+                        + "/docs_sim url1 url2",
+                response
+        );
+    }
 }
