@@ -75,6 +75,10 @@ public class OriconBlurayChatHandlerTest {
             + " like to check the calendar... and enter an existing "
             + "date...";
 
+    private String invalidCategoryMsg = "......... Imi wakanai....\n"
+            + "I can only give you daily or weekly ranks, otherwise, "
+            + "it's beyond my knowledge....";
+
     @Test
     public void testDailyReply() {
         List<Message> expectedMessages = new LinkedList<>();
@@ -148,6 +152,19 @@ public class OriconBlurayChatHandlerTest {
         MessageEvent<TextMessageContent> input = ChatHandlerTestUtil
                 .fakeMessageEvent(
                         "aaa","/oricon bluray weekly 2018-05-32");
+
+        assertEquals(expectedMessages,
+                handler.handleTextMessageEvent(input, expectedMessages));
+    }
+
+    @Test
+    public void testInvalidCategoryReply() {
+        List<Message> expectedMessages = new LinkedList<>();
+        expectedMessages.add(new TextMessage(invalidCategoryMsg));
+
+        MessageEvent<TextMessageContent> input = ChatHandlerTestUtil
+                .fakeMessageEvent(
+                        "jjj","/oricon bluray monthly 2018-05-32");
 
         assertEquals(expectedMessages,
                 handler.handleTextMessageEvent(input, expectedMessages));
