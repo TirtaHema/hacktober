@@ -20,7 +20,6 @@ public class EchoController {
                 event.getTimestamp(), event.getMessage()));
         TextMessageContent content = event.getMessage();
         String contentText = content.getText();
-        gambar(contentText);
         String replyText = contentText.replace("/echo", "");
         return new TextMessage(replyText.substring(1));
     }
