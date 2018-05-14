@@ -12,6 +12,9 @@ import java.util.Map;
 
 public class RankCommandControl {
 
+    private final String noCategoryMsg = "......... Imi wakanai....\n"
+            + "I can only give you daily or weekly ranks, otherwise, "
+            + "it's beyond my knowledge....";
     private Map<String, RankCommand> commandMap;
 
     public RankCommandControl() {
@@ -27,7 +30,10 @@ public class RankCommandControl {
     }
 
     public TextMessage execute(String key, String date) throws IOException {
-        return commandMap.get(key).execute(date);
+        if (commandMap.containsKey(key)) {
+            return commandMap.get(key).execute(date);
+        }
+        return new TextMessage(noCategoryMsg);
     }
 
     private void registerCommands() {
