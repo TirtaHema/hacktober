@@ -30,8 +30,9 @@ DeployProduction:
     - gem install dpl
     - wget -qO- https://cli-assets.heroku.com/install-ubuntu.sh | sh
   script:
-    - dpl --provider=heroku --app=advprog2018b315 --api-key=30be6a6c-ee55-40f2-ab49-47c0a1991df7
+    - dpl --provider=heroku --app=$HEROKU_APP_NAME --api-key=$HEROKU_API_KEY
   when: manual
   environment:
     name: production
-    url: https://advprog2018b315.herokuapp.com
+    url: $HEROKU_APP_HOST
+
