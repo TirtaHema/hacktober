@@ -18,8 +18,12 @@ public class NearbyPhotoChatHandlerConfigurationTest {
         BotController controller = mock(BotController.class);
         LineChatHandler decoratedHandler = mock(LineChatHandler.class);
         when(controller.getLineChatHandler()).thenReturn(decoratedHandler);
-        NearbyPhotosChatHandlerConfiguration configuration = new NearbyPhotosChatHandlerConfiguration();
-        NearbyPhotosChatHandler nearbyPhotosChatHandler = configuration.nearbyPhotosChatHandler(controller);
+        NearbyPhotosChatHandlerConfiguration
+                configuration =
+                    new NearbyPhotosChatHandlerConfiguration();
+        NearbyPhotosChatHandler
+                nearbyPhotosChatHandler =
+                    configuration.nearbyPhotosChatHandler(controller);
         assertEquals(decoratedHandler, nearbyPhotosChatHandler.getDecoratedLineChatHandler());
     }
 }
