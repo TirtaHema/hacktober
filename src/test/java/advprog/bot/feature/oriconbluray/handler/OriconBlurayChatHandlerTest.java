@@ -79,6 +79,11 @@ public class OriconBlurayChatHandlerTest {
             + "I can only give you daily or weekly ranks, otherwise, "
             + "it's beyond my knowledge....";
 
+    private String invalidFormatMsg = "....... Eh?\n"
+            + "I don't understand what're you saying....\n"
+            + "Please enter these format, kay?\n\n"
+            + "/oricon bluray [daily/weekly] [yyyy-mm-dd]";
+
     @Test
     public void testDailyReply() {
         List<Message> expectedMessages = new LinkedList<>();
@@ -165,6 +170,19 @@ public class OriconBlurayChatHandlerTest {
         MessageEvent<TextMessageContent> input = ChatHandlerTestUtil
                 .fakeMessageEvent(
                         "jjj","/oricon bluray monthly 2018-05-32");
+
+        assertEquals(expectedMessages,
+                handler.handleTextMessageEvent(input, expectedMessages));
+    }
+
+    @Test
+    public void testInvalidFormatReply() {
+        List<Message> expectedMessages = new LinkedList<>();
+        expectedMessages.add(new TextMessage(invalidFormatMsg));
+
+        MessageEvent<TextMessageContent> input = ChatHandlerTestUtil
+                .fakeMessageEvent(
+                        "kkk","/oricon bluray wakanda aje gile");
 
         assertEquals(expectedMessages,
                 handler.handleTextMessageEvent(input, expectedMessages));
