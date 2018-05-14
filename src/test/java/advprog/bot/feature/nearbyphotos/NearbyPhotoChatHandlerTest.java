@@ -46,7 +46,9 @@ public class NearbyPhotoChatHandlerTest {
         MessageEvent<TextMessageContent> me = ChatHandlerTestUtil.fakeMessageEvent(
                 "dsf", msg
         );
-        assertEquals(expectedMessages, nearbyPhotosChatHandler.handleTextMessageEvent(me, messages));
+        assertEquals(expectedMessages,
+                nearbyPhotosChatHandler.handleTextMessageEvent(
+                        me, messages));
     }
 
     @Test
@@ -59,7 +61,9 @@ public class NearbyPhotoChatHandlerTest {
         MessageEvent<TextMessageContent> me = ChatHandlerTestUtil.fakeMessageEvent(
                 "dsf", msg
         );
-        assertEquals(expectedMessages, nearbyPhotosChatHandler.handleTextMessageEvent(me, messages));
+        assertEquals(expectedMessages,
+                nearbyPhotosChatHandler.handleTextMessageEvent(
+                        me, messages));
     }
 
     @Test
