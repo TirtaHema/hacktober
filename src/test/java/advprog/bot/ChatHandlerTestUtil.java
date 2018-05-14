@@ -4,6 +4,7 @@ import static org.mockito.Mockito.mock;
 
 import com.linecorp.bot.model.event.MessageEvent;
 import com.linecorp.bot.model.event.message.ImageMessageContent;
+import com.linecorp.bot.model.event.message.LocationMessageContent;
 import com.linecorp.bot.model.event.message.TextMessageContent;
 import com.linecorp.bot.model.event.source.Source;
 
@@ -25,6 +26,16 @@ public class ChatHandlerTestUtil {
     ) {
         ImageMessageContent imc = new ImageMessageContent("dd");
         return new MessageEvent<>(replyToken, mock(Source.class), imc, Instant.now());
+
+    }
+
+    public static MessageEvent<LocationMessageContent> fakeLocationEvent(
+            String replyToken,
+            Double latitude,
+            Double longitude
+    ) {
+        LocationMessageContent lmc = new LocationMessageContent("dd", "","",latitude, longitude);
+        return new MessageEvent<>(replyToken, mock(Source.class), lmc, Instant.now());
 
     }
 

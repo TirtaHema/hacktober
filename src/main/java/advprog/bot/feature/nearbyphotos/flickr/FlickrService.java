@@ -11,18 +11,16 @@ import org.springframework.web.client.RestTemplate;
 public class FlickrService implements IPictureService {
 
     public List<Photo> get5Photos(Location location)  {
-
         String url = createUrlRequest(location);
-
         RestTemplate restTemplate = new RestTemplate();
         HttpHeaders headers = new HttpHeaders();
-
         HttpEntity<String> entity = new HttpEntity<String>("parameters", headers);
-
         String result = restTemplate.getForObject(url, String.class, headers);
+        return getPhotosFromJSON(result);
+    }
 
+    public List<Photo> getPhotosFromJSON(String result) {
         List<Photo> photos = new ArrayList<Photo>();
-
         try {
             JSONObject json = new JSONObject(result);
             JSONArray photo = json.getJSONObject("photos").getJSONArray("photo");
@@ -33,7 +31,6 @@ public class FlickrService implements IPictureService {
         } catch (Exception e) {
             return photos;
         }
-
         return photos;
     }
 
@@ -57,5 +54,10 @@ public class FlickrService implements IPictureService {
     // photo url : https://farm{farm-id}.staticflickr.com/{server-id}/{id}_{secret}_[mstzb].jpg
     public String createPhotoUrl(String farmId, String serverId, String id, String secret) {
         return "https://farm" + farmId + ".staticflickr.com/" + serverId + "/" + id + "_" + secret + "_z.jpg";
+    }
+
+    public static void main(String[] args) {
+        FlickrService a = new FlickrService();
+        a.get5Photos(new Location(-6.21462, 106.84513));
     }
 }
