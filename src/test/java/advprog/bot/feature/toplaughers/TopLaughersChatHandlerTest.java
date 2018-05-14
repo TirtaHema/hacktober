@@ -1,6 +1,7 @@
 package advprog.bot.feature.toplaughers;
 
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.Mockito.*;
@@ -44,6 +45,11 @@ public class TopLaughersChatHandlerTest {
 
     @Test
     public void testIgnoreNonTextMessageEvent() {
+        MessageEvent<TextMessageContent> event;
+
+        event = EventTestUtil
+                .createDummyGroupTextMessageWithDummyUser("/toplaughers", "Group1", "User1");
+        assertTrue(topLaughersController.canHandleTextMessage(event));
         assertFalse(topLaughersController.canHandleAudioMessage(null));
         assertFalse(topLaughersController.canHandleImageMessage(null));
         assertFalse(topLaughersController.canHandleStickerMessage(null));
@@ -81,7 +87,7 @@ public class TopLaughersChatHandlerTest {
     }
 
     @Test
-    public void testHandleDenseGroupTopLaughers() {
+    public void testHandleDenseGroupTopLaughers() throws ExecutionException, InterruptedException {
         mock = spy(TopLaughersChatHandler.class);
         doReturn("User1")
                 .when(mock).getUserDisplayName(new GroupSource("Group1", "User1"));
@@ -136,7 +142,7 @@ public class TopLaughersChatHandlerTest {
     }
 
     @Test
-    public void testHandleNotLaughMessage() {
+    public void testHandleNotLaughMessage() throws ExecutionException, InterruptedException {
         mock = spy(TopLaughersChatHandler.class);
         doReturn("User1")
                 .when(mock).getUserDisplayName(new GroupSource("Group1", "User1"));

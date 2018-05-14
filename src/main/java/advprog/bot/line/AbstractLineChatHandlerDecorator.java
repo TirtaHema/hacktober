@@ -14,6 +14,7 @@ import com.linecorp.bot.model.message.TextMessage;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 public abstract class AbstractLineChatHandlerDecorator implements LineChatHandler {
 
@@ -27,14 +28,15 @@ public abstract class AbstractLineChatHandlerDecorator implements LineChatHandle
 
     @Override
     public List<Message> handleTextMessageEvent(MessageEvent<TextMessageContent> event,
-                                                List<Message> replyMessages) {
+                                                List<Message> replyMessages)
+            throws ExecutionException, InterruptedException {
         if (canHandleTextMessage(event)) {
             replyMessages.addAll(handleTextMessage(event));
         }
         return decoratedLineChatHandler.handleTextMessageEvent(event, replyMessages);
     }
 
-    protected List<Message> handleTextMessage(MessageEvent<TextMessageContent> event) {
+    protected List<Message> handleTextMessage(MessageEvent<TextMessageContent> event) throws ExecutionException, InterruptedException {
         return Collections.emptyList();
     }
 

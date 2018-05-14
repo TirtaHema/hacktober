@@ -49,7 +49,7 @@ public class TopLaughersChatHandler extends AbstractLineChatHandlerDecorator {
     }
 
     @Override
-    protected List<Message> handleTextMessage(MessageEvent<TextMessageContent> event) {
+    protected List<Message> handleTextMessage(MessageEvent<TextMessageContent> event) throws ExecutionException, InterruptedException {
         LOGGER.fine(String.format("TextMessageContent(timestamp='%s',content='%s')",
                 event.getTimestamp(), event.getMessage()));
         TextMessageContent content = event.getMessage();
@@ -59,11 +59,7 @@ public class TopLaughersChatHandler extends AbstractLineChatHandlerDecorator {
 
         switch (contentText.split(" ")[0]) {
             case "/toplaughers" : {
-                try {
-                    replayMessage = handleTopLaughers(event);
-                } catch (ExecutionException | InterruptedException e) {
-                    e.printStackTrace();
-                }
+                replayMessage = handleTopLaughers(event);
                 break;
             }
             default: {
@@ -213,20 +209,18 @@ public class TopLaughersChatHandler extends AbstractLineChatHandlerDecorator {
         return groupId;
     }
 
-    public String getUserDisplayName(Source source) {
+    public String getUserDisplayName(Source source) throws ExecutionException, InterruptedException {
         String groupId = getGroupId(source);
         String userId = source.getUserId();
         String displayName = "";
-        try {
-            if (source instanceof GroupSource)
-                displayName = lineMessagingClient.getGroupMemberProfile(groupId, userId).get().getDisplayName();
-            else if (source instanceof RoomSource)
-                displayName = lineMessagingClient.getRoomMemberProfile(groupId, userId).get().getDisplayName();
-            else
-                displayName = lineMessagingClient.getProfile(userId).get().getDisplayName();
-        } catch (InterruptedException | ExecutionException e) {
-            e.printStackTrace();
-        }
+
+        if (source instanceof GroupSource)
+            displayName = lineMessagingClient.getGroupMemberProfile(groupId, userId).get().getDisplayName();
+        else if (source instanceof RoomSource)
+            displayName = lineMessagingClient.getRoomMemberProfile(groupId, userId).get().getDisplayName();
+        else
+            displayName = lineMessagingClient.getProfile(userId).get().getDisplayName();
+
         return displayName;
     }
 

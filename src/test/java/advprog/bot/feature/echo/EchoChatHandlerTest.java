@@ -16,6 +16,7 @@ import com.linecorp.bot.model.message.TextMessage;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -34,7 +35,7 @@ public class EchoChatHandlerTest {
     }
 
     @Test
-    public void testHandleTextMessageEvent() {
+    public void testHandleTextMessageEvent() throws ExecutionException, InterruptedException {
         List<Message> messages = new LinkedList<>();
         messages.add(new TextMessage("bbb"));
         List<TextMessage> expectedMessages = new LinkedList<>();

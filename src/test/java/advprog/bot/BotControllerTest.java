@@ -29,6 +29,7 @@ import com.linecorp.bot.model.message.TextMessage;
 import java.time.Instant;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -82,7 +83,7 @@ public class BotControllerTest {
     }
 
     @Test
-    public void testHandleTextMessageEvent() {
+    public void testHandleTextMessageEvent() throws ExecutionException, InterruptedException {
         List<Message> expectedMessages = new LinkedList<>();
         expectedMessages.add(new TextMessage("1"));
         expectedMessages.add(new TextMessage("2"));
@@ -156,7 +157,7 @@ public class BotControllerTest {
     }
 
     @Test
-    public void testDefaultMessageEvent() {
+    public void testDefaultMessageEvent() throws ExecutionException, InterruptedException {
         Event event = mock(Event.class);
         Source source = mock(Source.class);
         when(event.getSource()).thenReturn(source);
