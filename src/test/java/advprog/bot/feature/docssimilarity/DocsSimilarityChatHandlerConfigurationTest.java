@@ -17,8 +17,10 @@ public class DocsSimilarityChatHandlerConfigurationTest {
         BotController controller = mock(BotController.class);
         LineChatHandler decoratedHandler = mock(LineChatHandler.class);
         when(controller.getLineChatHandler()).thenReturn(decoratedHandler);
-        DocsSimilarityChatHandlerConfiguration configuration = new DocsSimilarityChatHandlerConfiguration();
-        DocsSimilarityChatHandler docsSimilarityChatHandler = configuration.docsSimilarityChatHandler(controller);
+        DocsSimilarityChatHandlerConfiguration configuration =
+                new DocsSimilarityChatHandlerConfiguration();
+        DocsSimilarityChatHandler docsSimilarityChatHandler =
+                configuration.docsSimilarityChatHandler(controller);
         assertEquals(decoratedHandler, docsSimilarityChatHandler.getDecoratedLineChatHandler());
     }
 }
