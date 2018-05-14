@@ -1,8 +1,8 @@
 package advprog.bot.feature.docssimilarity;
 
+import advprog.bot.feature.docssimilarity.helper.DocumentsSimilarityApiHelper;
 import advprog.bot.line.AbstractLineChatHandlerDecorator;
 import advprog.bot.line.LineChatHandler;
-import advprog.example.bot.service.DocumentsSimilarityHelper;
 import com.linecorp.bot.model.event.MessageEvent;
 import com.linecorp.bot.model.event.message.AudioMessageContent;
 import com.linecorp.bot.model.event.message.ImageMessageContent;
@@ -20,7 +20,7 @@ public class DocsSimilarityChatHandler extends AbstractLineChatHandlerDecorator 
     private static final Logger LOGGER = Logger.getLogger(
             DocsSimilarityChatHandler.class.getName()
     );
-    private static final DocumentsSimilarityHelper DSH = new DocumentsSimilarityHelper();
+    private static final DocumentsSimilarityApiHelper DSH = new DocumentsSimilarityApiHelper();
 
     public DocsSimilarityChatHandler(LineChatHandler decoratedHandler) {
         this.decoratedLineChatHandler = decoratedHandler;
