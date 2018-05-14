@@ -19,7 +19,8 @@ import java.util.concurrent.ExecutionException;
 //redundancy exists for a much less confusing usage
 public interface LineChatHandler {
     List<Message> handleTextMessageEvent(MessageEvent<TextMessageContent> event,
-                                         List<Message> replyMessages) throws ExecutionException, InterruptedException;
+                                         List<Message> replyMessages)
+            throws ExecutionException, InterruptedException;
 
     List<Message> handleImageMessageEvent(MessageEvent<ImageMessageContent> event,
                                  List<Message> replyMessages);

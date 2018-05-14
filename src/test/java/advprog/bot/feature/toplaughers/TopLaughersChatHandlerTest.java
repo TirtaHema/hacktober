@@ -68,26 +68,30 @@ public class TopLaughersChatHandlerTest {
         TextMessage reply;
         String expected;
 
-        event = EventTestUtil.createDummyGroupTextMessageWithDummyUser("hi hahahah", "Group1", "User1");
+        event = EventTestUtil
+                .createDummyGroupTextMessageWithDummyUser("hi hahahah", "Group1", "User1");
         mock.handleTextMessage(event);
 
-        event = EventTestUtil.createDummyGroupTextMessageWithDummyUser("WKWK", "Group1", "User2");
+        event = EventTestUtil
+                .createDummyGroupTextMessageWithDummyUser("WKWK", "Group1", "User2");
         mock.handleTextMessage(event);
 
-        event = EventTestUtil.createDummyGroupTextMessageWithDummyUser("/toplaughers", "Group1", "User1");
+        event = EventTestUtil
+                .createDummyGroupTextMessageWithDummyUser("/toplaughers", "Group1", "User1");
         reply = (TextMessage) mock.handleTextMessage(event).get(0);
 
-        expected = "1. User1(50%), User2(50%)\n" +
-                "2. \n" +
-                "3. \n" +
-                "4. \n" +
-                "5. \n";
+        expected = "1. User1(50%), User2(50%)\n"
+                + "2. \n"
+                + "3. \n"
+                + "4. \n"
+                + "5. \n";
 
         assertEquals(expected, reply.getText());
     }
 
     @Test
-    public void testHandleDenseGroupTopLaughers() throws ExecutionException, InterruptedException {
+    public void testHandleDenseGroupTopLaughers()
+            throws ExecutionException, InterruptedException {
         mock = spy(TopLaughersChatHandler.class);
         doReturn("User1")
                 .when(mock).getUserDisplayName(new GroupSource("Group1", "User1"));
@@ -105,38 +109,44 @@ public class TopLaughersChatHandlerTest {
         String expected;
 
         for (int i = 0; i < 40; i++) {
-            event = EventTestUtil.createDummyGroupTextMessageWithDummyUser("hahahah", "Group1", "User1");
+            event = EventTestUtil
+                    .createDummyGroupTextMessageWithDummyUser("hahahah", "Group1", "User1");
             mock.handleTextMessage(event);
         }
 
         for (int i = 0; i < 30; i++) {
-            event = EventTestUtil.createDummyGroupTextMessageWithDummyUser("HAHAHAH", "Group1", "User2");
+            event = EventTestUtil
+                    .createDummyGroupTextMessageWithDummyUser("HAHAHAH", "Group1", "User2");
             mock.handleTextMessage(event);
         }
 
         for (int i = 0; i < 20; i++) {
-            event = EventTestUtil.createDummyGroupTextMessageWithDummyUser("WKWK", "Group1", "User3");
+            event = EventTestUtil
+                    .createDummyGroupTextMessageWithDummyUser("WKWK", "Group1", "User3");
             mock.handleTextMessage(event);
         }
 
         for (int i = 0; i < 6; i++) {
-            event = EventTestUtil.createDummyGroupTextMessageWithDummyUser("wkwkwk", "Group1", "User4");
+            event = EventTestUtil
+                    .createDummyGroupTextMessageWithDummyUser("wkwkwk", "Group1", "User4");
             mock.handleTextMessage(event);
         }
 
         for (int i = 0; i < 4; i++) {
-            event = EventTestUtil.createDummyGroupTextMessageWithDummyUser("WKWK HAHA", "Group1", "User5");
+            event = EventTestUtil
+                    .createDummyGroupTextMessageWithDummyUser("WKWK HAHA", "Group1", "User5");
             mock.handleTextMessage(event);
         }
 
-        event = EventTestUtil.createDummyGroupTextMessageWithDummyUser("/toplaughers", "Group1", "User1");
+        event = EventTestUtil
+                .createDummyGroupTextMessageWithDummyUser("/toplaughers", "Group1", "User1");
         reply = (TextMessage) mock.handleTextMessage(event).get(0);
 
-        expected = "1. User1(40%)\n" +
-                "2. User2(30%)\n" +
-                "3. User3(20%)\n" +
-                "4. User4(6%)\n" +
-                "5. User5(4%)\n";
+        expected = "1. User1(40%)\n"
+                + "2. User2(30%)\n"
+                + "3. User3(20%)\n"
+                + "4. User4(6%)\n"
+                + "5. User5(4%)\n";
 
         assertEquals(expected, reply.getText());
     }
@@ -151,17 +161,19 @@ public class TopLaughersChatHandlerTest {
         TextMessage reply;
         String expected;
 
-        event = EventTestUtil.createDummyGroupTextMessageWithDummyUser("test", "Group1", "User1");
+        event = EventTestUtil
+                .createDummyGroupTextMessageWithDummyUser("test", "Group1", "User1");
         mock.handleTextMessage(event);
 
-        event = EventTestUtil.createDummyGroupTextMessageWithDummyUser("/toplaughers", "Group1", "User1");
+        event = EventTestUtil
+                .createDummyGroupTextMessageWithDummyUser("/toplaughers", "Group1", "User1");
         reply = (TextMessage) mock.handleTextMessage(event).get(0);
 
-        expected = "1. \n" +
-                "2. \n" +
-                "3. \n" +
-                "4. \n" +
-                "5. \n";
+        expected = "1. \n"
+                + "2. \n"
+                + "3. \n"
+                + "4. \n"
+                + "5. \n";
 
         assertEquals(expected, reply.getText());
     }
@@ -178,20 +190,23 @@ public class TopLaughersChatHandlerTest {
         TextMessage reply;
         String expected;
 
-        event = EventTestUtil.createDummyRoomTextMessageWithDummyUser("hahahahh", "User1", "Room1");
+        event = EventTestUtil
+                .createDummyRoomTextMessageWithDummyUser("hahahahh", "User1", "Room1");
         mock.handleTextMessage(event);
 
-        event = EventTestUtil.createDummyRoomTextMessageWithDummyUser("wkwkkwk", "User2", "Room1");
+        event = EventTestUtil
+                .createDummyRoomTextMessageWithDummyUser("wkwkkwk", "User2", "Room1");
         mock.handleTextMessage(event);
 
-        event = EventTestUtil.createDummyRoomTextMessageWithDummyUser("/toplaughers", "User1", "Room1");
+        event = EventTestUtil
+                .createDummyRoomTextMessageWithDummyUser("/toplaughers", "User1", "Room1");
         reply = (TextMessage) mock.handleTextMessage(event).get(0);
 
-        expected = "1. User1(50%), User2(50%)\n" +
-                "2. \n" +
-                "3. \n" +
-                "4. \n" +
-                "5. \n";
+        expected = "1. User1(50%), User2(50%)\n"
+                + "2. \n"
+                + "3. \n"
+                + "4. \n"
+                + "5. \n";
 
         assertEquals(expected, reply.getText());
     }
@@ -206,17 +221,19 @@ public class TopLaughersChatHandlerTest {
         TextMessage reply;
         String expected;
 
-        event = EventTestUtil.createDummyPrivateTextMessageWithDummyUser("haha", "User1");
+        event = EventTestUtil
+                .createDummyPrivateTextMessageWithDummyUser("haha", "User1");
         mock.handleTextMessage(event);
 
-        event = EventTestUtil.createDummyPrivateTextMessageWithDummyUser("/toplaughers", "User1");
+        event = EventTestUtil
+                .createDummyPrivateTextMessageWithDummyUser("/toplaughers", "User1");
         reply = (TextMessage) mock.handleTextMessage(event).get(0);
 
-        expected = "1. User1(100%)\n" +
-                "2. \n" +
-                "3. \n" +
-                "4. \n" +
-                "5. \n";
+        expected = "1. User1(100%)\n"
+                + "2. \n"
+                + "3. \n"
+                + "4. \n"
+                + "5. \n";
 
         assertEquals(expected, reply.getText());
     }

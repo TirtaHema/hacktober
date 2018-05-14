@@ -19,11 +19,17 @@ import com.linecorp.bot.model.event.source.Source;
 import com.linecorp.bot.model.event.source.UserSource;
 import com.linecorp.bot.model.message.Message;
 import com.linecorp.bot.model.message.TextMessage;
-import org.springframework.beans.factory.annotation.Autowired;
 
-import java.util.*;
 import java.util.concurrent.ExecutionException;
 import java.util.logging.Logger;
+
+import org.springframework.beans.factory.annotation.Autowired;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.List;
 
 public class TopLaughersChatHandler extends AbstractLineChatHandlerDecorator {
     @Autowired
@@ -31,7 +37,7 @@ public class TopLaughersChatHandler extends AbstractLineChatHandlerDecorator {
 
     private static final Logger LOGGER = Logger.getLogger(EchoController.class.getName());
 
-    private HashMap<String, ArrayList<UserLaughCounter> > groupLaughCounter = new HashMap<>();
+    private HashMap<String, ArrayList<UserLaughCounter>> groupLaughCounter = new HashMap<>();
     private HashMap<String, Integer> groupTotalLaughCounter = new HashMap<>();
 
     public TopLaughersChatHandler() {
@@ -49,7 +55,8 @@ public class TopLaughersChatHandler extends AbstractLineChatHandlerDecorator {
     }
 
     @Override
-    protected List<Message> handleTextMessage(MessageEvent<TextMessageContent> event) throws ExecutionException, InterruptedException {
+    protected List<Message> handleTextMessage(MessageEvent<TextMessageContent> event)
+            throws ExecutionException, InterruptedException {
         LOGGER.fine(String.format("TextMessageContent(timestamp='%s',content='%s')",
                 event.getTimestamp(), event.getMessage()));
         TextMessageContent content = event.getMessage();
@@ -64,11 +71,12 @@ public class TopLaughersChatHandler extends AbstractLineChatHandlerDecorator {
             }
             default: {
                 Source source = event.getSource();
-                String userId = source.getUserId();
                 String groupId = getGroupId(source);
 
-                if (!contentText.toLowerCase().contains("haha") && !contentText.toLowerCase().contains("wkwk"))
+                if (!contentText.toLowerCase().contains("haha")
+                        && !contentText.toLowerCase().contains("wkwk")) {
                     break;
+                }
 
                 if (!groupLaughCounter.containsKey(groupId)) {
                     groupLaughCounter.put(groupId, new ArrayList<>());
@@ -77,6 +85,8 @@ public class TopLaughersChatHandler extends AbstractLineChatHandlerDecorator {
 
                 groupTotalLaughCounter.put(groupId, groupTotalLaughCounter.get(groupId) + 1);
                 ArrayList<UserLaughCounter> userList = groupLaughCounter.get(groupId);
+
+                String userId = source.getUserId();
                 if (userList.stream().anyMatch(user -> user.getUserId().equals((userId)))) {
                     userList
                             .stream()
@@ -115,17 +125,18 @@ public class TopLaughersChatHandler extends AbstractLineChatHandlerDecorator {
         return false;
     }
 
-    public TextMessage handleTopLaughers(Event event) throws ExecutionException, InterruptedException {
+    public TextMessage handleTopLaughers(Event event)
+            throws ExecutionException, InterruptedException {
         LOGGER.fine(String.format("Giving top 5 laughers in the group"));
 
         Source source = event.getSource();
         String groupId = getGroupId(source);
 
-        String message = "1. \n" +
-                "2. \n" +
-                "3. \n" +
-                "4. \n" +
-                "5. \n";
+        String message = "1. \n"
+                + "2. \n"
+                + "3. \n"
+                + "4. \n"
+                + "5. \n";
 
         if (!groupLaughCounter.containsKey(groupId) || groupLaughCounter.get(groupId).size() == 0) {
             return new TextMessage(message);
@@ -135,8 +146,8 @@ public class TopLaughersChatHandler extends AbstractLineChatHandlerDecorator {
 
         if (groupLaughCounter.containsKey(groupId)) {
             ArrayList<UserLaughCounter> userList = groupLaughCounter.get(groupId);
-            ArrayList<ArrayList<String> > rankedLaugh = new ArrayList<>();
-            ArrayList<ArrayList<Integer> > laughCounts = new ArrayList<>();
+            ArrayList<ArrayList<String>> rankedLaugh = new ArrayList<>();
+            ArrayList<ArrayList<Integer>> laughCounts = new ArrayList<>();
 
             Integer groupTotalLaugh = groupTotalLaughCounter.get(groupId);
 
@@ -164,15 +175,18 @@ public class TopLaughersChatHandler extends AbstractLineChatHandlerDecorator {
                 }
 
                 String userId = currentUser.getUserId();
-                if (source instanceof GroupSource)
+                if (source instanceof GroupSource) {
                     rankedLaugh.get(rankCounter)
                             .add(getUserDisplayName(new GroupSource(groupId, userId)));
-                else if (source instanceof RoomSource)
+                }
+                else if (source instanceof RoomSource) {
                     rankedLaugh.get(rankCounter)
                             .add(getUserDisplayName(new RoomSource(userId, groupId)));
-                else
+                }
+                else {
                     rankedLaugh.get(rankCounter)
                             .add(getUserDisplayName(new UserSource(userId)));
+                }
 
                 laughCounts.get(rankCounter)
                         .add(currentUser.getCounter());
@@ -209,15 +223,18 @@ public class TopLaughersChatHandler extends AbstractLineChatHandlerDecorator {
         return groupId;
     }
 
-    public String getUserDisplayName(Source source) throws ExecutionException, InterruptedException {
+    public String getUserDisplayName(Source source)
+            throws ExecutionException, InterruptedException {
         String groupId = getGroupId(source);
         String userId = source.getUserId();
         String displayName = "";
 
         if (source instanceof GroupSource)
-            displayName = lineMessagingClient.getGroupMemberProfile(groupId, userId).get().getDisplayName();
+            displayName = lineMessagingClient
+                    .getGroupMemberProfile(groupId, userId).get().getDisplayName();
         else if (source instanceof RoomSource)
-            displayName = lineMessagingClient.getRoomMemberProfile(groupId, userId).get().getDisplayName();
+            displayName = lineMessagingClient
+                    .getRoomMemberProfile(groupId, userId).get().getDisplayName();
         else
             displayName = lineMessagingClient.getProfile(userId).get().getDisplayName();
 

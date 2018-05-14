@@ -36,7 +36,8 @@ public abstract class AbstractLineChatHandlerDecorator implements LineChatHandle
         return decoratedLineChatHandler.handleTextMessageEvent(event, replyMessages);
     }
 
-    protected List<Message> handleTextMessage(MessageEvent<TextMessageContent> event) throws ExecutionException, InterruptedException {
+    protected List<Message> handleTextMessage(MessageEvent<TextMessageContent> event)
+            throws ExecutionException, InterruptedException {
         return Collections.emptyList();
     }
 
