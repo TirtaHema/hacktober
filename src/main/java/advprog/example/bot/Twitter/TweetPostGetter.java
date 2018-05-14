@@ -21,19 +21,19 @@ public class TweetPostGetter {
         try {
             List<Status> statuses;
             String user;
-            System.out.println("lalalala");
             if (args.length == 1) {
                 user = args[0];
             } else {
                 Scanner in = new Scanner(System.in);
+                System.out.print("Please input the username: ");
                 user = in.nextLine();
 //                user = twitter.verifyCredentials().getScreenName();
 //                statuses = twitter.getUserTimeline();
             }
             statuses = twitter.getUserTimeline(user);
             System.out.println("Showing @" + user + "'s user timeline.");
-            for (Status status : statuses) {
-                System.out.println("@" + status.getUser().getScreenName() + " - " + status.getText());
+            for (int i=0; i < 5; i++) {
+                System.out.println(statuses.get(i).getText() + "(" + statuses.get(i).getCreatedAt() + ")");
             }
         } catch (TwitterException te) {
             te.printStackTrace();
