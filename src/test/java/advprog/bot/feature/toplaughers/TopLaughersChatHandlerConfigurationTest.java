@@ -19,7 +19,8 @@ public class TopLaughersChatHandlerConfigurationTest {
         BotController controller = mock(BotController.class);
         LineChatHandler decoratedHandler = mock(LineChatHandler.class);
         when(controller.getLineChatHandler()).thenReturn(decoratedHandler);
-        TopLaughersChatHandlerConfiguration configuration = new TopLaughersChatHandlerConfiguration();
+        TopLaughersChatHandlerConfiguration configuration
+                = new TopLaughersChatHandlerConfiguration();
         TopLaughersChatHandler echoChatHandler = configuration.topLaughersChatHandler(controller);
         assertEquals(decoratedHandler, echoChatHandler.getDecoratedLineChatHandler());
     }
