@@ -19,7 +19,9 @@ public class ApiConfig {
         this.endpoint = endpoint;
     }
 
-    public String getEndpointUrl() { return urlObject + endpoint; }
+    public String getEndpointUrl() {
+        return urlObject + endpoint;
+    }
 
     public void getAuth() {
         /*TBD*/
