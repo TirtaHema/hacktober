@@ -1,11 +1,6 @@
 package advprog.bot.feature.yerlandinata.youtubeinfo.parser;
 
-import static org.mockito.ArgumentMatchers.eq;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
-
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 
 import org.junit.Before;

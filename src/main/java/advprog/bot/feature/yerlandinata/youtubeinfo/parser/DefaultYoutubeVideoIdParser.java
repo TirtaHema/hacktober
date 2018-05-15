@@ -6,7 +6,7 @@ import java.util.regex.Pattern;
 public class DefaultYoutubeVideoIdParser extends AbstractYoutubeVideoIdParser {
 
     private static final Pattern URL_PATTERN = Pattern.compile(
-            "((https?://)?(www\\.)?youtube\\.com/watch)"
+            "((https?://)?(www\\.)?youtube\\.com/watch(\\?v=))"
     );
 
     @Override
@@ -16,6 +16,6 @@ public class DefaultYoutubeVideoIdParser extends AbstractYoutubeVideoIdParser {
             throw new InvalidYoutubeVideoUrl(url);
         }
         String nonId = matcher.group();
-        return url.replace(nonId, "").replace("?v=", "");
+        return url.replace(nonId, "");
     }
 }
