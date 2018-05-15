@@ -1,21 +1,25 @@
-package advprog.bot.feature.BillboardTropicalArtist;
+package advprog.bot.feature.billboardtropicalartist;
 
 import advprog.bot.line.AbstractLineChatHandlerDecorator;
 import advprog.bot.line.LineChatHandler;
 import com.linecorp.bot.model.event.MessageEvent;
-import com.linecorp.bot.model.event.message.*;
+import com.linecorp.bot.model.event.message.AudioMessageContent;
+import com.linecorp.bot.model.event.message.ImageMessageContent;
+import com.linecorp.bot.model.event.message.LocationMessageContent;
+import com.linecorp.bot.model.event.message.StickerMessageContent;
+import com.linecorp.bot.model.event.message.TextMessageContent;
 import com.linecorp.bot.model.message.Message;
 import com.linecorp.bot.model.message.TextMessage;
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
-import org.jsoup.select.Elements;
-
 import java.io.IOException;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.logging.Logger;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
+
 
 public class BillboardTropicalArtistHandler extends AbstractLineChatHandlerDecorator {
 
@@ -36,11 +40,22 @@ public class BillboardTropicalArtistHandler extends AbstractLineChatHandlerDecor
     @Override
     protected List<Message> handleTextMessage(MessageEvent<TextMessageContent> event) {
         try {
-            return Collections.singletonList(
-                    new TextMessage(cekArtist(event.getMessage().getText().split(" ")[2]))
-            ); // just return list of TextMessage for multi-line reply!
+            String[] artist = event.getMessage().getText().split(" ");
+            String artistName = "";
+            for (int i = 2;i < artist.length;i++) {
+                artistName += artist[i] + " ";
+            }
+            artistName = artistName.substring(0,artistName.length() - 1);
+            if (canHandleTextMessage(event) && event.getMessage().getText().split(" ")
+                    .length > 2) {
+                return Collections.singletonList(
+                        new TextMessage(cekArtist(artistName)));
+                // just return list of TextMessage for multi-line reply!
+            } else {
+                return Collections.singletonList(new TextMessage("Keyword Tidak Valid"));
+            }
         } catch (IOException e) {
-            return Collections.singletonList(new TextMessage("Not a valid keyword"));
+            return new LinkedList<>();
         }
         // Return empty list of TextMessage if not replying. DO NOT RETURN NULL!!!
     }
@@ -77,7 +92,7 @@ public class BillboardTropicalArtistHandler extends AbstractLineChatHandlerDecor
                         + "Position : " + (i + 1) + "\n";
             }
         }
-        if(hasil.equals("")) {
+        if (hasil.equals("")) {
             return artist + " is not present in Billboard's Tropical Songs music chart this week";
         }
         return hasil;

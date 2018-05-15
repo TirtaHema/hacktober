@@ -1,4 +1,4 @@
-package advprog.example.bot;
+/**package advprog.example.bot;
 
 import java.util.logging.Logger;
 
@@ -13,4 +13,4 @@ public class BotExampleApplication {
         LOGGER.info("Application starting ...");
         SpringApplication.run(BotExampleApplication.class, args);
     }
-}
+}*/
