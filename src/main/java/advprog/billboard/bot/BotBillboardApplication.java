@@ -1,11 +1,10 @@
-package advprog.billboard.bot;
+/***package advprog.billboard.bot;
 
 import java.util.logging.Logger;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-@SpringBootApplication
 public class BotBillboardApplication {
 
     private static final Logger LOGGER = Logger.getLogger(BotBillboardApplication.class.getName());
@@ -15,3 +14,4 @@ public class BotBillboardApplication {
         SpringApplication.run(BotBillboardApplication.class, args);
     }
 }
+*/
