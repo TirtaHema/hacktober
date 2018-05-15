@@ -40,7 +40,7 @@ public class BillboardTropicalArtistHandler extends AbstractLineChatHandlerDecor
                     new TextMessage(cekArtist(event.getMessage().getText().split(" ")[2]))
             ); // just return list of TextMessage for multi-line reply!
         } catch (IOException e) {
-            return new LinkedList<>();
+            return Collections.singletonList(new TextMessage("Not a valid keyword"));
         }
         // Return empty list of TextMessage if not replying. DO NOT RETURN NULL!!!
     }
@@ -72,13 +72,13 @@ public class BillboardTropicalArtistHandler extends AbstractLineChatHandlerDecor
         for (int i = 0; i < 25; i++) {
             Element elements = container.get(i);
             if (elements.select(".chart-row__artist").text().equalsIgnoreCase(artist)) {
-                hasil += "\n" + elements.select(".chart-row__artist").text() + "\n"
-                        + elements.select(".chart-row__song").text() + "\n"
+                hasil += "Artist : " + elements.select(".chart-row__artist").text() + "\n"
+                        + "Song : " + elements.select(".chart-row__song").text() + "\n"
                         + "Position : " + (i + 1) + "\n";
             }
         }
         if(hasil.equals("")) {
-            return "Artist is not present in Billboard's Tropical Songs music chart this week";
+            return artist + " is not present in Billboard's Tropical Songs music chart this week";
         }
         return hasil;
     }
