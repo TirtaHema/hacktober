@@ -6,11 +6,10 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
+import advprog.bot.feature.yerlandinata.youtubeinfo.YoutubeVideo;
+
 import java.io.IOException;
 
-import advprog.bot.feature.yerlandinata.youtubeinfo.YoutubeVideo;
-import advprog.bot.feature.yerlandinata.youtubeinfo.fetcher.YoutubeInfoFetcherImpl;
-import advprog.bot.feature.yerlandinata.youtubeinfo.fetcher.YoutubeVideoNotFoundException;
 import okhttp3.Call;
 import okhttp3.OkHttpClient;
 import okhttp3.Protocol;

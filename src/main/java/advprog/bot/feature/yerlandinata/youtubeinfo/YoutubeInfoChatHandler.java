@@ -62,7 +62,7 @@ public class YoutubeInfoChatHandler extends AbstractLineChatHandlerDecorator {
         YoutubeVideo youtubeVideo;
         try {
             youtubeVideo = youtubeInfoFetcher.fetchData(videoId);
-        } catch (IOException | JSONException | YoutubeVideoNotFoundException e){
+        } catch (IOException | JSONException | YoutubeVideoNotFoundException e) {
             String reply = "Video dengan ID " + videoId + " tidak dapat kami akses :(";
             LOGGER.info("Fail, reply:\n" + reply);
             return Collections.singletonList(new TextMessage(reply));

@@ -136,7 +136,9 @@ public class YoutubeInfoChatHandlerTest {
         List<Message> previousMessages = Collections.singletonList(
                 new TextMessage("previous messages")
         );
-        MessageEvent<TextMessageContent> me = ChatHandlerTestUtil.fakeMessageEvent("re", invalidCmd);
+        MessageEvent<TextMessageContent> me = ChatHandlerTestUtil.fakeMessageEvent(
+                "re", invalidCmd
+        );
         assertEquals(
                 previousMessages,
                 youtubeInfoChatHandler.handleTextMessageEvent(me, previousMessages)

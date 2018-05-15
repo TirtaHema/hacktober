@@ -14,7 +14,7 @@ import org.junit.runner.RunWith;
 import org.mockito.junit.MockitoJUnitRunner;
 
 @RunWith(MockitoJUnitRunner.class)
-public class DefaultYoutubeVideoIdParserTest extends YoutubeVideoIdParserTest{
+public class DefaultYoutubeVideoIdParserTest extends YoutubeVideoIdParserTest {
 
     @Before
     public void setUp() {
