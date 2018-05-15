@@ -1,4 +1,4 @@
-package advprog.example.bot.Twitter;
+package advprog.example.bot.twittter;
 
 import twitter4j.TwitterException;
 

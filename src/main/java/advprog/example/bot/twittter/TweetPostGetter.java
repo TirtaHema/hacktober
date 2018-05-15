@@ -1,4 +1,4 @@
-package advprog.example.bot.Twitter;
+package advprog.example.bot.twittter;
 
 import java.util.List;
 
@@ -25,8 +25,7 @@ public class TweetPostGetter {
 
         TwitterFactory tf = new TwitterFactory(cb.build());
         Twitter twitter = tf.getInstance();
-        // gets Twitter instance with default credentials
-//        Twitter twitter = new TwitterFactory().getInstance();
+
         List<Status> statuses;
         String[] result = new String[numTweet];
         try {
@@ -34,7 +33,6 @@ public class TweetPostGetter {
             System.out.println("Showing @" + user + "'s user timeline.");
             for (int i = 0; i < numTweet; i++) {
                 result[i] = statuses.get(i).getText() + "(" + statuses.get(i).getCreatedAt() + ")";
-                System.out.println(statuses.get(i).getText() + "(" + statuses.get(i).getCreatedAt() + ")");
             }
         } catch (TwitterException te) {
             te.printStackTrace();

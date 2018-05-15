@@ -52,8 +52,13 @@ public class TwitterControllerTest {
                 EventTestUtil.createDummyTextMessage("/tweet recent williamrumanta");
 
         TextMessage reply = twitterController.handleTextMessageEvent(event);
-        System.out.println("heloooo");
-        System.out.println(reply.getText());
+        String expected = "asuuuu(Tue May 15 19:43:50 ICT 2018)\n" +
+                "really frustating to have you in my life(Mon May 14 16:27:09 ICT 2018)\n" +
+                "no no no no(Mon May 14 16:26:50 ICT 2018)\n" +
+                "yo what's up people(Mon May 14 16:26:45 ICT 2018)\n" +
+                "Lol i didn't see that coming(Mon May 14 16:26:34 ICT 2018)\n";
+
+        assertEquals(expected, reply.getText());
     }
 
 //    @Test
