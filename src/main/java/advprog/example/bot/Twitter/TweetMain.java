@@ -4,6 +4,6 @@ public class TweetMain {
 
     public static void main(String[] args) {
         TweetPostGetter tweetGetter = new TweetPostGetter();
-        tweetGetter.getTweet(5);
+        tweetGetter.getTweet(5, "rumanta");
     }
 }
