@@ -37,6 +37,7 @@ public class YoutubeInfoChatHandler extends AbstractLineChatHandlerDecorator {
         this.decoratedLineChatHandler = decoratedHandler;
         this.youtubeInfoFetcher = youtubeInfoFetcher;
         this.youtubeVideoIdParser = youtubeVideoIdParser;
+        LOGGER.info("YoutubeInfoChatHandler set!");
     }
 
     @Override

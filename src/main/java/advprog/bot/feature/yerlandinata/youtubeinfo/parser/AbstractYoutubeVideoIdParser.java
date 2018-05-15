@@ -13,7 +13,7 @@ public abstract class AbstractYoutubeVideoIdParser {
             return parseIdFromUrl(videoUrl);
         } catch (InvalidYoutubeVideoUrl e) {
             if (nextParser != null) {
-                return nextParser.parseIdFromUrl(videoUrl);
+                return nextParser.parseYoutubeVideoId(videoUrl);
             } else {
                 throw e;
             }
