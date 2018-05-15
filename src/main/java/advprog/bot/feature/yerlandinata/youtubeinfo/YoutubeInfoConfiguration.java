@@ -5,6 +5,7 @@ import advprog.bot.feature.yerlandinata.youtubeinfo.fetcher.YoutubeInfoFetcher;
 import advprog.bot.feature.yerlandinata.youtubeinfo.fetcher.YoutubeInfoFetcherImpl;
 import advprog.bot.feature.yerlandinata.youtubeinfo.parser.AbstractYoutubeVideoIdParser;
 import advprog.bot.feature.yerlandinata.youtubeinfo.parser.DefaultYoutubeVideoIdParser;
+import advprog.bot.feature.yerlandinata.youtubeinfo.parser.ShortLinkYoutubeVideoIdParser;
 import advprog.bot.line.LineChatHandler;
 import okhttp3.OkHttpClient;
 import org.springframework.context.annotation.Bean;
@@ -30,7 +31,9 @@ public class YoutubeInfoConfiguration {
 
     @Bean
     AbstractYoutubeVideoIdParser chainOfYoutubeVideoIdParser() {
-        return new DefaultYoutubeVideoIdParser();
+        AbstractYoutubeVideoIdParser parser =  new DefaultYoutubeVideoIdParser();
+        parser.setNextParser(new ShortLinkYoutubeVideoIdParser());
+        return parser;
     }
 
     @Bean
