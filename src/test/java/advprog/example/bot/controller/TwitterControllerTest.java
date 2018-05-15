@@ -51,9 +51,9 @@ public class TwitterControllerTest {
         MessageEvent<TextMessageContent> event =
                 EventTestUtil.createDummyTextMessage("/tweet recent williamrumanta");
 
-        String[] reply = twitterController.handleTextEvent(event);
-        System.out.println(reply);
-        assertEquals(5, reply.length);
+        TextMessage reply = twitterController.handleTextMessageEvent(event);
+        System.out.println("heloooo");
+        System.out.println(reply.getText());
     }
 
 //    @Test
