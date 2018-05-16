@@ -9,7 +9,8 @@ import org.springframework.context.annotation.Configuration;
 public class Top5PosterConfiguration {
 
     @Bean
-    public Top5PosterHandler top5PosterHandler (BotController controller, Top5PosterService service) {
+    public Top5PosterHandler top5PosterHandler(
+            BotController controller, Top5PosterService service) {
         LineChatHandler currenctChatHandler = controller.getLineChatHandler();
         Top5PosterHandler handler = new Top5PosterHandler(currenctChatHandler, service);
         controller.replaceLineChatHandler(handler);

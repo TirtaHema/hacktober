@@ -4,10 +4,10 @@ import org.jetbrains.annotations.NotNull;
 
 public class Poster implements Comparable<Poster> {
 
+    private static final double EPS = 0.0001;
+
     private final String name;
     private final double percentage;
-
-    private final static double EPS = 0.0001;
 
     public Poster(String name, double percentage) {
 

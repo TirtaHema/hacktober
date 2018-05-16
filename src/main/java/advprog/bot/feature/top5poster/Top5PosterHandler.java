@@ -3,7 +3,11 @@ package advprog.bot.feature.top5poster;
 import advprog.bot.line.AbstractLineChatHandlerDecorator;
 import advprog.bot.line.LineChatHandler;
 import com.linecorp.bot.model.event.MessageEvent;
-import com.linecorp.bot.model.event.message.*;
+import com.linecorp.bot.model.event.message.AudioMessageContent;
+import com.linecorp.bot.model.event.message.ImageMessageContent;
+import com.linecorp.bot.model.event.message.LocationMessageContent;
+import com.linecorp.bot.model.event.message.StickerMessageContent;
+import com.linecorp.bot.model.event.message.TextMessageContent;
 import com.linecorp.bot.model.event.source.GroupSource;
 import com.linecorp.bot.model.message.Message;
 import com.linecorp.bot.model.message.TextMessage;
@@ -32,9 +36,11 @@ public class Top5PosterHandler extends AbstractLineChatHandlerDecorator {
     @Override
     protected List<Message> handleTextMessage(MessageEvent<TextMessageContent> event) {
         List<Message> messages = new ArrayList<>();
-        if (event.getMessage().getText().split(" ")[0].equals("/topposters") && event.getSource() instanceof GroupSource) {
+        if (event.getMessage().getText().split(" ")[0].equals("/topposters")
+                && event.getSource() instanceof GroupSource) {
             try {
-                List<Poster> posters = service.getTop5(((GroupSource) event.getSource()).getGroupId());
+                List<Poster> posters = service.getTop5(
+                        ((GroupSource) event.getSource()).getGroupId());
                 int counter = 1;
                 for (Poster p : posters) {
                     messages.add(new TextMessage(counter++ + ". " + p.toString()));

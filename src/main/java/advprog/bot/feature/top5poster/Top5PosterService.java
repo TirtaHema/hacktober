@@ -2,12 +2,15 @@ package advprog.bot.feature.top5poster;
 
 import com.linecorp.bot.client.LineMessagingClient;
 import com.linecorp.bot.model.event.MessageEvent;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.atomic.AtomicInteger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.*;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.atomic.AtomicInteger;
 
 @Service
 public class Top5PosterService {
@@ -40,7 +43,10 @@ public class Top5PosterService {
         List<Poster> posters = new ArrayList<>();
 
         for (String userId: dataGroupMember.keySet()) {
-            posters.add(new Poster(client.getGroupMemberProfile(groupId, userId).get().getDisplayName(), ((double) dataGroupMember.get(userId) / (double) totalChatGroup) * 100));
+            posters.add(new Poster(client.getGroupMemberProfile(
+                    groupId,
+                    userId).get().getDisplayName(),
+                    ((double) dataGroupMember.get(userId) / (double) totalChatGroup) * 100));
         }
 
         Collections.sort(posters);
