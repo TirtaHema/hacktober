@@ -18,7 +18,7 @@ public class CountrySongBotTest {
     @Before
     public void setUp(){
         bot = new CountrySongChartBot();
-        bot.find ="Kane Brown";
+        bot.artist ="Kane Brown";
     }
 
     @Test
@@ -31,7 +31,7 @@ public class CountrySongBotTest {
 
     @Test
     public void isExistTest(){
-        assertTrue(bot.isExist(bot.find));
+        assertTrue(bot.isExist(bot.artist));
     }
 
     @Test
