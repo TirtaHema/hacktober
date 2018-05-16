@@ -1,4 +1,4 @@
-package advprog.example.bot.NewAgeBot;
+package advprog.example.bot.controller;
 
 public class NewAgeSong {
 
@@ -6,7 +6,7 @@ public class NewAgeSong {
     private String artist;
     private int rank;
 
-    public NewAgeSong(String title,String artist, int rank){
+    public NewAgeSong(String title,String artist, int rank) {
         this.title = title;
         this.artist = artist;
         this.rank = rank;
@@ -36,7 +36,7 @@ public class NewAgeSong {
         this.rank = rank;
     }
 
-    public String song(){
+    public String song() {
         StringBuilder sb = new StringBuilder();
         sb.append(this.artist + "\n");
         sb.append(this.title + "\n");
