@@ -1,4 +1,4 @@
-package advprog.BillBoard.bot.feature.billboard;
+package advprog.bot.feature.billboard;
 
 import advprog.bot.line.AbstractLineChatHandlerDecorator;
 import advprog.bot.line.LineChatHandler;
@@ -12,13 +12,12 @@ import com.linecorp.bot.model.event.message.TextMessageContent;
 import com.linecorp.bot.model.message.Message;
 import com.linecorp.bot.model.message.TextMessage;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.logging.Logger;
 
-import org.springframework.stereotype.Service;
-
-public class BillBoardChatHandler extends AbstractLineChatHandlerDecorator{
+public class BillBoardChatHandler extends AbstractLineChatHandlerDecorator {
     private static final Logger LOGGER = Logger.getLogger(BillBoardChatHandler.class.getName());
 
     public BillBoardChatHandler(LineChatHandler decoratedHandler) {
@@ -35,8 +34,27 @@ public class BillBoardChatHandler extends AbstractLineChatHandlerDecorator{
 
     @Override
     protected List<Message> handleTextMessage(MessageEvent<TextMessageContent> event) {
+        String contentText = event.getMessage().getText();
+        if (contentText.contains("/billboard bill200")) {
+            BillBoardOperation operation = new BillBoardOperation();
+            ArrayList<String> artists = operation.getArrayArtist();
+            String inputArtist = contentText.replace("/billboard bill200", "").toLowerCase();
+            if (artists.contains(inputArtist)) {
+                ArrayList<String> songs = operation.getArraySong();
+                int position = artists.indexOf(inputArtist) + 1;
+                return Collections.singletonList(
+                    new TextMessage(inputArtist + "\n"
+                        + songs.get(position - 1) + "\n" + position)
+                );
+            }
+            String error
+                = "Sorry, your artist is not valid or doesn't make it to Billboard top 200";
+            return Collections.singletonList(new TextMessage(
+                error
+            ));
+        }
         return Collections.singletonList(
-            new TextMessage(event.getMessage().getText().replace("/echo", ""))
+            new TextMessage("")
         ); // just return list of TextMessage for multi-line reply!
         // Return empty list of TextMessage if not replying. DO NOT RETURN NULL!!!
     }
