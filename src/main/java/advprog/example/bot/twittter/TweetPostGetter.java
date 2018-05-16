@@ -33,7 +33,7 @@ public class TweetPostGetter {
             statuses = twitter.getUserTimeline(user);
             System.out.println("Showing @" + user + "'s user timeline.");
             for (int i = 0; i < numTweet; i++) {
-                result[i] = statuses.get(i).getText() + "(" + statuses.get(i).getCreatedAt() + ")";
+                result[i] = statuses.get(i).getText() + "(" + statuses.get(i).getCreatedAt().toLocaleString() + ")";
             }
         } catch (TwitterException te) {
             te.printStackTrace();
