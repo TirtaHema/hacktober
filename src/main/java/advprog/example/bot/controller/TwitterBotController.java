@@ -7,9 +7,9 @@ import com.linecorp.bot.model.event.message.TextMessageContent;
 import com.linecorp.bot.model.message.TextMessage;
 import com.linecorp.bot.spring.boot.annotation.EventMapping;
 
+import java.util.logging.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import java.util.logging.Logger;
 
 public class TwitterBotController {
 
