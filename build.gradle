@@ -92,6 +92,7 @@ compileJava {
 // Configure Gradle test to use JUnit 5 platform
 test {
     useJUnitPlatform()
+    testLogging.showStandardStreams = true
 
     reports {
         html.enabled = true

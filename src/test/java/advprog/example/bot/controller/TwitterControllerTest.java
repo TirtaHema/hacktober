@@ -14,6 +14,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
+import java.util.logging.Logger;
 
 
 @SpringBootTest(properties = "line.bot.handler.enabled=false")
@@ -28,6 +29,8 @@ public class TwitterControllerTest {
 
     @Autowired
     private TwitterBotController twitterController;
+    private static final Logger LOGGER = Logger.getLogger(TwitterBotController.class.getName());
+
 
     public TwitterControllerTest() {
         twitterController = new TwitterBotController();
@@ -44,8 +47,8 @@ public class TwitterControllerTest {
                 EventTestUtil.createDummyTextMessage("/tweet recent williamrumanta");
 
         TextMessage reply = twitterController.handleTextMessageEvent(event);
-        System.out.println("This is debugging");
-        System.out.println(reply.getText());
+        LOGGER.info("This is debugging process");
+        LOGGER.info(reply.getText());
         String expected = "asuuuu(Tue May 15 19:43:50 ICT 2018)\n"
                 + "really frustating to have you in my life(Mon May 14 16:27:09 ICT 2018)\n"
                 + "no no no no(Mon May 14 16:26:50 ICT 2018)\n"
