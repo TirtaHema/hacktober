@@ -1,4 +1,4 @@
-package advprog.example.bot.CountryBot;
+package advprog.example.bot.controller;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -21,14 +21,14 @@ public class CountrySongChartBot {
         this.getChart();
     }
 
-    public CountrySongChartBot(String artis){
+    public CountrySongChartBot(String artis) {
         this.url = "https://www.billboard.com/charts/country-songs";
         this.chart = new ArrayList<>();
         this.getChart();
         this.artist = artis;
     }
 
-    public List<CountrySong> getChart(){
+    public List<CountrySong> getChart() {
         try {
             Document doc = Jsoup.connect(url).get();
             Elements data = doc.getElementsByClass("chart-row");
@@ -49,16 +49,16 @@ public class CountrySongChartBot {
         return this.chart;
     }
 
-    public boolean isExist(String find){
-        for(CountrySong song : chart){
-            if (song.getArtist().toLowerCase().contains(find.toLowerCase())){
+    public boolean isExist(String find) {
+        for (CountrySong song : chart) {
+            if (song.getArtist().toLowerCase().contains(find.toLowerCase())) {
                 return true;
             }
         }
         return false;
     }
 
-    public String FavoriteArtist() {
+    public String favoriteArtist() {
         StringBuilder sb = new StringBuilder();
         if (isExist(this.artist)) {
             for (CountrySong song : chart) {

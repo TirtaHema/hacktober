@@ -1,7 +1,4 @@
-package advprog.example.bot.CountrySong;
-
-import advprog.example.bot.CountryBot.CountrySong;
-import advprog.example.bot.CountryBot.CountrySongChartBot;
+package advprog.example.bot.controller;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
@@ -16,31 +13,31 @@ public class CountrySongBotTest {
     CountrySongChartBot bot;
 
     @Before
-    public void setUp(){
+    public void setUp() {
         bot = new CountrySongChartBot();
-        bot.artist ="Kane Brown";
+        bot.artist = "Kane Brown";
     }
 
     @Test
-    public void getChartTest(){
+    public void getChartTest() {
         assertNotNull(bot.getChart());
-        for(CountrySong song : bot.chart){
+        for (CountrySong song : bot.chart) {
             song.song();
         }
     }
 
     @Test
-    public void isExistTest(){
+    public void isExistTest() {
         assertTrue(bot.isExist(bot.artist));
     }
 
     @Test
-    public void favArtistTest(){
-        assertEquals("Kane Brown\nHeaven\n2",bot.FavoriteArtist());
+    public void favArtistTest() {
+        assertEquals("Kane Brown\nHeaven\n2",bot.favoriteArtist());
     }
 
     @Test
-    public void urlTest(){
+    public void urlTest() {
         assertEquals(url,bot.getUrl());
     }
 }
