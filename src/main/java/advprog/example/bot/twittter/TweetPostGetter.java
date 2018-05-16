@@ -38,7 +38,9 @@ public class TweetPostGetter {
         } catch (TwitterException te) {
             te.printStackTrace();
             System.out.println("Failed to get timeline: " + te.getMessage());
+            String[] err = {te.getMessage()};
             System.exit(-1);
+            return err;
         }
         return result;
     }
