@@ -51,11 +51,11 @@ public class TwitterControllerTest {
         TextMessage reply = twitterController.handleTextMessageEvent(event);
         LOGGER.info("This is debugging process");
         LOGGER.info(reply.getText());
-        String expected = "asuuuu(May 15, 2018 7:43:50 PM)\n"
-                + "really frustating to have you in my life(May 14, 2018 4:27:09 PM)\n"
-                + "no no no no(May 14, 2018 4:26:50 PM)\n"
-                + "yo what's up people(May 14, 2018 4:26:45 PM)\n"
-                +  "Lol i didn't see that coming(May 14, 2018 4:26:34 PM)\n";
+        String expected = "asuuuu\n"
+                + "really frustating to have you in my life\n"
+                + "no no no no\n"
+                + "yo what's up people\n"
+                +  "Lol i didn't see that coming\n";
 
         assertEquals(expected, reply.getText());
     }
