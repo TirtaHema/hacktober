@@ -6,6 +6,6 @@ public class TweetMain {
 
     public static void main(String[] args) throws TwitterException {
         TweetPostGetter tweetGetter = new TweetPostGetter();
-        tweetGetter.getTweet(5, "williamrumanta");
+        tweetGetter.getTweet(5, "williamrumantaaas");
     }
 }

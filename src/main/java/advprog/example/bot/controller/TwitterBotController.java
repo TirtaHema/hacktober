@@ -38,6 +38,9 @@ public class TwitterBotController {
                 String tweet = replyPosts[i];
                 res += tweet += "\n";
             }
+        } else if (pesanSplit[0].equals("/echo")) {
+            String replyText = contentText.replace("/echo", "");
+            return new TextMessage(replyText.substring(1));
         }
         return new TextMessage(res);
     }
