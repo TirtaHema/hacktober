@@ -1,4 +1,4 @@
-package advprog.BillBoard.bot.feature.billboard;
+package advprog.bot.feature.billboard;
 
 import advprog.bot.line.AbstractLineChatHandlerDecorator;
 import advprog.bot.line.LineChatHandler;
@@ -12,11 +12,10 @@ import com.linecorp.bot.model.event.message.TextMessageContent;
 import com.linecorp.bot.model.message.Message;
 import com.linecorp.bot.model.message.TextMessage;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.logging.Logger;
-
-import org.springframework.stereotype.Service;
 
 public class BillBoardChatHandler extends AbstractLineChatHandlerDecorator {
 
@@ -36,8 +35,28 @@ public class BillBoardChatHandler extends AbstractLineChatHandlerDecorator {
 
     @Override
     protected List<Message> handleTextMessage(MessageEvent<TextMessageContent> event) {
+        String contentText = event.getMessage().getText();
+        if (contentText.contains("/billboard japan100")) {
+            BillBoardOperation operation = new BillBoardOperation();
+        }
+        if (contentText.contains("/billboard japan100")) {
+            BillBoardOperation operation = new BillBoardOperation();
+            ArrayList<String> artists = operation.getArrayArtist();
+            ArrayList<String> songs = operation.getArraySong();
+            String replyMessage = "";
+            for (int i = 0; i < 10; i++) {
+                replyMessage = replyMessage
+                    + "(" +  (i + 1) + ") "
+                    + artists.get(i) + " - "
+                    + songs.get(i) + "\n";
+            }
+
+            return Collections.singletonList(
+                new TextMessage(replyMessage)
+            );
+        }
         return Collections.singletonList(
-            new TextMessage(event.getMessage().getText().replace("/echo", ""))
+            new TextMessage("")
         ); // just return list of TextMessage for multi-line reply!
         // Return empty list of TextMessage if not replying. DO NOT RETURN NULL!!!
     }

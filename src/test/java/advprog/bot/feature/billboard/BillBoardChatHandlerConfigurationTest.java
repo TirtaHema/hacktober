@@ -1,12 +1,12 @@
-package advprog.BillBoard.bot.controller.BillBoard.bot.feature.billboard;
+package advprog.bot.feature.billboard;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-import advprog.BillBoard.bot.feature.billboard.BillBoardChatHandler;
-import advprog.BillBoard.bot.feature.billboard.BillBoardChatHandlerConfiguration;
 import advprog.bot.BotController;
+import advprog.bot.feature.billboard.BillBoardChatHandler;
+import advprog.bot.feature.billboard.BillBoardChatHandlerConfiguration;
 import advprog.bot.line.LineChatHandler;
 
 import org.junit.Test;

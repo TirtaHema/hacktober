@@ -1,4 +1,4 @@
-package advprog.BillBoard.bot.feature.billboard;
+package advprog.bot.feature.billboard;
 
 import advprog.bot.BotController;
 import advprog.bot.line.LineChatHandler;
