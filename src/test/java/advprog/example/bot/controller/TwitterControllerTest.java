@@ -1,11 +1,18 @@
 package advprog.example.bot.controller;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import advprog.example.bot.EventTestUtil;
 import com.linecorp.bot.model.event.MessageEvent;
+
+import com.linecorp.bot.model.event.message.AudioMessageContent;
+import com.linecorp.bot.model.event.message.ImageMessageContent;
+import com.linecorp.bot.model.event.message.LocationMessageContent;
+import com.linecorp.bot.model.event.message.StickerMessageContent;
 import com.linecorp.bot.model.event.message.TextMessageContent;
+
 import com.linecorp.bot.model.message.TextMessage;
 
 import java.util.logging.Logger;
@@ -60,21 +67,28 @@ public class TwitterControllerTest {
         assertEquals(expected, reply.getText());
     }
 
-    //    @Test
-    //    public void testHandleDefaultMessage() {
-    //        Event event = mock(Event.class);
-    //
-    //        twitterController.handleDefaultMessage(event);
-    //
-    //        verify(event, atLeastOnce()).getSource();
-    //        verify(event, atLeastOnce()).getTimestamp();
-    //    }
+    @Test
+    public void canHandleTextMessage() {
+        assertFalse(twitterController.canHandleTextMessage(null));
+    }
 
-    //    @Test
-    //    public void testStubFunction() {
-    //        String result = twitterController.stubFunction();
-    //        String expected = "Ok";
-    //
-    //        assertEquals(expected, result);
-    //    }
+    @Test
+    public void canHandleImageMessage() {
+        assertFalse(twitterController.canHandleImageMessage(null));
+    }
+
+    @Test
+    public void canHandleAudioMessage() {
+        assertFalse(twitterController.canHandleAudioMessage(null));
+    }
+
+    @Test
+    public void canHandleStickerMessage() {
+        assertFalse(twitterController.canHandleStickerMessage(null));
+    }
+
+    @Test
+    public void canHandleLocationMessage() {
+        assertFalse(twitterController.canHandleLocationMessage(null));
+    }
 }
