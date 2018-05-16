@@ -36,10 +36,7 @@ public class BillBoardChatHandler extends AbstractLineChatHandlerDecorator {
     @Override
     protected List<Message> handleTextMessage(MessageEvent<TextMessageContent> event) {
         String contentText = event.getMessage().getText();
-        if (contentText.contains("/billboard japan100")) {
-            BillBoardOperation operation = new BillBoardOperation();
-        }
-        if (contentText.contains("/billboard japan100")) {
+        if (contentText.equals("/billboard japan100")) {
             BillBoardOperation operation = new BillBoardOperation();
             ArrayList<String> artists = operation.getArrayArtist();
             ArrayList<String> songs = operation.getArraySong();
@@ -56,7 +53,7 @@ public class BillBoardChatHandler extends AbstractLineChatHandlerDecorator {
             );
         }
         return Collections.singletonList(
-            new TextMessage("")
+            new TextMessage("Please enter the right command")
         ); // just return list of TextMessage for multi-line reply!
         // Return empty list of TextMessage if not replying. DO NOT RETURN NULL!!!
     }
