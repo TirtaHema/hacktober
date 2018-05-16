@@ -39,7 +39,7 @@ public class EchoController {
             String[] input2 = input.split(" ",2);
 
             String command2 = input2[0];
-            if (command2.toLowerCase().equals("hotcountry")){
+            if (command2.toLowerCase().equals("newage")){
                 String artis = input2[1];
                 NewAgeChartBot bot = new NewAgeChartBot(artis);
                 return new TextMessage(bot.FavoriteArtist());
