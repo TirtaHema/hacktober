@@ -3,11 +3,13 @@ package advprog.bot.feature.top5poster;
 import com.linecorp.bot.client.LineMessagingClient;
 import com.linecorp.bot.model.event.MessageEvent;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.*;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.atomic.AtomicInteger;
 
+@Service
 public class Top5PosterService {
 
     private LineMessagingClient client;

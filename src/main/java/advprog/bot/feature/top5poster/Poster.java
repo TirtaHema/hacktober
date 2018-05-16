@@ -44,4 +44,12 @@ public class Poster implements Comparable<Poster> {
     public String toString() {
         return this.name + " " + this.percentage + "%";
     }
+
+    @Override
+    public int hashCode() {
+        int result = 17;
+        result += 31 * this.name.hashCode();
+        result += Math.floor(this.percentage);
+        return result;
+    }
 }
