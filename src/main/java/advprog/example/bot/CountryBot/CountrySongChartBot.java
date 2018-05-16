@@ -12,13 +12,20 @@ import org.jsoup.select.Elements;
 public class CountrySongChartBot {
 
     public List<CountrySong> chart;
-    public String find;
+    public String artist;
     public String url;
 
-    public CountrySongChartBot(){
+    public CountrySongChartBot() {
         this.url = "https://www.billboard.com/charts/country-songs";
         this.chart = new ArrayList<>();
         this.getChart();
+    }
+
+    public CountrySongChartBot(String artis){
+        this.url = "https://www.billboard.com/charts/country-songs";
+        this.chart = new ArrayList<>();
+        this.getChart();
+        this.artist = artis;
     }
 
     public List<CountrySong> getChart(){
@@ -53,9 +60,9 @@ public class CountrySongChartBot {
 
     public String FavoriteArtist() {
         StringBuilder sb = new StringBuilder();
-        if (isExist(find)) {
+        if (isExist(this.artist)) {
             for (CountrySong song : chart) {
-                if (song.getArtist().toLowerCase().contains(find.toLowerCase())) {
+                if (song.getArtist().toLowerCase().contains(this.artist.toLowerCase())) {
                     if (sb.toString().length() == 0) {
                         sb.append(song.song());
                     } else {
