@@ -48,6 +48,10 @@ dependencies {
     testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:$junit5_version"
     testRuntimeOnly "org.junit.vintage:junit-vintage-engine:$junit5_version"
     testRuntimeOnly "org.junit.platform:junit-platform-launcher:1.2.0"
+
+    compile group: 'commons-io', name: 'commons-io', version: '2.4'
+    compile "com.microsoft.projectoxford:vision:1.0.394"
+    compile group: 'org.apache.httpcomponents', name: 'httpclient', version: '4.5.5'
 }
 
 // Configure Checkstyle plugin

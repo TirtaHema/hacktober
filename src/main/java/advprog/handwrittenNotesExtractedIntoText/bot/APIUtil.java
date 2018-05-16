@@ -4,9 +4,9 @@ import java.net.URI;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
+import org.apache.http.client.entity.EntityBuilder;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
-import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.util.EntityUtils;
 import org.apache.http.Header;
@@ -33,7 +33,7 @@ public class APIUtil {
     // Also, for printed text, set "handwriting" to false.
     public static final String uriBase = "https://westcentralus.api.cognitive.microsoft.com/vision/v1.0/recognizeText?handwriting=true";
 
-    public static String imageToText(String url) {
+    public static String imageToText(byte[] binaryBytes) {
         HttpClient textClient = new DefaultHttpClient();
         HttpClient resultClient = new DefaultHttpClient();
 
@@ -46,12 +46,15 @@ public class APIUtil {
             HttpPost textRequest = new HttpPost(uri);
 
             // Request headers. Another valid content type is "application/octet-stream".
-            textRequest.setHeader("Content-Type", "application/json");
+            textRequest.setHeader("Content-Type", "application/octet-stream");
             textRequest.setHeader("Ocp-Apim-Subscription-Key", subscriptionKey);
+            textRequest.setHeader("Authorization", "Bearer WWGPTyNm/uJLr7lg+" +
+                    "AgXSx3SicYp0FjWHOoVJxseKo29WOM9fGwCFtHoRLzaaNolh985FYYIMmiUKPY423AFw" +
+                    "mEu1E0Cy+KgJLFhlj+B47B4slICH0cbHmNxGr4NZLLn9EXE9uzVstsyFUn12Y/n6gdB0" +
+                    "4t89/1O/w1cDnyilFU=");
 
             // Request body.
-            StringEntity requestEntity =
-                    new StringEntity("{\"url\":\" " + url + "\"}");
+            HttpEntity requestEntity = EntityBuilder.create().setBinary(binaryBytes).build();
             textRequest.setEntity(requestEntity);
 
             // Execute the first REST API call to detect the text.
