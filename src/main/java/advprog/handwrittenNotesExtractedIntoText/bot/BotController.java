@@ -98,6 +98,7 @@ public class BotController {
                 tempFile,
                 createUri("/downloaded/" + tempFile.getFileName()));
     }
+
     private static String createUri(String path) {
         return ServletUriComponentsBuilder.fromCurrentContextPath()
                 .path(path).build()
