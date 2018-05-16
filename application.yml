@@ -13,7 +13,7 @@
 # License for the specific language governing permissions and limitations
 # under the License.
 line.bot:
-  channel-token: '90CD8ebqwWo7AtIX827ECu8pP9GbRNAa0UazQSI6LqjFgaapC6cKpT+dkAlXSmzwh985FYYIMmiUKPY423AFwmEu1E0Cy+KgJLFhlj+B47CSvEafbMYoQhJmBbUnzucWlrZXwuSjMK1JoppZRI58mwdB04t89/1O/w1cDnyilFU='
+  channel-token: 'WWGPTyNm/uJLr7lg+AgXSx3SicYp0FjWHOoVJxseKo29WOM9fGwCFtHoRLzaaNolh985FYYIMmiUKPY423AFwmEu1E0Cy+KgJLFhlj+B47B4slICH0cbHmNxGr4NZLLn9EXE9uzVstsyFUn12Y/n6gdB04t89/1O/w1cDnyilFU='
   channel-secret: '41596ce996d7d6854d063e1efc29750b'
   handler.path: /callback
 
