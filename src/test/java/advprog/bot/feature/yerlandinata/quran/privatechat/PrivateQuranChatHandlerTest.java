@@ -70,7 +70,7 @@ public class PrivateQuranChatHandlerTest {
         expectedMessages.add(new TextMessage(expectedAyat.getAyatArab()));
         expectedMessages.add(new TextMessage(expectedAyat.getAyatIndonesia()));
         expectedMessages.add(
-                new AudioMessage(expectedAyat.getAudioUrl(), 3)
+                new AudioMessage(expectedAyat.getAudioUri(), 3)
         );
         String text = String.format("/qs %d:%d", surah, ayat);
         MessageEvent<TextMessageContent> me = ChatHandlerTestUtil.fakeMessageEvent(

@@ -82,7 +82,7 @@ public class PrivateQuranChatHandler extends AbstractLineChatHandlerDecorator {
         ));
         replies.add(new TextMessage(ayatQuran.getAyatArab()));
         replies.add(new TextMessage(ayatQuran.getAyatIndonesia()));
-        replies.add(new AudioMessage(ayatQuran.getAudioUrl(), 3));
+        replies.add(new AudioMessage(ayatQuran.getAudioUri(), 3));
         LOGGER.info("Success, result: \n" + ayatQuran.toString());
         return replies;
     }

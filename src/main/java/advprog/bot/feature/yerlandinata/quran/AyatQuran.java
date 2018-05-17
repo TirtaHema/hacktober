@@ -6,16 +6,16 @@ public final class AyatQuran {
     private final int ayatNum;
     private final String ayatIndonesia;
     private final String ayatArab;
-    private final String audioUrl;
+    private final String audioUri;
     private final int audioDuration;
 
     public AyatQuran(String surahName, int ayatNum, String ayatIndonesia,
-                     String ayatArab, String audioUrl, int audioDuration) {
+                     String ayatArab, String audioUri, int audioDuration) {
         this.surahName = surahName;
         this.ayatNum = ayatNum;
         this.ayatIndonesia = ayatIndonesia;
         this.ayatArab = ayatArab;
-        this.audioUrl = audioUrl;
+        this.audioUri = audioUri;
         this.audioDuration = audioDuration;
     }
 
@@ -27,8 +27,8 @@ public final class AyatQuran {
         return ayatArab;
     }
 
-    public String getAudioUrl() {
-        return audioUrl;
+    public String getAudioUri() {
+        return audioUri;
     }
 
     public int getAudioDuration() {
@@ -51,7 +51,7 @@ public final class AyatQuran {
                     && ayatNum == other.ayatNum
                     && ayatIndonesia.equals(other.ayatIndonesia)
                     && ayatArab.equals(other.ayatArab)
-                    && audioUrl.equals(other.audioUrl)
+                    && audioUri.equals(other.audioUri)
                     && audioDuration == other.audioDuration;
         } else {
             return false;
@@ -65,7 +65,7 @@ public final class AyatQuran {
         hash += 31 * hash + ayatNum;
         hash += 31 * hash + ayatIndonesia.hashCode();
         hash += 31 * hash + ayatArab.hashCode();
-        hash += 31 * hash + audioUrl.hashCode();
+        hash += 31 * hash + audioUri.hashCode();
         hash += 31 * hash + audioDuration;
         return hash;
     }
@@ -73,7 +73,7 @@ public final class AyatQuran {
     @Override
     public String toString() {
         return String.format(
-                "QS %s : %d [%s; %s; %s]", surahName, ayatNum, ayatArab, ayatIndonesia, audioUrl
+                "QS %s : %d [%s; %s; %s]", surahName, ayatNum, ayatArab, ayatIndonesia, audioUri
         );
     }
 }
