@@ -27,11 +27,30 @@ public class AcronymChatHandler extends AbstractLineChatHandlerDecorator {
 
     @Override
     protected boolean canHandleTextMessage(MessageEvent<TextMessageContent> event) {
-        return false;
+        if (event.getSource().getSenderId().equals(event.getSource().getUserId())) {
+            //this should be private chat
+            String keyword = event.getMessage().getText().split(" ")[0];
+
+            return keyword.equals("/add_acronym")
+                    || keyword.equals("/update_acronym")
+                    || keyword.equals("/delete_acronym");
+        }
+        //this should be public chat
+        String message = event.getMessage().getText();
+        return message.contains("start acronym")
+                || message.equals("next acronym")
+                || message.equals("stop acronym");
     }
 
     @Override
     protected List<Message> handleTextMessage(MessageEvent<TextMessageContent> event) {
+        if (event.getSource().getSenderId().equals(event.getSource().getUserId())) {
+            //this should be private chat
+            String keyword = event.getMessage().getText().split(" ")[0];
+            return null;
+        }
+        //this should be public chat
+        String message = event.getMessage().getText();
         return null;
     }
 
