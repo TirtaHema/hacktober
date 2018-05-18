@@ -11,9 +11,11 @@ import com.linecorp.bot.client.LineMessagingClient;
 import com.linecorp.bot.model.event.MessageEvent;
 import com.linecorp.bot.model.event.message.ImageMessageContent;
 import com.linecorp.bot.model.event.message.TextMessageContent;
+import com.linecorp.bot.model.event.source.UserSource;
 import com.linecorp.bot.model.message.Message;
 import com.linecorp.bot.model.message.TextMessage;
 
+import java.time.Instant;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
@@ -26,8 +28,7 @@ import org.mockito.junit.MockitoJUnitRunner;
 
 @RunWith(MockitoJUnitRunner.class)
 public class AcronymChatHandlerTest {
-    //TODO: HOW TO MOCK PRIVATE CHAT OR GROUP CHAT, only private chats implemented
-    //TODO: HOW TO REPLY CAROUSEL
+    //TODO: GROUP CHAT, CAROUSEL INTERACTION
     AcronymChatHandler acronymChatHandler;
 
     @Before
@@ -39,27 +40,19 @@ public class AcronymChatHandlerTest {
     public void testAddAcronym() {
         List<Message> messages = new LinkedList<>();
         List<TextMessage> expectedMessages = new LinkedList<>();
+
         expectedMessages.add(new TextMessage("Please write your acronym"));
-        String msg = "/add_acronym";
-        MessageEvent<TextMessageContent> me = ChatHandlerTestUtil.fakeMessageEvent(
-                "dsf", msg
-        );
+        MessageEvent<TextMessageContent> me = TestUtil.createDummyPrivateTextMessage("/add_scronym");
         assertEquals(expectedMessages, acronymChatHandler.handleTextMessageEvent(me, messages));
 
         expectedMessages.add(new TextMessage("Please specify the expansion"));
-        msg = "ACR";
-        me = ChatHandlerTestUtil.fakeMessageEvent(
-                "dsf", msg
-        );
+        me = TestUtil.createDummyPrivateTextMessage("ACR");
         assertEquals(expectedMessages, acronymChatHandler.handleTextMessageEvent(me, messages));
 
         expectedMessages.add(new TextMessage("Your acronym "
                 + "\"ACR\" and it's expansion "
                 + "\"Acronym\" has been added"));
-        msg = "Acronym";
-        me = ChatHandlerTestUtil.fakeMessageEvent(
-                "dsf", msg
-        );
+        me = TestUtil.createDummyPrivateTextMessage("Acronym");
         assertEquals(expectedMessages, acronymChatHandler.handleTextMessageEvent(me, messages));
     }
 
@@ -69,17 +62,12 @@ public class AcronymChatHandlerTest {
         List<TextMessage> expectedMessages = new LinkedList<>();
         expectedMessages.add(new TextMessage("Which acronym you want to update?"));
         expectedMessages.add(new TextMessage("Carousel here"));
-        String msg = "/update_acronym";
-        MessageEvent<TextMessageContent> me = ChatHandlerTestUtil.fakeMessageEvent(
-                "dsf", msg
-        );
+        MessageEvent<TextMessageContent> me = TestUtil.createDummyPrivateTextMessage("/update_acronym");
         assertEquals(expectedMessages, acronymChatHandler.handleTextMessageEvent(me, messages));
 
         expectedMessages.add(new TextMessage("Please specify the new expansion"));
-        msg = "Pick ACR from list";
-        me = ChatHandlerTestUtil.fakeMessageEvent(
-                "dsf", msg
-        );
+        String msg = "Pick ACR from list";
+        me = TestUtil.createDummyPrivateTextMessage("ACR");
         assertEquals(expectedMessages, acronymChatHandler.handleTextMessageEvent(me, messages));
 
         expectedMessages.add(new TextMessage("Acronym "
