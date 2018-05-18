@@ -9,7 +9,7 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class iTunesChatHandlerConfiguration {
     @Bean
-    iTunesChatHandler billboardChatHandler(BotController controller) {
+    iTunesChatHandler itunesChatHandler(BotController controller) {
         LineChatHandler currentChatHandler = controller.getLineChatHandler();
         iTunesChatHandler handler = new iTunesChatHandler(currentChatHandler);
         controller.replaceLineChatHandler(handler);

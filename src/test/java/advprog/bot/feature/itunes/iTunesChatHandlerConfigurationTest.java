@@ -21,7 +21,7 @@ public class iTunesChatHandlerConfigurationTest {
         LineChatHandler decoratedHandler = mock(LineChatHandler.class);
         when(controller.getLineChatHandler()).thenReturn(decoratedHandler);
         iTunesChatHandlerConfiguration configuration = new iTunesChatHandlerConfiguration();
-        iTunesChatHandler itunesChatHandler = configuration.billboardChatHandler(controller);
+        iTunesChatHandler itunesChatHandler = configuration.itunesChatHandler(controller);
         assertEquals(decoratedHandler, itunesChatHandler.getDecoratedLineChatHandler());
     }
 }
