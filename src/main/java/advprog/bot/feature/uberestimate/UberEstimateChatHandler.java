@@ -78,10 +78,10 @@ public class UberEstimateChatHandler extends AbstractLineChatHandlerDecorator {
             case "add":
 
                 if (userData.containsKey(source.getUserId())) {
-                    userData.put(source.getUserId(), new ArrayList<Location>());
+                    userData.put(sender, new ArrayList<Location>());
                 }
                 LocationMessageContent location = event.getMessage();
-                userData.get(source.getUserId()).add(
+                userData.get(sender).add(
                         new Location(
                                 location.getLatitude(),
                                 location.getLongitude(),
@@ -89,7 +89,14 @@ public class UberEstimateChatHandler extends AbstractLineChatHandlerDecorator {
                                 lastQuery
                         )
                 );
-                break;
+                String tmp = sender + " ";
+                ArrayList<Location> cur = userData.get(sender);
+                for (Location current : cur) {
+                    tmp = tmp + current.getPlaceName() + " " + Double.toString(current.getLat()) + "\n";
+                }
+                return Collections.singletonList(
+                        new TextMessage("Location Saved " + tmp)
+                );
             case "uber":
                 ArrayList<Location> locations =  userData.get(sender);
 

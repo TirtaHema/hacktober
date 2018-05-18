@@ -13,15 +13,15 @@ public class Location {
         this.placeName = placeName;
     }
 
-    Double getLat() {
+    public Double getLat() {
         return this.lat;
     }
 
-    Double getLon() {
+    public Double getLon() {
         return this.lon;
     }
 
-    String getStreet() {
+    public String getStreet() {
         return street;
     }
 

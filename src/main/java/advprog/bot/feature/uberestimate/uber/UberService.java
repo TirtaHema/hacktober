@@ -1,7 +1,5 @@
 package advprog.bot.feature.uberestimate.uber;
 
-import advprog.bot.feature.nearbyphotos.flickr.Photo;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
