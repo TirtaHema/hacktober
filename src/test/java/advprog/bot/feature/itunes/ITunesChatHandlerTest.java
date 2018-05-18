@@ -1,7 +1,11 @@
 package advprog.bot.feature.itunes;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
+
 import advprog.bot.ChatHandlerTestUtil;
-import advprog.bot.feature.itunes.iTunesChatHandler;
 import advprog.bot.line.BaseChatHandler;
 
 import com.linecorp.bot.model.event.MessageEvent;
@@ -10,7 +14,6 @@ import com.linecorp.bot.model.message.Message;
 import com.linecorp.bot.model.message.TextMessage;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -19,25 +22,13 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.junit.MockitoJUnitRunner;
 
-import static org.junit.Assert.*;
-
 @RunWith(MockitoJUnitRunner.class)
-public class iTunesChatHandlerTest {
-    iTunesChatHandler itunesChatHandler;
+public class ITunesChatHandlerTest {
+    ITunesChatHandler itunesChatHandler;
 
     @Before
     public void setUp() {
-        itunesChatHandler = new iTunesChatHandler(new BaseChatHandler());
-    }
-
-    @Test
-    public void testHandleTextMessageEvent() {
-        String msg = "/billboard japan100";
-        List<Message> messages = new LinkedList<>();
-        MessageEvent<TextMessageContent> me = ChatHandlerTestUtil.fakeMessageEvent(
-            "dsf", msg
-        );
-        assertNotNull(itunesChatHandler.handleTextMessageEvent(me, messages));
+        itunesChatHandler = new ITunesChatHandler(new BaseChatHandler());
     }
 
     @Test
@@ -50,7 +41,7 @@ public class iTunesChatHandlerTest {
         String message = "/itunes_preview sadffasddfasdfas";
         List<Message> messages = new LinkedList<>();
         List<TextMessage> expectedMessages = new LinkedList<>();
-        expectedMessages.add(new TextMessage("Sorry, your artist is not in iTunes."));
+        expectedMessages.add(new TextMessage("Sorry, your artist is not in iTunes"));
         MessageEvent<TextMessageContent> me =
             ChatHandlerTestUtil.fakeMessageEvent("dsf", message);
 
@@ -73,10 +64,12 @@ public class iTunesChatHandlerTest {
     public void testHandleSuccessEvent() throws IOException {
         String message = "/itunes_preview bruno";
         List<Message> messages = new LinkedList<>();
+        List<TextMessage> expectedMessages = new LinkedList<>();
+        expectedMessages.add(new TextMessage("Bruno Mars"));
         MessageEvent<TextMessageContent> me =
             ChatHandlerTestUtil.fakeMessageEvent("dsf", message);
 
-        assertEquals("Maroon 5", itunesChatHandler.handleTextMessageEvent(me, messages));
+        assertEquals(expectedMessages, itunesChatHandler.handleTextMessageEvent(me, messages));
     }
 
     @Test
@@ -89,7 +82,7 @@ public class iTunesChatHandlerTest {
 
 
 
-    
+
 
 
 

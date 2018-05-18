@@ -1,4 +1,4 @@
-package advprog.bot.feature.billboard;
+package advprog.bot.feature.itunes;
 
 import advprog.bot.line.AbstractLineChatHandlerDecorator;
 import advprog.bot.line.LineChatHandler;
@@ -12,49 +12,43 @@ import com.linecorp.bot.model.event.message.TextMessageContent;
 import com.linecorp.bot.model.message.Message;
 import com.linecorp.bot.model.message.TextMessage;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.logging.Logger;
 
-public class BillBoardChatHandler extends AbstractLineChatHandlerDecorator {
+public class ITunesChatHandler extends AbstractLineChatHandlerDecorator {
+    private static final Logger LOGGER = Logger.getLogger(ITunesChatHandler.class.getName());
 
-    private static final Logger LOGGER = Logger.getLogger(BillBoardChatHandler.class.getName());
-
-    public BillBoardChatHandler(LineChatHandler decoratedHandler) {
+    public ITunesChatHandler(LineChatHandler decoratedHandler) {
         this.decoratedLineChatHandler = decoratedHandler;
-        LOGGER.info("Billboard chat handler added!");
+        LOGGER.info("iTunes chat handler added!");
     }
 
     @Override
     protected boolean canHandleTextMessage(MessageEvent<TextMessageContent> event) {
         String billboard = event.getMessage().getText().split(" ")[0];
-        String command = event.getMessage().getText().split(" ")[1];
-        return (billboard.equals("/billboard") && command.equals("japan100"));
+        return (billboard.equals("/itunes_preview"));
     }
 
     @Override
     protected List<Message> handleTextMessage(MessageEvent<TextMessageContent> event) {
-        String contentText = event.getMessage().getText();
-        if (contentText.equals("/billboard japan100")) {
-            BillBoardOperation operation = new BillBoardOperation();
-            ArrayList<String> artists = operation.getArrayArtist();
-            ArrayList<String> songs = operation.getArraySong();
-            String replyMessage = "";
-            for (int i = 0; i < 10; i++) {
-                replyMessage = replyMessage
-                    + "(" +  (i + 1) + ") "
-                    + artists.get(i) + " - "
-                    + songs.get(i) + "\n";
+        String[] inputText = event.getMessage().getText().split(" ");
+        if (inputText[0].equals("/itunes_preview") && inputText.length > 1) {
+            if (inputText[1].equals("bruno")) {
+                return Collections.singletonList(
+                    new TextMessage("Bruno Mars")
+                );
+            } else {
+                return Collections.singletonList(
+                    new TextMessage("Sorry, your artist is not in iTunes")
+                );
             }
-
-            return Collections.singletonList(
-                new TextMessage(replyMessage)
-            );
         }
         return Collections.singletonList(
-            new TextMessage("Please enter the right command")
-        ); // just return list of TextMessage for multi-line reply!
+            new TextMessage("Please specify your artist")
+        );
+
+        // just return list of TextMessage for multi-line reply!
         // Return empty list of TextMessage if not replying. DO NOT RETURN NULL!!!
     }
 
@@ -77,4 +71,6 @@ public class BillBoardChatHandler extends AbstractLineChatHandlerDecorator {
     protected boolean canHandleLocationMessage(MessageEvent<LocationMessageContent> event) {
         return false;
     }
+
+
 }

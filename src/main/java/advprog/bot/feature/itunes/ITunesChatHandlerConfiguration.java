@@ -7,11 +7,11 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
-public class iTunesChatHandlerConfiguration {
+public class ITunesChatHandlerConfiguration {
     @Bean
-    iTunesChatHandler itunesChatHandler(BotController controller) {
+    ITunesChatHandler itunesChatHandler(BotController controller) {
         LineChatHandler currentChatHandler = controller.getLineChatHandler();
-        iTunesChatHandler handler = new iTunesChatHandler(currentChatHandler);
+        ITunesChatHandler handler = new ITunesChatHandler(currentChatHandler);
         controller.replaceLineChatHandler(handler);
         return handler;
     }
