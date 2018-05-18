@@ -130,7 +130,7 @@ public class AyatQuranFetcherImplTest {
                 1,
                 "Dengan menyebut nama Allah Yang Maha Pemurah lagi Maha Penyayang.",
                 "بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ",
-                "http://cdn.alquran.cloud/media/audio/ayah/ar.abdullahbasfar/1",
+                "https://cdn.alquran.cloud/media/audio/ayah/ar.abdullahbasfar/1",
                 3
         );
         assertEquals(expectedAyat, actualAyat);

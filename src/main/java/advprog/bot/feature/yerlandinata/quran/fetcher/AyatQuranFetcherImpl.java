@@ -72,7 +72,9 @@ public class AyatQuranFetcherImpl implements AyatQuranFetcher {
         String surahName = arab.getJSONObject("surah").getString("englishName");
         String ayatIndo = indo.getString("text");
         String ayatArab = arab.getString("text");
-        String audioUri = arab.getString("audio");
+        String audioUri = arab.getString("audio")
+                .replace("https", "http")
+                .replace("http", "https");
         return new AyatQuran(
                 surahName,
                 ayat,
