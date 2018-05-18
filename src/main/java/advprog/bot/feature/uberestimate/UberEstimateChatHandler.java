@@ -74,58 +74,60 @@ public class UberEstimateChatHandler extends AbstractLineChatHandlerDecorator {
     protected List<Message> handleLocationMessage(MessageEvent<LocationMessageContent> event) {
         Source source = event.getSource();
         String sender = source.getUserId();
-
-        switch (lastIntents) {
-            case "add":
-
-                if (userData.containsKey(source.getUserId())) {
-                    userData.put(sender, new ArrayList<Location>());
-                }
-                LocationMessageContent location = event.getMessage();
-                userData.get(sender).add(
-                        new Location(
-                                location.getLatitude(),
-                                location.getLongitude(),
-                                location.getAddress(),
-                                lastQuery
-                        )
-                );
-                String tmp = sender + " ";
-                ArrayList<Location> cur = userData.get(sender);
-                for (Location current : cur) {
-                    tmp = tmp + current.getPlaceName() + " " + Double.toString(current.getLat()) + "\n";
-                }
-                return Collections.singletonList(
-                        new TextMessage("Location Saved " + tmp)
-                );
-            case "uber":
-                ArrayList<Location> locations =  userData.get(sender);
-
-                List<CarouselColumn> columns = new ArrayList<CarouselColumn>();
-
-                for(Location current : locations) {
-                    columns.add(new CarouselColumn("https://getuikit.com/v2/docs/images/placeholder_200x100.svg",
-                                                    current.getPlaceName(),
-                                                    current.getPlaceName(),
-                                                    Arrays.asList(new PostbackAction("wewLabel","lat=1&long=2", "wewText" ))));
-                }
-
-                CarouselTemplate carouselTemplate = new CarouselTemplate(columns);
-                TemplateMessage templateMessage =
-                        new TemplateMessage(
-                                "carousel alt text", carouselTemplate);
-
-                return Collections.singletonList(
-                        templateMessage
-                );
-
-
-            default:
-                break;
-        }
         return Collections.singletonList(
                 new TextMessage(sender + " " + lastIntents)
         );
+//        switch (lastIntents) {
+//            case "add":
+//
+//                if (userData.containsKey(source.getUserId())) {
+//                    userData.put(sender, new ArrayList<Location>());
+//                }
+//                LocationMessageContent location = event.getMessage();
+//                userData.get(sender).add(
+//                        new Location(
+//                                location.getLatitude(),
+//                                location.getLongitude(),
+//                                location.getAddress(),
+//                                lastQuery
+//                        )
+//                );
+//                String tmp = sender + " ";
+//                ArrayList<Location> cur = userData.get(sender);
+//                for (Location current : cur) {
+//                    tmp = tmp + current.getPlaceName() + " " + Double.toString(current.getLat()) + "\n";
+//                }
+//                return Collections.singletonList(
+//                        new TextMessage("Location Saved " + tmp)
+//                );
+//            case "uber":
+//                ArrayList<Location> locations =  userData.get(sender);
+//
+//                List<CarouselColumn> columns = new ArrayList<CarouselColumn>();
+//
+//                for(Location current : locations) {
+//                    columns.add(new CarouselColumn("https://getuikit.com/v2/docs/images/placeholder_200x100.svg",
+//                                                    current.getPlaceName(),
+//                                                    current.getPlaceName(),
+//                                                    Arrays.asList(new PostbackAction("wewLabel","lat=1&long=2", "wewText" ))));
+//                }
+//
+//                CarouselTemplate carouselTemplate = new CarouselTemplate(columns);
+//                TemplateMessage templateMessage =
+//                        new TemplateMessage(
+//                                "carousel alt text", carouselTemplate);
+//
+//                return Collections.singletonList(
+//                        templateMessage
+//                );
+//
+//
+//            default:
+//                break;
+//        }
+//        return Collections.singletonList(
+//                new TextMessage(sender + " " + lastIntents)
+//        );
     }
 
     @EventMapping
