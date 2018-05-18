@@ -4,9 +4,6 @@ import advprog.bot.BotController;
 import advprog.bot.line.LineChatHandler;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.stereotype.Controller;
-
-import javax.naming.ldap.Control;
 
 @Configuration
 public class AnisongChatHandlerConfig {

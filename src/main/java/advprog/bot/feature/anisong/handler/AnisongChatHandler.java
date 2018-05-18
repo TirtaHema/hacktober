@@ -5,17 +5,20 @@ import advprog.bot.feature.echo.EchoChatHandler;
 import advprog.bot.line.AbstractLineChatHandlerDecorator;
 import advprog.bot.line.LineChatHandler;
 import com.linecorp.bot.model.event.MessageEvent;
-import com.linecorp.bot.model.event.message.*;
+import com.linecorp.bot.model.event.message.AudioMessageContent;
+import com.linecorp.bot.model.event.message.ImageMessageContent;
+import com.linecorp.bot.model.event.message.LocationMessageContent;
+import com.linecorp.bot.model.event.message.StickerMessageContent;
+import com.linecorp.bot.model.event.message.TextMessageContent;
 import com.linecorp.bot.model.message.AudioMessage;
 import com.linecorp.bot.model.message.Message;
 import com.linecorp.bot.model.message.TextMessage;
-import org.json.JSONArray;
-import org.json.JSONObject;
-import org.springframework.stereotype.Service;
 
 import java.util.Collections;
 import java.util.List;
 import java.util.logging.Logger;
+
+import org.springframework.stereotype.Service;
 
 @Service
 public class AnisongChatHandler extends AbstractLineChatHandlerDecorator {
@@ -36,9 +39,7 @@ public class AnisongChatHandler extends AbstractLineChatHandlerDecorator {
     protected List<Message> handleTextMessage(MessageEvent<TextMessageContent> event)  {
         try {
             String[] message = event.getMessage().getText().split(" ");
-            if (message[0].equalsIgnoreCase("/add_song")) {
-
-            } else if (message[0].equalsIgnoreCase("/listen_song")) {
+            if (message[0].equalsIgnoreCase("/listen_song")) {
                 if (!event.getSource().toString().contains("groupId")) {
                     SongGetter songGetter = new SongGetter();
                     String pesan = "";
@@ -48,12 +49,12 @@ public class AnisongChatHandler extends AbstractLineChatHandlerDecorator {
                             pesan += " ";
                         }
                     }
-                    return Collections.singletonList(new AudioMessage(songGetter.getSong(pesan), 29000));
+                    return Collections.singletonList(
+                            new AudioMessage(songGetter.getSong(pesan), 29000));
                 } else {
-                    return Collections.singletonList(new TextMessage("You must private chat me..."));
+                    return Collections.singletonList(
+                            new TextMessage("You must private chat me..."));
                 }
-            } else if (message[0].equalsIgnoreCase("/remove_song")) {
-
             }
         } catch (Exception e) {
             return Collections.singletonList(new TextMessage("Your Input is not valid"));
