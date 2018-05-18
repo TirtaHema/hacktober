@@ -1,12 +1,13 @@
 package advprog.bot.feature.yerlandinata.quran.fetcher;
 
-import advprog.bot.feature.yerlandinata.quran.AyatQuran;
+import advprog.bot.feature.yerlandinata.quran.SurahQuran;
 
 import java.io.IOException;
+import java.util.List;
 
 import org.json.JSONException;
 
-public interface AyatQuranFetcher {
-    AyatQuran fetchAyatQuran(int surah, int ayat)
+public interface SurahQuranFetcher {
+    List<SurahQuran> fetchSurahQuran(int start, int end)
             throws IOException, JSONException, InvalidAyatQuranException;
 }

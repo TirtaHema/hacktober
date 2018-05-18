@@ -8,7 +8,6 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import advprog.bot.feature.yerlandinata.quran.AyatQuran;
-import advprog.bot.feature.yerlandinata.quran.InvalidAyatQuranException;
 
 import com.squareup.okhttp.Call;
 import com.squareup.okhttp.MediaType;

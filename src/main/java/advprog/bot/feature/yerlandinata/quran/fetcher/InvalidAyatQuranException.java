@@ -1,4 +1,4 @@
-package advprog.bot.feature.yerlandinata.quran;
+package advprog.bot.feature.yerlandinata.quran.fetcher;
 
 @SuppressWarnings("serial")
 public class InvalidAyatQuranException extends IllegalArgumentException {

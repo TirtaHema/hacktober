@@ -1,4 +1,4 @@
-package advprog.bot.feature.yerlandinata.quran.privatechat;
+package advprog.bot.feature.yerlandinata.quran.privatechat.noninteractive;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -10,8 +10,8 @@ import static org.mockito.Mockito.when;
 
 import advprog.bot.ChatHandlerTestUtil;
 import advprog.bot.feature.yerlandinata.quran.AyatQuran;
-import advprog.bot.feature.yerlandinata.quran.InvalidAyatQuranException;
 import advprog.bot.feature.yerlandinata.quran.fetcher.AyatQuranFetcher;
+import advprog.bot.feature.yerlandinata.quran.fetcher.InvalidAyatQuranException;
 import advprog.bot.line.BaseChatHandler;
 
 import com.linecorp.bot.model.event.MessageEvent;

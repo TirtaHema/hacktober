@@ -1,7 +1,6 @@
 package advprog.bot.feature.yerlandinata.quran.fetcher;
 
 import advprog.bot.feature.yerlandinata.quran.AyatQuran;
-import advprog.bot.feature.yerlandinata.quran.InvalidAyatQuranException;
 
 import com.squareup.okhttp.HttpUrl;
 import com.squareup.okhttp.OkHttpClient;

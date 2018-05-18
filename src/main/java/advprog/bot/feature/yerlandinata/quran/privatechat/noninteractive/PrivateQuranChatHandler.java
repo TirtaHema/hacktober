@@ -1,8 +1,8 @@
-package advprog.bot.feature.yerlandinata.quran.privatechat;
+package advprog.bot.feature.yerlandinata.quran.privatechat.noninteractive;
 
 import advprog.bot.feature.yerlandinata.quran.AyatQuran;
-import advprog.bot.feature.yerlandinata.quran.InvalidAyatQuranException;
 import advprog.bot.feature.yerlandinata.quran.fetcher.AyatQuranFetcher;
+import advprog.bot.feature.yerlandinata.quran.fetcher.InvalidAyatQuranException;
 import advprog.bot.line.AbstractLineChatHandlerDecorator;
 import advprog.bot.line.LineChatHandler;
 

@@ -3,7 +3,7 @@ package advprog.bot.feature.yerlandinata.quran;
 import advprog.bot.BotController;
 import advprog.bot.feature.yerlandinata.quran.fetcher.AyatQuranFetcher;
 import advprog.bot.feature.yerlandinata.quran.fetcher.AyatQuranFetcherImpl;
-import advprog.bot.feature.yerlandinata.quran.privatechat.PrivateQuranChatHandler;
+import advprog.bot.feature.yerlandinata.quran.privatechat.noninteractive.PrivateQuranChatHandler;
 import advprog.bot.line.LineChatHandler;
 
 import com.squareup.okhttp.OkHttpClient;
