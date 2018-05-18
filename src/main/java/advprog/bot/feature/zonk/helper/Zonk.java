@@ -18,14 +18,14 @@ public class Zonk {
     public static void buatSoal(String[] soal) {
         JSONParser parser = new JSONParser();
         try {
-            JSONObject obj = (JSONObject) parser.parse(new FileReader("C:\\Users\\tirta\\Desktop\\AP\\B3\\Question.json"));
+            JSONObject obj = (JSONObject) parser.parse(new FileReader("./Question.json"));
             JSONArray arr = new JSONArray();
             String question =  soal[0];
             for (int i =1; i<soal.length; i++){
                 arr.add(soal[i]);
             }
             obj.put(question,arr);
-            FileWriter fw = new FileWriter("C:\\Users\\tirta\\Desktop\\AP\\B3\\Question.json");
+            FileWriter fw = new FileWriter("./Question.json");
             fw.write(obj.toString());
             fw.close();
 
@@ -46,7 +46,7 @@ public class Zonk {
         String option = "";
         JSONParser parser = new JSONParser();
         try {
-            Object obj = parser.parse(new FileReader("C:\\Users\\tirta\\Desktop\\AP\\B3\\Question.json"));
+            Object obj = parser.parse(new FileReader("./Question.json"));
             JSONObject jsonObject = (JSONObject) obj;
             JSONArray arr = (JSONArray) jsonObject.get(soal);
             for (int i=0;i<arr.size();i++){
@@ -71,7 +71,7 @@ public class Zonk {
 
         try {
 
-            Object obj = parser.parse(new FileReader("C:\\Users\\tirta\\Desktop\\AP\\B3\\Question.json"));
+            Object obj = parser.parse(new FileReader("./Question.json"));
 
             JSONObject jsonObject = (JSONObject) obj;
             JSONArray arr = (JSONArray) jsonObject.get(soal);
@@ -90,7 +90,7 @@ public class Zonk {
             }
             jsonObject.remove(soal);
             jsonObject.put(soal,arr);
-            FileWriter fw = new FileWriter("C:\\Users\\tirta\\Desktop\\AP\\B3\\Question.json");
+            FileWriter fw = new FileWriter("./Question.json");
             fw.write(jsonObject.toString());
             fw.close();
 
@@ -112,7 +112,7 @@ public class Zonk {
 
         try {
 
-            Object obj = parser.parse(new FileReader("C:\\Users\\tirta\\Desktop\\AP\\B3\\Question.json"));
+            Object obj = parser.parse(new FileReader("./Question.json"));
 
             JSONObject jsonObject = (JSONObject) obj;
             JSONArray arr = (JSONArray) jsonObject.get(soal);
