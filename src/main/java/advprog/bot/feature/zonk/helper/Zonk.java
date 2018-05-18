@@ -15,6 +15,7 @@ import java.util.ArrayList;
 
 public class Zonk {
 
+    @SuppressWarnings("unchecked")
     public static void buatSoal(String[] soal) {
         JSONParser parser = new JSONParser();
         try {
@@ -22,7 +23,8 @@ public class Zonk {
             JSONArray arr = new JSONArray();
             String question =  soal[0];
             for (int i =1; i<soal.length; i++){
-                arr.add(soal[i]);
+                String temp = soal[i];
+                arr.add(temp);
             }
             obj.put(question,arr);
             FileWriter fw = new FileWriter("./Question.json");
@@ -42,6 +44,8 @@ public class Zonk {
 
 
     }
+
+    @SuppressWarnings("unchecked")
     public static String option (String soal){
         String option = "";
         JSONParser parser = new JSONParser();
@@ -65,7 +69,7 @@ public class Zonk {
 
     }
 
-
+    @SuppressWarnings("unchecked")
     public static void gantiSoal(String soal,String jawaban){
         JSONParser parser = new JSONParser();
 
@@ -106,7 +110,7 @@ public class Zonk {
 
     }
 
-
+    @SuppressWarnings("unchecked")
     public static String jawab(int input, String soal){
         JSONParser parser = new JSONParser();
 
