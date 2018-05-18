@@ -25,7 +25,7 @@ public class Location {
         return street;
     }
 
-    String getPlaceName() {
+    public String getPlaceName() {
         return placeName;
     }
 }

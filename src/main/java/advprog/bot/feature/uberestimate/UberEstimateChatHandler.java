@@ -3,21 +3,19 @@ package advprog.bot.feature.uberestimate;
 import advprog.bot.feature.uberestimate.uber.Location;
 import advprog.bot.line.AbstractLineChatHandlerDecorator;
 import advprog.bot.line.LineChatHandler;
-
+import com.linecorp.bot.model.action.PostbackAction;
 import com.linecorp.bot.model.event.MessageEvent;
-import com.linecorp.bot.model.event.message.AudioMessageContent;
-import com.linecorp.bot.model.event.message.ImageMessageContent;
-import com.linecorp.bot.model.event.message.LocationMessageContent;
-import com.linecorp.bot.model.event.message.StickerMessageContent;
-import com.linecorp.bot.model.event.message.TextMessageContent;
+import com.linecorp.bot.model.event.PostbackEvent;
+import com.linecorp.bot.model.event.message.*;
 import com.linecorp.bot.model.event.source.Source;
 import com.linecorp.bot.model.message.Message;
+import com.linecorp.bot.model.message.TemplateMessage;
 import com.linecorp.bot.model.message.TextMessage;
+import com.linecorp.bot.model.message.template.CarouselColumn;
+import com.linecorp.bot.model.message.template.CarouselTemplate;
+import com.linecorp.bot.spring.boot.annotation.EventMapping;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.TreeMap;
+import java.util.*;
 import java.util.logging.Logger;
 
 public class UberEstimateChatHandler extends AbstractLineChatHandlerDecorator {
@@ -41,7 +39,19 @@ public class UberEstimateChatHandler extends AbstractLineChatHandlerDecorator {
             case "/uber":
                 lastIntents = "";
                 lastQuery = "";
-                break;
+                Source source = event.getSource();
+                String sender = source.getUserId();
+                ArrayList<Location> location =  userData.get(sender);
+                if (location == null) {
+                    return Collections.singletonList(
+                            new TextMessage("No location saved")
+                    );
+                } else {
+                    lastIntents = "uber";
+                    return Collections.singletonList(
+                            new TextMessage("Please share your location")
+                    );
+                }
             case "/add_destination":
                 if (input.length == 1) {
                     return Collections.singletonList(
@@ -62,9 +72,11 @@ public class UberEstimateChatHandler extends AbstractLineChatHandlerDecorator {
 
     @Override
     protected List<Message> handleLocationMessage(MessageEvent<LocationMessageContent> event) {
+        Source source = event.getSource();
+        String sender = source.getUserId();
         switch (lastIntents) {
             case "add":
-                Source source = event.getSource();
+
                 if (userData.containsKey(source.getUserId())) {
                     userData.put(source.getUserId(), new ArrayList<Location>());
                 }
@@ -78,11 +90,43 @@ public class UberEstimateChatHandler extends AbstractLineChatHandlerDecorator {
                         )
                 );
                 break;
+            case "uber":
+                ArrayList<Location> locations =  userData.get(sender);
+
+                List<CarouselColumn> columns = new ArrayList<CarouselColumn>();
+
+                for(Location current : locations) {
+                    columns.add(new CarouselColumn("https://getuikit.com/v2/docs/images/placeholder_200x100.svg",
+                                                    current.getPlaceName(),
+                                                    current.getPlaceName(),
+                                                    Arrays.asList(new PostbackAction("wewLabel","lat=1&long=2", "wewText" ))));
+                }
+
+                CarouselTemplate carouselTemplate = new CarouselTemplate(columns);
+                TemplateMessage templateMessage =
+                        new TemplateMessage(
+                                "carousel alt text", carouselTemplate);
+
+                return Collections.singletonList(
+                        templateMessage
+                );
+
+
             default:
                 break;
         }
         return new ArrayList<Message>();
     }
+
+    @EventMapping
+    public List<Message> handlePostbackEvent(PostbackEvent event) {
+        String wew =  "Got postback data " + event.getPostbackContent().getData() + ", param " + event.getPostbackContent().getParams().toString();
+        return Collections.singletonList(
+                new TextMessage(wew)
+        );
+
+    }
+
 
     @Override
     protected boolean canHandleTextMessage(MessageEvent<TextMessageContent> event) {
