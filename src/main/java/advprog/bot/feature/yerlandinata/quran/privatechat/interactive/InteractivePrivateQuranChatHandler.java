@@ -22,6 +22,7 @@ public class InteractivePrivateQuranChatHandler extends AbstractLineChatHandlerD
     /*
     * /qs - show carousel of surah 1-10
     * /qsi i:j - show carousel of surah i-j
+    * /qsi x - select chapter x
     * {ayat number} - show ayat of previously selected surah
     */
     @Override

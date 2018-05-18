@@ -8,6 +8,6 @@ import java.util.List;
 import org.json.JSONException;
 
 public interface SurahQuranFetcher {
-    List<SurahQuran> fetchSurahQuran(int start, int end)
+    List<SurahQuran> fetchSurahQuran()
             throws IOException, JSONException, InvalidAyatQuranException;
 }
