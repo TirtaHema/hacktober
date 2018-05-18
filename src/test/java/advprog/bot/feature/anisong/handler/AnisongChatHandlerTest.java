@@ -1,5 +1,8 @@
 package advprog.bot.feature.anisong.handler;
 
+import static org.junit.Assert.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 import advprog.bot.ChatHandlerTestUtil;
 import advprog.bot.line.BaseChatHandler;
 import com.linecorp.bot.model.event.MessageEvent;
@@ -8,16 +11,14 @@ import com.linecorp.bot.model.event.message.TextMessageContent;
 import com.linecorp.bot.model.message.AudioMessage;
 import com.linecorp.bot.model.message.Message;
 import com.linecorp.bot.model.message.TextMessage;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.mockito.junit.MockitoJUnitRunner;
-import org.springframework.test.context.ContextConfiguration;
 
 import java.util.LinkedList;
 import java.util.List;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.junit.MockitoJUnitRunner;
+import org.springframework.test.context.ContextConfiguration;
 
 @RunWith(MockitoJUnitRunner.class)
 @ContextConfiguration(classes = {AnisongChatHandler.class})
