@@ -63,8 +63,4 @@ public class FlickrService implements IPictureService {
         return "https://farm" + farmId + ".staticflickr.com/" + serverId + "/" + id + "_" + secret + "_z.jpg";
     }
 
-    public static void main(String[] args) {
-        FlickrService a = new FlickrService();
-        a.get5Photos(new Location(-6.21462, 106.84513));
-    }
 }

@@ -14,6 +14,8 @@ import com.linecorp.bot.model.event.message.ImageMessageContent;
 import com.linecorp.bot.model.event.message.LocationMessageContent;
 import com.linecorp.bot.model.event.message.StickerMessageContent;
 import com.linecorp.bot.model.event.message.TextMessageContent;
+import com.linecorp.bot.model.event.source.RoomSource;
+import com.linecorp.bot.model.event.source.Source;
 import com.linecorp.bot.model.message.Message;
 import com.linecorp.bot.model.message.TemplateMessage;
 import com.linecorp.bot.model.message.TextMessage;
@@ -43,9 +45,7 @@ public class NearbyPhotosChatHandler extends AbstractLineChatHandlerDecorator {
         TextMessageContent message = event.getMessage();
         if (message.getText().equals("nearby photos")) {
             lastIntents = "nearby photos";
-            return Collections.singletonList(
-                    new TextMessage("Please share your location")
-            );
+            return Collections.singletonList(new TextMessage("Please share your location"));
         }
 
         return new ArrayList<Message>();
@@ -69,8 +69,7 @@ public class NearbyPhotosChatHandler extends AbstractLineChatHandlerDecorator {
 
                 for (Photo photo : photos) {
                     columns.add(new ImageCarouselColumn(photo.getUrl(),
-                            new URIAction(
-                                    service.formatTitleForCarouselImages(photo.getTitle()),
+                            new URIAction(service.formatTitleForCarouselImages(photo.getTitle()),
                                     photo.getUrl())));
                 }
 
