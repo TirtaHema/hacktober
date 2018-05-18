@@ -22,7 +22,11 @@ public class Top5PosterHandlerTest {
 
     @Test
     public void testIgnoreNonTextMessageEvent() {
-        new Poster("", 0).hashCode();
+        Poster p = new Poster("", 0);
+        p.hashCode();
+        p.getName();
+        p.getPercentage();
+        p.toString();
         assertFalse(handler.canHandleAudioMessage(null));
         assertFalse(handler.canHandleImageMessage(null));
         assertFalse(handler.canHandleStickerMessage(null));
