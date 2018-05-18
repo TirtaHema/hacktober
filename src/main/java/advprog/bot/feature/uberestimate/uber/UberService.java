@@ -1,13 +1,18 @@
 package advprog.bot.feature.uberestimate.uber;
 
+import advprog.bot.feature.nearbyphotos.flickr.Photo;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import advprog.bot.feature.nearbyphotos.flickr.Photo;
 import org.json.JSONArray;
 import org.json.JSONObject;
-import org.springframework.http.*;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestTemplate;
 
 public class UberService {
@@ -45,7 +50,7 @@ public class UberService {
         try {
             JSONObject json = new JSONObject(resultJson);
             JSONArray prices = json.getJSONArray("prices");
-            for(int i = 0; i < prices.length(); i++) {
+            for (int i = 0; i < prices.length(); i++) {
                 String price = prices.getJSONObject(i).getString("estimate").split("-")[0];
                 priceDetails.add(new PriceDetails(placeName,
                         prices.getJSONObject(i).getDouble("distance"),
