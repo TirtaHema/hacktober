@@ -14,12 +14,14 @@ public class LocationTest {
 
     @Before
     public void setUp() {
-        location = new Location(1.3, -9.231);
+        location = new Location(1.3, -9.231, "Jl Slamet", "Gunung");
     }
 
     @Test
     public void testGetMethod() {
         assertEquals(Double.toString(location.getLat()), "1.3");
         assertEquals(Double.toString(location.getLon()), "-9.231");
+        assertEquals(location.getStreet(), "Jl Slamet");
+        assertEquals(location.getPlaceName(), "Gunung");
     }
 }

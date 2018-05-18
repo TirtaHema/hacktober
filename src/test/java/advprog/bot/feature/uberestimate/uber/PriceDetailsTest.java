@@ -14,14 +14,14 @@ public class PriceDetailsTest {
 
     @Before
     public void setUp() {
-        priceDetails = new PriceDetails("fasilkom", 9.11, 13, "$50");
+        priceDetails = new PriceDetails(9.11, 13, "$50", "uberX");
     }
 
     @Test
     public void testGetMethod() {
-        assertEquals(priceDetails.getPlaceName(), "fasilkom");
         assertEquals(Double.toString(priceDetails.getDistance()), "9.11");
         assertEquals(Integer.toString(priceDetails.getDuration()), "13");
         assertEquals(priceDetails.getPrice(), "$50");
+        assertEquals(priceDetails.getProvider(), "uberX");
     }
 }

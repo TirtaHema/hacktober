@@ -45,17 +45,18 @@ public class UberService {
         return response.getBody();
     }
 
-    public List<PriceDetails> getPriceDetails(String placeName, String resultJson) {
+    public List<PriceDetails> getPriceDetails(String resultJson) {
         List<PriceDetails> priceDetails = new ArrayList<PriceDetails>();
         try {
             JSONObject json = new JSONObject(resultJson);
             JSONArray prices = json.getJSONArray("prices");
             for (int i = 0; i < prices.length(); i++) {
                 String price = prices.getJSONObject(i).getString("estimate").split("-")[0];
-                priceDetails.add(new PriceDetails(placeName,
+                priceDetails.add(new PriceDetails(
                         prices.getJSONObject(i).getDouble("distance"),
                         Integer.parseInt(prices.getJSONObject(i).getString("duration")),
-                        price)
+                        price,
+                        prices.getJSONObject(i).getString("localized_display_name"))
                 );
             }
         } catch (Exception e) {

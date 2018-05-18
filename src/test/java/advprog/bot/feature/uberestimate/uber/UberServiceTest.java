@@ -21,8 +21,8 @@ public class UberServiceTest {
     @Test
     public void testCreateUrlRequest() {
         assertEquals(uberService.createUrlRequest(
-                new Location(37.7752315, -122.418075),
-                new Location(37.7752415, -122.518075)),
+                new Location(37.7752315, -122.418075, "Jl Slamet", "Gunung"),
+                new Location(37.7752415, -122.518075, "Jl Slamet 2", "Bukit")),
                 "https://api.uber.com/v1.2/estimates/price"
                         + "?start_latitude=37.7752315&start_longitude=-122.418075"
                         + "&end_latitude=37.7752415&end_longitude=-122.518075"
@@ -32,8 +32,8 @@ public class UberServiceTest {
     @Test
     public void testGetJsonPriceDetailsFromIsolatedLocation() {
         assertEquals(uberService.getJsonPriceDetails(
-                new Location(15.326572, -76.157227),
-                new Location(15.316572, -76.157227)),
+                new Location(15.326572, -76.157227, "Sea", "Ocean"),
+                new Location(15.316572, -76.157227, "Sea", "Ocean")),
                 "{\"prices\":[]}"
         );
     }
@@ -41,7 +41,6 @@ public class UberServiceTest {
     @Test
     public void testGetPriceDetailsFromValidJson() {
         List<PriceDetails> priceDetails = uberService.getPriceDetails(
-                "America",
                 "{"
                         + "\"prices\":["
                         +   "{"
@@ -59,14 +58,14 @@ public class UberServiceTest {
                         + "}"
         );
         assertEquals(Integer.toString(priceDetails.get(0).getDuration()), "1200");
-        assertEquals(priceDetails.get(0).getPlaceName(), "America");
         assertEquals(Double.toString(priceDetails.get(0).getDistance()), "6.19");
+        assertEquals(priceDetails.get(0).getProvider(), "SELECT");
     }
 
     @Test
     public void testGetPriceDetailsFromInvalidJson() {
         List<PriceDetails> priceDetails = uberService.getPriceDetails(
-                "", "{\"prices\":[{\"distance\":\"abc\"}]}"
+                "{\"prices\":[{\"distance\":\"abc\"}]}"
         );
         assertEquals(priceDetails.size(), 0);
     }

@@ -3,10 +3,14 @@ package advprog.bot.feature.uberestimate.uber;
 public class Location {
     private Double lat;
     private Double lon;
+    private String street;
+    private String placeName;
 
-    public Location(Double lat, Double lon) {
+    public Location(Double lat, Double lon, String street, String placeName) {
         this.lat = lat;
         this.lon = lon;
+        this.street = street;
+        this.placeName = placeName;
     }
 
     Double getLat() {
@@ -15,6 +19,14 @@ public class Location {
 
     Double getLon() {
         return this.lon;
+    }
+
+    String getStreet() {
+        return street;
+    }
+
+    String getPlaceName() {
+        return placeName;
     }
 }
 
