@@ -29,17 +29,8 @@ public class EnterKomputerChatHandlerTest {
 
     @Before
     public void setUp() {
-        enterkomputerChatHandler = new EnterKomputerChatHandler(new BaseChatHandler());
-    }
-
-    @Test
-    public void testHandleTextMessageEvent() {
-        String msg = "/billboard japan100";
-        List<Message> messages = new LinkedList<>();
-        MessageEvent<TextMessageContent> me = ChatHandlerTestUtil.fakeMessageEvent(
-            "dsf", msg
-        );
-        assertNotNull(enterkomputerChatHandler.handleTextMessageEvent(me, messages));
+        enterkomputerChatHandler =
+            new EnterKomputerChatHandler(new BaseChatHandler());
     }
 
     @Test
@@ -52,11 +43,13 @@ public class EnterKomputerChatHandlerTest {
         String msg = "/enterkomputer CATEGORY name";
         List<Message> messages = new LinkedList<>();
         List<TextMessage> expectedMessages = new LinkedList<>();
-        expectedMessages.add(new TextMessage("Sorry, we don't have the category"));
-        MessageEvent<TextMessageContent> me = ChatHandlerTestUtil.fakeMessageEvent(
-            "dsf", msg
+        expectedMessages.add(
+            new TextMessage("Sorry, we don't have the category"));
+        MessageEvent<TextMessageContent> me =
+            ChatHandlerTestUtil.fakeMessageEvent("dsf", msg
         );
-        assertEquals(expectedMessages, enterkomputerChatHandler.handleTextMessageEvent(me, messages));
+        assertEquals(expectedMessages,
+            enterkomputerChatHandler.handleTextMessageEvent(me, messages));
     }
 
     @Test
@@ -66,10 +59,11 @@ public class EnterKomputerChatHandlerTest {
         List<TextMessage> expectedMessages = new LinkedList<>();
         expectedMessages.add(new TextMessage(
             "Sorry, the product name is not available"));
-        MessageEvent<TextMessageContent> me = ChatHandlerTestUtil.fakeMessageEvent(
-            "dsf", msg
-        );
-        assertEquals(expectedMessages, enterkomputerChatHandler.handleTextMessageEvent(me, messages));
+        MessageEvent<TextMessageContent> me
+            = ChatHandlerTestUtil.fakeMessageEvent(
+            "dsf", msg);
+        assertEquals(expectedMessages,
+            enterkomputerChatHandler.handleTextMessageEvent(me, messages));
     }
 
     @Test
@@ -80,10 +74,11 @@ public class EnterKomputerChatHandlerTest {
         expectedMessages.add(new TextMessage(
             "this is if the format is right"
         ));
-        MessageEvent<TextMessageContent> me = ChatHandlerTestUtil.fakeMessageEvent(
-            "dsf", msg
+        MessageEvent<TextMessageContent> me =
+            ChatHandlerTestUtil.fakeMessageEvent("dsf", msg
         );
-        assertEquals(expectedMessages, enterkomputerChatHandler.handleTextMessageEvent(me, messages));
+        assertEquals(expectedMessages,
+            enterkomputerChatHandler.handleTextMessageEvent(me, messages));
     }
 
     @Test
@@ -94,10 +89,11 @@ public class EnterKomputerChatHandlerTest {
         expectedMessages.add(new TextMessage(
             "Please input the category name"
         ));
-        MessageEvent<TextMessageContent> me = ChatHandlerTestUtil.fakeMessageEvent(
-            "dsf", msg
+        MessageEvent<TextMessageContent> me =
+            ChatHandlerTestUtil.fakeMessageEvent("dsf", msg
         );
-        assertEquals(expectedMessages, enterkomputerChatHandler.handleTextMessageEvent(me, messages));
+        assertEquals(expectedMessages,
+            enterkomputerChatHandler.handleTextMessageEvent(me, messages));
     }
 
     @Test
@@ -108,18 +104,23 @@ public class EnterKomputerChatHandlerTest {
         expectedMessages.add(new TextMessage(
             "Please input the name of the product"
         ));
-        MessageEvent<TextMessageContent> me = ChatHandlerTestUtil.fakeMessageEvent(
-            "dsf", msg
+        MessageEvent<TextMessageContent> me =
+            ChatHandlerTestUtil.fakeMessageEvent("dsf", msg
         );
-        assertEquals(expectedMessages, enterkomputerChatHandler.handleTextMessageEvent(me, messages));
+        assertEquals(expectedMessages,
+            enterkomputerChatHandler.handleTextMessageEvent(me, messages));
     }
 
     @Test
     public void testIgnoreNonTextMessageEvent() {
-        assertFalse(enterkomputerChatHandler.canHandleAudioMessage(null));
-        assertFalse(enterkomputerChatHandler.canHandleImageMessage(null));
-        assertFalse(enterkomputerChatHandler.canHandleStickerMessage(null));
-        assertFalse(enterkomputerChatHandler.canHandleLocationMessage(null));
+        assertFalse(enterkomputerChatHandler
+            .canHandleAudioMessage(null));
+        assertFalse(enterkomputerChatHandler
+            .canHandleImageMessage(null));
+        assertFalse(enterkomputerChatHandler
+            .canHandleStickerMessage(null));
+        assertFalse(enterkomputerChatHandler
+            .canHandleLocationMessage(null));
     }
 
 

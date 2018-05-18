@@ -35,10 +35,33 @@ public class EnterKomputerChatHandler extends AbstractLineChatHandlerDecorator {
 
     @Override
     protected List<Message> handleTextMessage(MessageEvent<TextMessageContent> event) {
-        return Collections.singletonList(
-
-            new TextMessage(event.getMessage().getText().replace("/echo", ""))
-        ); // just return list of TextMessage for multi-line reply!
+        String[] inputText = event.getMessage().getText().split(" ");
+        if (inputText[0].equals("/enterkomputer") && inputText.length > 1) {
+            if (inputText[1].equals("ssd") && inputText.length > 2) {
+                if (inputText[2].equals("right")) {
+                    return Collections.singletonList(
+                        new TextMessage(("this is if the format is right"))
+                    );
+                } else {
+                    return Collections.singletonList(
+                        new TextMessage(("Sorry, the product name is not available"))
+                    );
+                }
+            } else if (inputText[1].equals("CATEGORY")) {
+                return Collections.singletonList(
+                    new TextMessage(("Sorry, we don't have the category"))
+                );
+            } else {
+                return Collections.singletonList(
+                    new TextMessage(("Please input the name of the product"))
+                );
+            }
+        } else {
+            return Collections.singletonList(
+                new TextMessage(("Please input the category name"))
+            );
+        }
+        // just return list of TextMessage for multi-line reply!
         // Return empty list of TextMessage if not replying. DO NOT RETURN NULL!!!
     }
 

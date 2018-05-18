@@ -44,7 +44,8 @@ public class EchoChatHandlerTest {
         MessageEvent<TextMessageContent> me = ChatHandlerTestUtil.fakeMessageEvent(
                 "dsf", msg
         );
-        assertEquals(expectedMessages, echoChatHandler.handleTextMessageEvent(me, messages));
+        assertEquals(expectedMessages,
+            echoChatHandler.handleTextMessageEvent(me, messages));
     }
 
     @Test

@@ -18,8 +18,11 @@ public class EnterKomputerChatHandlerConfigurationTest {
         BotController controller = mock(BotController.class);
         LineChatHandler decoratedHandler = mock(LineChatHandler.class);
         when(controller.getLineChatHandler()).thenReturn(decoratedHandler);
-        EnterKomputerChatHandlerConfiguration configuration = new EnterKomputerChatHandlerConfiguration();
-        EnterKomputerChatHandler echoChatHandler = configuration.enterkomputerChatHandler(controller);
-        assertEquals(decoratedHandler, echoChatHandler.getDecoratedLineChatHandler());
+        EnterKomputerChatHandlerConfiguration configuration =
+            new EnterKomputerChatHandlerConfiguration();
+        EnterKomputerChatHandler echoChatHandler =
+            configuration.enterkomputerChatHandler(controller);
+        assertEquals(decoratedHandler,
+            echoChatHandler.getDecoratedLineChatHandler());
     }
 }
