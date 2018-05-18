@@ -59,4 +59,11 @@ public class EchoControllerTest {
         verify(event, atLeastOnce()).getSource();
         verify(event, atLeastOnce()).getTimestamp();
     }
+
+    @Test
+    void testStubMethod() {
+        String expected = "This is just a stub";
+
+        assertEquals(expected, echoController.stubMethod());
+    }
 }
