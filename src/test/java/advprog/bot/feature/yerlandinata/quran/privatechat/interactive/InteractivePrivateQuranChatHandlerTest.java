@@ -55,9 +55,10 @@ public class InteractivePrivateQuranChatHandlerTest {
 
     @Test
     public void testShowCarousel10Surah() throws IOException, JSONException {
-        List<SurahQuran> expectedSurah = IntStream.range(0, 15)
-                                            .mapToObj(i -> new SurahQuran(i, i, "" + i, "title" + i))
-                                            .collect(Collectors.toList());
+        List<SurahQuran> expectedSurah =
+                IntStream.range(0, 15)
+                            .mapToObj(i -> new SurahQuran(i, i, "" + i, "title" + i))
+                            .collect(Collectors.toList());
 
         when(surahQuranFetcher.fetchSurahQuran())
                 .thenReturn(expectedSurah);

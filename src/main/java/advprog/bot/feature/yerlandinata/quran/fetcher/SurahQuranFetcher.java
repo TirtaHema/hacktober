@@ -9,5 +9,5 @@ import org.json.JSONException;
 
 public interface SurahQuranFetcher {
     List<SurahQuran> fetchSurahQuran()
-            throws IOException, JSONException, InvalidAyatQuranException;
+            throws IOException, JSONException;
 }
