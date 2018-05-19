@@ -36,7 +36,7 @@ public class PrivateQuranChatHandler extends AbstractLineChatHandlerDecorator {
 
     private final AyatQuranFetcher ayatQuranFetcher;
     private static final Pattern NON_INTERACTIVE_PATTERN = Pattern.compile("/qs \\d+:\\d+");
-    private static final Pattern COMMAND_PATTERN = Pattern.compile("/qs.*");
+    private static final Pattern COMMAND_PATTERN = Pattern.compile("/qs .*");
     private static final Logger LOGGER = Logger.getLogger(PrivateQuranChatHandler.class.getName());
 
     public PrivateQuranChatHandler(
