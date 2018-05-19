@@ -81,15 +81,16 @@ public class UberEstimateChatHandler extends AbstractLineChatHandlerDecorator {
 //        );
         switch (lastIntents) {
             case "add":
-
+                String coba = "asdf";
                 if (!userData.containsKey(sender)) {
                     userData.put(sender, new ArrayList<Location>());
+                    coba = "ghijk";
                 }
                 LocationMessageContent location = event.getMessage();
                 ArrayList<Location> loc = userData.get(sender);
                 if (loc == null) {
                     return Collections.singletonList(
-                            new TextMessage(sender + " " + lastIntents + " " + lastQuery)
+                            new TextMessage(sender + " " + lastIntents + " hhgx " + lastQuery + " " + coba)
                     );
                 }
                 loc.add(
