@@ -37,6 +37,7 @@ public class NearbyPhotosChatHandler extends AbstractLineChatHandlerDecorator {
     public NearbyPhotosChatHandler(LineChatHandler decoratedHandler) {
         this.decoratedLineChatHandler = decoratedHandler;
         LOGGER.info("Nearby Photos chat handler added!");
+        lastIntents = "";
     }
 
     @Override

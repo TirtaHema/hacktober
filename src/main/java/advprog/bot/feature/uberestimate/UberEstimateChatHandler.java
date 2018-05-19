@@ -28,6 +28,7 @@ public class UberEstimateChatHandler extends AbstractLineChatHandlerDecorator {
     public UberEstimateChatHandler(LineChatHandler decoratedHandler) {
         this.decoratedLineChatHandler = decoratedHandler;
         userData = new TreeMap<String, ArrayList<Location> >();
+        lastIntents = "";
         LOGGER.info("Uber chat handler added!");
     }
 
@@ -75,7 +76,7 @@ public class UberEstimateChatHandler extends AbstractLineChatHandlerDecorator {
         Source source = event.getSource();
         String sender = source.getUserId();
         return Collections.singletonList(
-                new TextMessage(sender + " " + lastIntents)
+                new TextMessage(sender + " " + lastIntents + " " + lastQuery)
         );
 //        switch (lastIntents) {
 //            case "add":
