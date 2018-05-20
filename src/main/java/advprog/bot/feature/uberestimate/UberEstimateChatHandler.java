@@ -8,6 +8,7 @@ import com.linecorp.bot.model.ReplyMessage;
 import com.linecorp.bot.model.action.MessageAction;
 import com.linecorp.bot.model.action.PostbackAction;
 import com.linecorp.bot.model.action.URIAction;
+import com.linecorp.bot.model.event.Event;
 import com.linecorp.bot.model.event.MessageEvent;
 import com.linecorp.bot.model.event.PostbackEvent;
 import com.linecorp.bot.model.event.message.*;
@@ -82,6 +83,77 @@ public class UberEstimateChatHandler extends AbstractLineChatHandlerDecorator {
         }
         return new ArrayList<Message>();
     }
+
+
+    @EventMapping
+    public void handleTextMessageEvent(MessageEvent<TextMessageContent> event) throws Exception {
+        TextMessageContent message = event.getMessage();
+        handleTextContent(event.getReplyToken(), event, message);
+    }
+
+    private void handleTextContent(String replyToken, Event event, TextMessageContent content)
+            throws Exception {
+        String text = content.getText();
+
+
+        switch (text) {
+            case "carousel": {
+                CarouselTemplate carouselTemplate = new CarouselTemplate(
+                        Arrays.asList(
+                                new CarouselColumn("https://getuikit.com/v2/docs/images/placeholder_200x100.svg", "hoge", "fuga", Arrays.asList(
+                                        new URIAction("Go to line.me",
+                                                "https://line.me"),
+                                        new URIAction("Go to line.me",
+                                                "https://line.me"),
+                                        new PostbackAction("Say hello1",
+                                                "hello こんにちは")
+                                )),
+                                new CarouselColumn("https://getuikit.com/v2/docs/images/placeholder_200x100.svg", "hoge", "fuga", Arrays.asList(
+                                        new PostbackAction("言 hello2",
+                                                "hello こんにちは",
+                                                "hello こんにちは"),
+                                        new PostbackAction("言 hello2",
+                                                "hello こんにちは",
+                                                "hello こんにちは"),
+                                        new MessageAction("Say message",
+                                                "Rice=米")
+                                ))
+                        ));
+                TemplateMessage templateMessage = new TemplateMessage("Carousel alt text", carouselTemplate);
+                this.reply(replyToken, templateMessage);
+                break;
+            }
+            case "image_carousel": {
+                ImageCarouselTemplate imageCarouselTemplate = new ImageCarouselTemplate(
+                        Arrays.asList(
+                                new ImageCarouselColumn("https://getuikit.com/v2/docs/images/placeholder_200x100.svg",
+                                        new URIAction("Goto line.me",
+                                                "https://line.me")
+                                ),
+                                new ImageCarouselColumn("https://getuikit.com/v2/docs/images/placeholder_200x100.svg",
+                                        new MessageAction("Say message",
+                                                "Rice=米")
+                                ),
+                                new ImageCarouselColumn("https://getuikit.com/v2/docs/images/placeholder_200x100.svg",
+                                        new PostbackAction("言 hello2",
+                                                "hello こんにちは",
+                                                "hello こんにちは")
+                                )
+                        ));
+                TemplateMessage templateMessage = new TemplateMessage("ImageCarousel alt text", imageCarouselTemplate);
+                this.reply(replyToken, templateMessage);
+                break;
+            }
+
+            default:
+                this.replyText(
+                        replyToken,
+                        text
+                );
+                break;
+        }
+    }
+
 
     @Override
     protected List<Message> handleLocationMessage(MessageEvent<LocationMessageContent> event) {
