@@ -126,7 +126,7 @@ public class UberEstimateChatHandler extends AbstractLineChatHandlerDecorator {
                 List<ImageCarouselColumn> columns = new ArrayList<ImageCarouselColumn>();
 
                 for(Location current : locations) {
-                    columns.add(new ImageCarouselColumn("https://getuikit.com/v2/docs/images/placeholder_200x100.svg",
+                    columns.add(new ImageCarouselColumn( "https://getuikit.com/v2/docs/images/placeholder_200x100.svg",
                                                             new PostbackAction("1","lat=1&long=2","1" )));
                 }
 
@@ -187,17 +187,17 @@ public class UberEstimateChatHandler extends AbstractLineChatHandlerDecorator {
 
     @Override
     protected boolean canHandleImageMessage(MessageEvent<ImageMessageContent> event) {
-        return false;
+        return true;
     }
 
     @Override
     protected boolean canHandleAudioMessage(MessageEvent<AudioMessageContent> event) {
-        return false;
+        return true;
     }
 
     @Override
     protected boolean canHandleStickerMessage(MessageEvent<StickerMessageContent> event) {
-        return false;
+        return true;
     }
 
     @Override
