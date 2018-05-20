@@ -5,7 +5,9 @@ import advprog.bot.line.AbstractLineChatHandlerDecorator;
 import advprog.bot.line.LineChatHandler;
 import com.linecorp.bot.client.LineMessagingClient;
 import com.linecorp.bot.model.ReplyMessage;
+import com.linecorp.bot.model.action.MessageAction;
 import com.linecorp.bot.model.action.PostbackAction;
+import com.linecorp.bot.model.action.URIAction;
 import com.linecorp.bot.model.event.MessageEvent;
 import com.linecorp.bot.model.event.PostbackEvent;
 import com.linecorp.bot.model.event.message.*;
@@ -125,7 +127,12 @@ public class UberEstimateChatHandler extends AbstractLineChatHandlerDecorator {
                     columns.add(new CarouselColumn("https://getuikit.com/v2/docs/images/placeholder_200x100.svg",
                                                    "12",
                                                     "12",
-                                                    Arrays.asList(new PostbackAction("1","lat=1&long=2","1" ))));
+                                                    Arrays.asList(
+                                                            new URIAction("Go to line.me",
+                                                                    "https://line.me"),
+                                                            new MessageAction("Say message",
+                                                                    "Rice=米"),
+                                                            new PostbackAction("1","lat=1&long=2","1" ))));
                 }
 
                 CarouselTemplate carouselTemplate = new CarouselTemplate(columns);
