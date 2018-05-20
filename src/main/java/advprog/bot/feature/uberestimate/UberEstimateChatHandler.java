@@ -3,6 +3,8 @@ package advprog.bot.feature.uberestimate;
 import advprog.bot.feature.uberestimate.uber.Location;
 import advprog.bot.line.AbstractLineChatHandlerDecorator;
 import advprog.bot.line.LineChatHandler;
+import com.linecorp.bot.client.LineMessagingClient;
+import com.linecorp.bot.model.ReplyMessage;
 import com.linecorp.bot.model.action.PostbackAction;
 import com.linecorp.bot.model.event.MessageEvent;
 import com.linecorp.bot.model.event.PostbackEvent;
@@ -13,9 +15,13 @@ import com.linecorp.bot.model.message.TemplateMessage;
 import com.linecorp.bot.model.message.TextMessage;
 import com.linecorp.bot.model.message.template.CarouselColumn;
 import com.linecorp.bot.model.message.template.CarouselTemplate;
+import com.linecorp.bot.model.response.BotApiResponse;
 import com.linecorp.bot.spring.boot.annotation.EventMapping;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.lang.NonNull;
 
 import java.util.*;
+import java.util.concurrent.ExecutionException;
 import java.util.logging.Logger;
 
 public class UberEstimateChatHandler extends AbstractLineChatHandlerDecorator {
@@ -25,7 +31,8 @@ public class UberEstimateChatHandler extends AbstractLineChatHandlerDecorator {
     private String lastQuery;
     private TreeMap<String, ArrayList<Location> > userData;
 
-    public UberEstimateChatHandler(LineChatHandler decoratedHandler) {
+    @Autowired
+    private LineMessagingClient lineMessagingClient;    public UberEstimateChatHandler(LineChatHandler decoratedHandler) {
         this.decoratedLineChatHandler = decoratedHandler;
         userData = new TreeMap<String, ArrayList<Location> >();
         lastIntents = "";
@@ -140,15 +147,31 @@ public class UberEstimateChatHandler extends AbstractLineChatHandlerDecorator {
     }
 
     @EventMapping
-    public List<Message> handlePostbackEvent(PostbackEvent event) {
+    public void handlePostbackEvent(PostbackEvent event) {
         String wew =  "Got postback data " + event.getPostbackContent().getData() + ", param " + event.getPostbackContent().getParams().toString();
-        return Collections.singletonList(
-                new TextMessage(wew)
-        );
+        String replyToken = event.getReplyToken();
+        this.replyText(replyToken, "Got postback data " + event.getPostbackContent().getData() + ", param " + event.getPostbackContent().getParams().toString());
 
     }
+    private void reply(@NonNull String replyToken, @NonNull List<Message> messages) {
+        try {
+            BotApiResponse apiResponse = lineMessagingClient
+                    .replyMessage(new ReplyMessage(replyToken, messages))
+                    .get();
 
-
+        } catch (InterruptedException | ExecutionException e) {
+            throw new RuntimeException(e);
+        }
+    }
+    private void replyText(@NonNull String replyToken, @NonNull String message) {
+        if (replyToken.isEmpty()) {
+            throw new IllegalArgumentException("replyToken must not be empty");
+        }
+        if (message.length() > 1000) {
+            message = message.substring(0, 1000 - 2) + "……";
+        }
+        this.reply(replyToken, Collections.singletonList(new TextMessage(message)));
+    }
     @Override
     protected boolean canHandleTextMessage(MessageEvent<TextMessageContent> event) {
         return true;
