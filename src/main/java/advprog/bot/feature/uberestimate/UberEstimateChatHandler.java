@@ -225,8 +225,8 @@ public class UberEstimateChatHandler extends AbstractLineChatHandlerDecorator {
     @EventMapping
     public void handlePostbackEvent(PostbackEvent event) {
         LOGGER.info("trigger postback event");
-       // String replyToken = event.getReplyToken();
-       // this.replyText(replyToken, "Got postback data " + event.getPostbackContent().getData() + ", param " + event.getPostbackContent().getParams().toString());
+        String replyToken = event.getReplyToken();
+        this.replyText(replyToken, "Got postback data " + event.getPostbackContent().getData() + ", param " + event.getPostbackContent().getParams().toString());
 
     }
 
