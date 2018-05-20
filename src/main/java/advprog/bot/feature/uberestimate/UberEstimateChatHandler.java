@@ -123,9 +123,9 @@ public class UberEstimateChatHandler extends AbstractLineChatHandlerDecorator {
 
                 for(Location current : locations) {
                     columns.add(new CarouselColumn("https://getuikit.com/v2/docs/images/placeholder_200x100.svg",
-                                                    current.getPlaceName(),
-                                                    current.getPlaceName(),
-                                                    Arrays.asList(new PostbackAction("wewLabel","lat=1&long=2","sendText" ))));
+                                                   "12",
+                                                    "12",
+                                                    Arrays.asList(new PostbackAction("1","lat=1&long=2","1" ))));
                 }
 
                 CarouselTemplate carouselTemplate = new CarouselTemplate(columns);
