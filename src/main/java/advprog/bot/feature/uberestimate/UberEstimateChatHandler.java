@@ -148,11 +148,11 @@ public class UberEstimateChatHandler extends AbstractLineChatHandlerDecorator {
 
     @EventMapping
     public void handlePostbackEvent(PostbackEvent event) {
-        String wew =  "Got postback data " + event.getPostbackContent().getData() + ", param " + event.getPostbackContent().getParams().toString();
         String replyToken = event.getReplyToken();
         this.replyText(replyToken, "Got postback data " + event.getPostbackContent().getData() + ", param " + event.getPostbackContent().getParams().toString());
 
     }
+
     private void reply(@NonNull String replyToken, @NonNull List<Message> messages) {
         try {
             BotApiResponse apiResponse = lineMessagingClient
@@ -196,4 +196,6 @@ public class UberEstimateChatHandler extends AbstractLineChatHandlerDecorator {
     protected boolean canHandleLocationMessage(MessageEvent<LocationMessageContent> event) {
         return true;
     }
+
+
 }
