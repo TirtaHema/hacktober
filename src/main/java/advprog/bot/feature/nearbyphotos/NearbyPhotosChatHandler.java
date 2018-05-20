@@ -49,7 +49,9 @@ public class NearbyPhotosChatHandler extends AbstractLineChatHandlerDecorator {
             return Collections.singletonList(new TextMessage("Please share your location"));
         }
 
-        return new ArrayList<Message>();
+        return Collections.singletonList(
+                new TextMessage("")
+        );
     }
 
     @Override
