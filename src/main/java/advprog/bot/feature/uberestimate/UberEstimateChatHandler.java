@@ -17,6 +17,8 @@ import com.linecorp.bot.model.message.TemplateMessage;
 import com.linecorp.bot.model.message.TextMessage;
 import com.linecorp.bot.model.message.template.CarouselColumn;
 import com.linecorp.bot.model.message.template.CarouselTemplate;
+import com.linecorp.bot.model.message.template.ImageCarouselColumn;
+import com.linecorp.bot.model.message.template.ImageCarouselTemplate;
 import com.linecorp.bot.model.response.BotApiResponse;
 import com.linecorp.bot.spring.boot.annotation.EventMapping;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -121,21 +123,14 @@ public class UberEstimateChatHandler extends AbstractLineChatHandlerDecorator {
             case "uber":
                 ArrayList<Location> locations =  userData.get(sender);
 
-                List<CarouselColumn> columns = new ArrayList<CarouselColumn>();
+                List<ImageCarouselColumn> columns = new ArrayList<ImageCarouselColumn>();
 
                 for(Location current : locations) {
-                    columns.add(new CarouselColumn("https://getuikit.com/v2/docs/images/placeholder_200x100.svg",
-                                                   "12",
-                                                    "12",
-                                                    Arrays.asList(
-                                                            new URIAction("Go to line.me",
-                                                                    "https://line.me"),
-                                                            new MessageAction("Say message",
-                                                                    "Rice=米"),
-                                                            new PostbackAction("1","lat=1&long=2","1" ))));
+                    columns.add(new ImageCarouselColumn("https://getuikit.com/v2/docs/images/placeholder_200x100.svg",
+                                                            new PostbackAction("1","lat=1&long=2","1" ));
                 }
 
-                CarouselTemplate carouselTemplate = new CarouselTemplate(columns);
+                ImageCarouselTemplate carouselTemplate = new ImageCarouselTemplate(columns);
                 TemplateMessage templateMessage =
                         new TemplateMessage(
                                 "carousel alt text", carouselTemplate);
