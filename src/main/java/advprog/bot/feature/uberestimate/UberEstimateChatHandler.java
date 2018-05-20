@@ -154,16 +154,21 @@ public class UberEstimateChatHandler extends AbstractLineChatHandlerDecorator {
 
     }
 
+    private void reply(@NonNull String replyToken, @NonNull Message message) {
+        reply(replyToken, Collections.singletonList(message));
+    }
+
     private void reply(@NonNull String replyToken, @NonNull List<Message> messages) {
         try {
             BotApiResponse apiResponse = lineMessagingClient
                     .replyMessage(new ReplyMessage(replyToken, messages))
                     .get();
-
+            LOGGER.info(apiResponse.toString());
         } catch (InterruptedException | ExecutionException e) {
             throw new RuntimeException(e);
         }
     }
+
     private void replyText(@NonNull String replyToken, @NonNull String message) {
         if (replyToken.isEmpty()) {
             throw new IllegalArgumentException("replyToken must not be empty");
@@ -171,7 +176,7 @@ public class UberEstimateChatHandler extends AbstractLineChatHandlerDecorator {
         if (message.length() > 1000) {
             message = message.substring(0, 1000 - 2) + "……";
         }
-        this.reply(replyToken, Collections.singletonList(new TextMessage(message)));
+        this.reply(replyToken, new TextMessage(message));
     }
     @Override
     protected boolean canHandleTextMessage(MessageEvent<TextMessageContent> event) {
