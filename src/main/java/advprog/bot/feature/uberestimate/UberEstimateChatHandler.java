@@ -82,7 +82,7 @@ public class UberEstimateChatHandler extends AbstractLineChatHandlerDecorator {
                 break;
         }
         return Collections.singletonList(
-                new TextMessage("")
+                new TextMessage("test")
         );
     }
 

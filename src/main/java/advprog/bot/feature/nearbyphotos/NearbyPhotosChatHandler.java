@@ -50,7 +50,7 @@ public class NearbyPhotosChatHandler extends AbstractLineChatHandlerDecorator {
         }
 
         return Collections.singletonList(
-                new TextMessage("")
+                new TextMessage("test")
         );
     }
 
