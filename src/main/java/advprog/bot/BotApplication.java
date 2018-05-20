@@ -9,11 +9,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @SpringBootApplication
 public class BotApplication {
 
-    @RequestMapping(value = "/callback")
-    public String available() {
-        return "Spring in Action";
-    }
-
     private static final Logger LOGGER = Logger.getLogger(BotApplication.class.getName());
 
     public static void main(String[] args) {

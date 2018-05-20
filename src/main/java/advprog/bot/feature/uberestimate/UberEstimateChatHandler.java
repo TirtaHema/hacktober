@@ -125,7 +125,7 @@ public class UberEstimateChatHandler extends AbstractLineChatHandlerDecorator {
                     columns.add(new CarouselColumn("https://getuikit.com/v2/docs/images/placeholder_200x100.svg",
                                                     current.getPlaceName(),
                                                     current.getPlaceName(),
-                                                    Arrays.asList(new PostbackAction("wewLabel","lat=1&long=2" ))));
+                                                    Arrays.asList(new PostbackAction("wewLabel","lat=1&long=2","sendText" ))));
                 }
 
                 CarouselTemplate carouselTemplate = new CarouselTemplate(columns);
@@ -148,6 +148,7 @@ public class UberEstimateChatHandler extends AbstractLineChatHandlerDecorator {
 
     @EventMapping
     public void handlePostbackEvent(PostbackEvent event) {
+        LOGGER.info("trigger postback event");
         String replyToken = event.getReplyToken();
         this.replyText(replyToken, "Got postback data " + event.getPostbackContent().getData() + ", param " + event.getPostbackContent().getParams().toString());
 
