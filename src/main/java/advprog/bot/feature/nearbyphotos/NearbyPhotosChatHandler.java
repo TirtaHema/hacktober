@@ -89,7 +89,9 @@ public class NearbyPhotosChatHandler extends AbstractLineChatHandlerDecorator {
                 );
             }
 
-            return new ArrayList<Message>();
+            return Collections.singletonList(
+                    new TextMessage("No command found")
+            );
 
         } catch (Exception ex) {
             return Collections.singletonList(
