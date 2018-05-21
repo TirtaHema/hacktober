@@ -4,7 +4,7 @@ import advprog.bot.feature.yerlandinata.quran.AyatQuran;
 
 public interface InteractiveAyatFetcherService {
 
-    void recordUserSurahSelection(String userId, int surah);
+    void recordUserSurahSelection(String userId, int surah) throws IllegalStateException;
 
     AyatQuran fetchAyat(String userId, int ayat) throws IllegalStateException;
 
