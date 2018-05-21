@@ -10,8 +10,8 @@ public class DiceBotConfiguration {
 
     @Bean
     DiceChatHandler diceBotChatHandler(BotController controller) {
-        LineChatHandler currenctChatHandler = controller.getLineChatHandler();
-        DiceChatHandler diceController = new DiceChatHandler(currenctChatHandler);
+        LineChatHandler currentChatHandler = controller.getLineChatHandler();
+        DiceChatHandler diceController = new DiceChatHandler(currentChatHandler);
         controller.replaceLineChatHandler(diceController);
         return diceController;
     }

@@ -28,6 +28,10 @@ public class DiceChatHandler extends AbstractLineChatHandlerDecorator {
         LOGGER.info("Dice chat handler added!");
     }
 
+    public DiceChatHandler() {
+        this.randomGenerator = new RandomGenerator();
+    }
+
     @Override
     protected boolean canHandleTextMessage(MessageEvent<TextMessageContent> event) {
         String command = event.getMessage().getText().split(" ")[0];
