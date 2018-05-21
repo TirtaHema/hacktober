@@ -2,9 +2,14 @@ package advprog.bot.feature.dice;
 
 import advprog.bot.line.AbstractLineChatHandlerDecorator;
 import advprog.bot.line.LineChatHandler;
-import com.linecorp.bot.client.LineMessagingClient;
 import com.linecorp.bot.model.event.MessageEvent;
-import com.linecorp.bot.model.event.message.*;
+
+import com.linecorp.bot.model.event.message.AudioMessageContent;
+import com.linecorp.bot.model.event.message.ImageMessageContent;
+import com.linecorp.bot.model.event.message.LocationMessageContent;
+import com.linecorp.bot.model.event.message.StickerMessageContent;
+import com.linecorp.bot.model.event.message.TextMessageContent;
+
 import com.linecorp.bot.model.message.Message;
 import com.linecorp.bot.model.message.TextMessage;
 
@@ -29,6 +34,7 @@ public class DiceChatHandler extends AbstractLineChatHandlerDecorator {
         return command.equals("/coin") || command.equals("/roll") || command.equals("/multiroll")
                 || command.equals("/is_lucky");
     }
+
     @Override
     protected List<Message> handleTextMessage(MessageEvent<TextMessageContent> event) {
         LOGGER.info("Trying to handle message: " + event.getMessage().getText());
@@ -36,7 +42,7 @@ public class DiceChatHandler extends AbstractLineChatHandlerDecorator {
         String contentText = content.getText().toLowerCase();
 
         String[] msgSplit = contentText.split(" ");
-        if (msgSplit[0].equals("/coin")){
+        if (msgSplit[0].equals("/coin")) {
             String flippedCoin = randomGenerator.spinCoin();
             return Collections.singletonList(new TextMessage(flippedCoin));
         } else if (msgSplit[0].equals("/roll") && msgSplit.length == 2) {
@@ -70,7 +76,7 @@ public class DiceChatHandler extends AbstractLineChatHandlerDecorator {
         StringBuilder sb = new StringBuilder();
         sb.append("(");
         int arrLen = numbers.length;
-        for (int i=0; i < arrLen; i++) {
+        for (int i = 0; i < arrLen; i++) {
             sb.append(numbers[i]);
             if (i < arrLen - 1) {
                 sb.append(", ");
@@ -79,6 +85,7 @@ public class DiceChatHandler extends AbstractLineChatHandlerDecorator {
         sb.append(")");
         return sb.toString();
     }
+
     public String handleRoll(int x, int y) {
         int[] arr = randomGenerator.rollDice(x, y);
 
@@ -96,7 +103,7 @@ public class DiceChatHandler extends AbstractLineChatHandlerDecorator {
         int[][] arr = randomGenerator.multiRollDice(n, x, y);
         StringBuilder sb = new StringBuilder();
 
-        for (int i=0; i < n; i++) {
+        for (int i = 0; i < n; i++) {
             String diceResult = diceIterator(arr[i]);
             sb.append(diceResult);
             if (i < n - 1) {
@@ -110,13 +117,13 @@ public class DiceChatHandler extends AbstractLineChatHandlerDecorator {
         int result = randomGenerator.isLucky(target, x, y);
 
         if (result < 0) {
-            return "Please input using the correct format type \"is_lucky NUM XdY\" with NUM, x, y > 0";
+            return "Please input using the correct format type "
+                    + "\"is_lucky NUM XdY\" with NUM, x, y > 0";
         } else if (result == 0) {
             return "I'm not lucky";
-        } else {
-            return "Total count: " + result;
         }
 
+        return "Total count: " + result;
     }
 
     @Override
