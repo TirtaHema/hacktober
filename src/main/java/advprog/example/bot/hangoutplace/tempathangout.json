@@ -1,3 +1,4 @@
+"Places" :
 [{
   "location": "Jakarta",
   "address": "Jalan Cisanggiri 2, Petogogan, Kebayoran Baru, RT.5/RW.4, Petogogan, Kby. Baru, Kota Jakarta Selatan, Daerah Khusus Ibukota Jakarta 15810",
@@ -14,5 +15,110 @@
   "description": "Tempat makan outdoor yang santai dan menyajikan aneka jajanan khas Indonesia, seperti roti bakar, dll.",
   "longitude": 106.822010,
   "latitude": -6.240121
-}
+},
+  {
+    "location": "Jakarta",
+    "address": "AKR Tower Level MM, Jalan Perjuangan No. 5, Kebon Jeruk, RT.11/RW.10, Kb. Jeruk, Kota Jakarta Barat, Daerah Khusus Ibukota Jakarta 11530",
+    "name": "Museum MACAN Modern and Contemporary Art in Nusantara",
+    "description": "Museum pertama di Indonesia yang memiliki koleksi seni modern dan kontemporer Indonesia serta internasional",
+    "longitude": 106.768133,
+    "latitude": -6.191613
+  },
+  {
+    "location": "Jakarta",
+    "address": "Jl. Kemang I No.12-29, RT.10/RW.1, Bangka, Mampang Prpt., Kota Jakarta Selatan, Daerah Khusus Ibukota Jakarta 12730",
+    "name": "Cutie Cats Cafe",
+    "description": "Kafe dengan suasana nyaman dan dekor yang lucu dan khas, serta tempat bermain bersama kucing.",
+    "longitude": 106.822010,
+    "latitude": -6.257705
+
+  },
+  {
+    "location": "Jakarta",
+    "address": "Jl. Tebet Raya No.53D, RT.3/RW.2, Tebet Tim., Tebet, Kota Jakarta Selatan, Daerah Khusus Ibukota Jakarta 12810",
+    "name": "Comic Cafe Tebet",
+    "description": "Tempat nongkrong yang menyediakan wifi, ruangan untuk acara khusus, outdoor, dan musik live.",
+    "longitude": 106.855140,
+    "latitude": -6.228416
+  },
+  {
+    "location": "Jakarta",
+    "address": "Jl. Melawai No.6, RT.3/RW.1, Melawai, Kebayoran Baru, South Jakarta City, Jakarta 12160",
+    "name": "Filosofi Kopi Melawai",
+    "description": "Tempat yang menyediakan aneka kopi dan minuman non-kopi, camilan, dan juga toko baju, dompet, dan lainnya.",
+    "longitude": 106.799746,
+    "latitude": -6.244583
+  },
+  {
+    "location": "Jakarta",
+    "address": "Jalan Blora No.36, Menteng, RT.2/RW.6, Menteng, Kota Jakarta Pusat, Daerah Khusus Ibukota Jakarta 10310",
+    "name": "Waroeng Mee Blora",
+    "description": "Tempat hangout dengan dekor unik dan trendi yang menyajikan berbagai menu mie, roti bakar, dan jajanan.",
+    "longitude": 106.823339,
+    "latitude": -6.201999
+  },
+  {
+    "location": "Jakarta",
+    "address": "Jl. Kemang Raya No.89, RT.2/RW.2, Bangka, Mampang Prpt., Kota Jakarta Selatan, Daerah Khusus Ibukota Jakarta 12730",
+    "name": "Kedai Kopi 89",
+    "description": "Kedai Kopi berkonsep kasual restoran yang di dalamnya bernuansa secret garden.",
+    "longitude": 106.815564,
+    "latitude": -6.270159
+  },
+  {
+    "location": "Jakarta",
+    "address": "BCA Tower Lt. 56, Jl. M.H. Thamrin No. 1, RT.001 / RW.005, Menteng, Jakarta Pusat, Daerah Khusus Ibukota Jakarta 10350",
+    "name": "SKYE Bar & Restaurant",
+    "description": "Lounge dan restoran makanan khas Amerika latin. Lokasi outdoor di atap gedung dgn pemandangan kota Jakarta.",
+    "longitude": 106.822582,
+    "latitude": -6.196728
+  },
+  {
+    "location": "Jakarta",
+    "address": "Ruko Elang Laut Boulevard Blok D 12 A PIK, Jl. Pantai Indah Selatan 1, Kamal Muara, Penjaringan, Daerah Khusus Ibukota Jakarta 14460",
+    "name": "COPAS | Coffee Shop, Tempat Nongkrong, Ngopi Enak di PIK",
+    "description": "Salah satu coffee shop di PIK dengan konsep unik.",
+    "longitude": 106.740418,
+    "latitude": -6.123521
+  },
+  {
+    "location": "Depok",
+    "address": "Jl. Margonda Raya No.400, Pd. Cina, Beji, Kota Depok, Jawa Barat 16424",
+    "name": "Kopi Bar",
+    "description": "Coffee shop di daerah Margonda yang juga menyajikan teh, makanan berat, dan makanan ringan dengan harga mahasiswa",
+    "longitude": 106.833577,
+    "latitude": -6.369598
+  },
+  {
+    "location": "Depok",
+    "address": "Jalan Margonda Raya No.518, Pondok Cina, Beji, Pd. Cina, Beji, Kota Depok, Jawa Barat 16424",
+    "name": "Warung Pasta Depok",
+    "description": "Tempat makan yang cocok untuk pecinta pasta dengan nuansa nyaman.",
+    "longitude": 106.833017,
+    "latitude": -6.358843
+  },
+  {
+    "location": "Depok",
+    "address": "Kampung Parung Serab No. 11 RT 04 RW 05 Sukmajaya No.11, Jalan Raya Ksu / Pemancar Rri, Tirtajaya, Sukmajaya, Depok City, West Java 16412",
+    "name": "Kedai Kopi Fulcaff",
+    "description": "Tempat ngopi dan nongkrong yang cocok untuk Anda beserta keluarga dan kolega.",
+    "longitude": 106.827247,
+    "latitude": -6.417417
+  },
+  {
+    "location": "Depok",
+    "address": "Jl. Margonda Raya No.505C, Pd. Cina, Beji, Kota Depok, Jawa Barat 16424",
+    "name": "Yellow Truck Coffee",
+    "description": "Cafe dengan suasana comfy bernuansa serba kuning.",
+    "longitude": 106.833352,
+    "latitude": -6.362217
+  },
+  {
+    "location": "Jakarta",
+    "address": "Jl. Kemang Sel. No.99A, Bangka, Mampang Prpt., Kota Jakarta Selatan, Daerah Khusus Ibukota Jakarta 12730",
+    "name": "dia.lo.gue",
+    "description": "Art gallery dengan karya seni beragam yang disertai shop dan cafe",
+    "longitude": 106.816348,
+    "latitude": -6.272899
+  }
 ]
