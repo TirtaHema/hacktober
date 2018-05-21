@@ -11,14 +11,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.Collections;
 import java.util.List;
-
-import static com.sun.xml.internal.ws.spi.db.BindingContextFactory.LOGGER;
+import java.util.logging.Logger;
 
 public class DiceController extends AbstractLineChatHandlerDecorator {
 
     @Autowired
     private LineMessagingClient lineMessagingClient;
     private RandomGenerator randomGenerator;
+    private static final Logger LOGGER = Logger.getLogger(DiceController.class.getName());
 
     public DiceController(LineChatHandler decoratedHandler) {
         this.decoratedLineChatHandler = decoratedHandler;
