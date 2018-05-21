@@ -7,21 +7,20 @@ import com.linecorp.bot.model.event.MessageEvent;
 import com.linecorp.bot.model.event.message.*;
 import com.linecorp.bot.model.message.Message;
 import com.linecorp.bot.model.message.TextMessage;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.Collections;
 import java.util.List;
 import java.util.logging.Logger;
 
-public class DiceController extends AbstractLineChatHandlerDecorator {
+public class DiceChatHandler extends AbstractLineChatHandlerDecorator {
 
-    @Autowired
-    private LineMessagingClient lineMessagingClient;
     private RandomGenerator randomGenerator;
-    private static final Logger LOGGER = Logger.getLogger(DiceController.class.getName());
+    private static final Logger LOGGER = Logger.getLogger(DiceChatHandler.class.getName());
 
-    public DiceController(LineChatHandler decoratedHandler) {
+    public DiceChatHandler(LineChatHandler decoratedHandler) {
         this.decoratedLineChatHandler = decoratedHandler;
+        this.randomGenerator = new RandomGenerator();
+        LOGGER.info("Dice chat handler added!");
     }
 
     @Override
@@ -30,7 +29,7 @@ public class DiceController extends AbstractLineChatHandlerDecorator {
         return command.equals("/coin") || command.equals("/roll") || command.equals("/multiroll")
                 || command.equals("/is_lucky");
     }
-
+    @Override
     protected List<Message> handleTextMessage(MessageEvent<TextMessageContent> event) {
         LOGGER.info("Trying to handle message: " + event.getMessage().getText());
         TextMessageContent content = event.getMessage();

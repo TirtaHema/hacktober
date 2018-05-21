@@ -2,7 +2,6 @@ package advprog.bot.feature.dice;
 
 import advprog.bot.BotController;
 import advprog.bot.line.LineChatHandler;
-import okhttp3.OkHttpClient;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -10,9 +9,9 @@ import org.springframework.context.annotation.Configuration;
 public class DiceBotConfiguration {
 
     @Bean
-    DiceController diceBotChatHandler(BotController controller) {
+    DiceChatHandler diceBotChatHandler(BotController controller) {
         LineChatHandler currenctChatHandler = controller.getLineChatHandler();
-        DiceController diceController = new DiceController(currenctChatHandler);
+        DiceChatHandler diceController = new DiceChatHandler(currenctChatHandler);
         controller.replaceLineChatHandler(diceController);
         return diceController;
     }
