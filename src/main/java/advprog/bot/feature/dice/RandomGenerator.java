@@ -23,7 +23,7 @@ public class RandomGenerator {
     }
 
     public int getRandomInt(int bound) {
-        return rand.nextInt(bound);
+        return rand.nextInt(bound) + 1;
     }
 
     public int[] rollDice(int times, int sides) {
@@ -33,7 +33,7 @@ public class RandomGenerator {
         int[] numbers = new int[times];
 
         for (int i = 0; i < times; i++) {
-            int randomNumber = getRandomInt(sides + 1);
+            int randomNumber = getRandomInt(sides);
             numbers[i] = randomNumber;
         }
         return numbers;
@@ -47,7 +47,7 @@ public class RandomGenerator {
         int[][] numbers = new int[iterations][times];
         for (int i = 0; i < iterations; i++) {
             for (int j = 0; j < times; j++) {
-                int randomNumber = getRandomInt(sides + 1);
+                int randomNumber = getRandomInt(sides);
                 numbers[i][j] = randomNumber;
             }
         }
