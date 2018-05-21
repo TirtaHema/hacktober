@@ -1,17 +1,16 @@
 package advprog.bot.feature.zonk.helper;
 
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.ArrayList;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
+
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
-
-import java.io.*;
-import java.util.ArrayList;
-
-
-
-
 
 public class Zonk {
 
@@ -22,7 +21,7 @@ public class Zonk {
             JSONObject obj = (JSONObject) parser.parse(new FileReader("./Question.json"));
             JSONArray arr = new JSONArray();
             String question =  soal[0];
-            for (int i =1; i<soal.length; i++){
+            for (int i = 1; i < soal.length; i++) {
                 String temp = soal[i];
                 arr.add(temp);
             }
@@ -31,14 +30,11 @@ public class Zonk {
             fw.write(obj.toString());
             fw.close();
 
-        }
-        catch (FileNotFoundException e) {
+        } catch (FileNotFoundException e) {
             e.printStackTrace();
-        }
-        catch (IOException e) {
+        } catch (IOException e) {
             e.printStackTrace();
-        }
-        catch (ParseException e) {
+        } catch (ParseException e) {
             e.printStackTrace();
         }
 
@@ -46,19 +42,18 @@ public class Zonk {
     }
 
     @SuppressWarnings("unchecked")
-    public static String option (String soal){
+    public static String option(String soal) {
         String option = "";
         JSONParser parser = new JSONParser();
         try {
             Object obj = parser.parse(new FileReader("./Question.json"));
             JSONObject jsonObject = (JSONObject) obj;
             JSONArray arr = (JSONArray) jsonObject.get(soal);
-            for (int i=0;i<arr.size();i++){
+            for (int i = 0;i < arr.size();i++) {
                 option += arr.get(i).toString();
             }
             return option;
-        }
-        catch (FileNotFoundException e) {
+        } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
@@ -70,7 +65,7 @@ public class Zonk {
     }
 
     @SuppressWarnings("unchecked")
-    public static void gantiSoal(String soal,String jawaban){
+    public static void gantiSoal(String soal,String jawaban) {
         JSONParser parser = new JSONParser();
 
         try {
@@ -81,13 +76,13 @@ public class Zonk {
             JSONArray arr = (JSONArray) jsonObject.get(soal);
             ArrayList<String> temp = new ArrayList<>();
             String ans = arr.get(4).toString();
-            for (int i=0;i<arr.size();i++){
+            for (int  i = 0;i < arr.size();i++) {
                 temp.add(arr.get(i).toString());
 
             }
             arr.removeAll(temp);
-            for (int i=0;i<temp.size();i++){
-                if (temp.get(i).equals(ans)){
+            for (int i = 0;i < temp.size();i++) {
+                if (temp.get(i).equals(ans)) {
                     temp.set(i,jawaban);
                 }
                 arr.add(temp.get(i));
@@ -111,7 +106,7 @@ public class Zonk {
     }
 
     @SuppressWarnings("unchecked")
-    public static String jawab(int input, String soal){
+    public static String jawab(int input, String soal) {
         JSONParser parser = new JSONParser();
 
         try {
@@ -122,10 +117,9 @@ public class Zonk {
             JSONArray arr = (JSONArray) jsonObject.get(soal);
             String jawaban = arr.get(4).toString();
             String masukan = arr.get(input).toString();
-            if (jawaban.equals(masukan)){
+            if (jawaban.equals(masukan)) {
                 return "benar";
-            }
-            else {
+            } else {
                 return "salah";
             }
 
@@ -140,15 +134,8 @@ public class Zonk {
         return "lol";
 
     }
-    public static void main (String[] args){
-        String[] soal = {"who are","tony stark","budi","i dont know","hulk","tony stark"};
-        gantiSoal("who are","boy");
-        System.out.println("dor");
 
-    }
-
-
-    public Zonk(String input){
+    public Zonk(String input) {
         String masukan = input;
 
     }
