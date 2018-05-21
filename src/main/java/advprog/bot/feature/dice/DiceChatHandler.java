@@ -39,21 +39,24 @@ public class DiceChatHandler extends AbstractLineChatHandlerDecorator {
         if (msgSplit[0].equals("/coin")){
             String flippedCoin = randomGenerator.spinCoin();
             return Collections.singletonList(new TextMessage(flippedCoin));
-        } else if (msgSplit[0].equals("/roll") && msgSplit.length == 3) {
-            int x = Integer.parseInt(msgSplit[1]);
-            int y = Integer.parseInt(msgSplit[2]);
+        } else if (msgSplit[0].equals("/roll") && msgSplit.length == 2) {
+            String[] diceSplit = msgSplit[1].split("d");
+            int x = Integer.parseInt(diceSplit[0]);
+            int y = Integer.parseInt(diceSplit[1]);
             String rolledDice = handleRoll(x, y);
             return Collections.singletonList(new TextMessage(rolledDice));
         } else if (msgSplit[0].equals("/multiroll")) {
             int num = Integer.parseInt(msgSplit[1]);
-            int x = Integer.parseInt(msgSplit[2]);
-            int y = Integer.parseInt(msgSplit[3]);
+            String[] diceSplit = msgSplit[2].split("d");
+            int x = Integer.parseInt(diceSplit[0]);
+            int y = Integer.parseInt(diceSplit[1]);
             String rolledDice = handleMultiRoll(num, x, y);
             return Collections.singletonList(new TextMessage(rolledDice));
         } else if (msgSplit[0].equals("/is_lucky")) {
             int num = Integer.parseInt(msgSplit[1]);
-            int x = Integer.parseInt(msgSplit[2]);
-            int y = Integer.parseInt(msgSplit[3]);
+            String[] diceSplit = msgSplit[2].split("d");
+            int x = Integer.parseInt(diceSplit[0]);
+            int y = Integer.parseInt(diceSplit[1]);
             String isLucky = handleIsLucky(num, x, y);
             return Collections.singletonList(new TextMessage(isLucky));
         } else {
