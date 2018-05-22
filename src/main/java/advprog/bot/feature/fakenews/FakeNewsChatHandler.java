@@ -34,6 +34,7 @@ public class FakeNewsChatHandler extends AbstractLineChatHandlerDecorator {
         String content = event.getMessage().getText();
 
         try {
+            News news;
             if (content.startsWith("/add_filter ")) {
                 String url = content.split(" ")[1];
                 String type = content.split(" ")[2];
@@ -42,12 +43,26 @@ public class FakeNewsChatHandler extends AbstractLineChatHandlerDecorator {
                 return Collections.singletonList(
                         new TextMessage("Filter successfully added")
                 );
+
+            } else if (content.startsWith("/is_fake ")) {
+                String url = content.split(" ")[1];
+                news = FakeNewsHelper.checkFake(url);
+
+            } else if (content.startsWith("/is_satire ")) {
+                String url = content.split(" ")[1];
+                news = FakeNewsHelper.checkSatire(url);
+
+            } else if (content.startsWith("/is_conspiracy ")) {
+                String url = content.split(" ")[1];
+                news = FakeNewsHelper.checkConspiracy(url);
+
             } else {
-                News news = FakeNewsHelper.check(content);
-                return Collections.singletonList(
-                        new TextMessage(news.getCategory() + "\n" + news.getNote())
-                );
+                news = FakeNewsHelper.check(content);
+
             }
+            return Collections.singletonList(
+                    new TextMessage(news.getCategory() + "\n" + news.getNote())
+            );
         } catch (Exception e) {
             return Collections.singletonList(
                     new TextMessage("Error occured")
