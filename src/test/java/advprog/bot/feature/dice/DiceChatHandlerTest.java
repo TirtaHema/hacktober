@@ -4,16 +4,18 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
-import advprog.bot.ChatHandlerTestUtil;
 import advprog.example.bot.EventTestUtil;
+
 import com.linecorp.bot.model.event.MessageEvent;
 import com.linecorp.bot.model.event.message.TextMessageContent;
 import com.linecorp.bot.model.message.Message;
 import com.linecorp.bot.model.message.TextMessage;
-import org.junit.Test;
 
 import java.util.LinkedList;
 import java.util.List;
+
+import org.junit.Test;
+
 
 
 public class DiceChatHandlerTest {
