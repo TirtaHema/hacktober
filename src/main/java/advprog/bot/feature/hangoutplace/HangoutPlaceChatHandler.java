@@ -44,7 +44,9 @@ public class HangoutPlaceChatHandler extends AbstractLineChatHandlerDecorator {
 
     @Override
     protected boolean canHandleTextMessage(MessageEvent<TextMessageContent> event) {
-        return event.getMessage().getText().split(" ")[0].equals("/echo");
+        return event.getMessage().getText().equals("/hangout_kuy")
+                || event.getMessage().getText().equals("/random_hangout_kuy")
+                || event.getMessage().getText().split(" ")[0].equals("/nearby_hangout_kuy");
     }
 
     @Override
@@ -52,25 +54,22 @@ public class HangoutPlaceChatHandler extends AbstractLineChatHandlerDecorator {
         String[] pesan = event.getMessage().getText().split(" ");
         if (pesan[0].equals("/hangout_kuy")) {
             status = "nearest";
-            return Collections.singletonList(new TextMessage("Kirimkan lokasi Anda!"));
+            return Collections.singletonList(new TextMessage("Silahkan kirim lokasi Anda"));
         } else if (pesan[0].equals("/random_hangout_kuy")) {
             status = "random";
-            return Collections.singletonList(new TextMessage("Kirimkan lokasi Anda!"));
+            return Collections.singletonList(new TextMessage("Silahkan kirim lokasi Anda"));
         } else if (pesan[0].equals("/nearby_hangout_kuy")) {
             try {
                 radius = Double.parseDouble(pesan[1]);
                 status = "radius";
             } catch (Exception e) {
                 return Collections.singletonList(new TextMessage(
-                        "Input anda harus memenuh format /nearby_hangout_kuy (int:radius)"));
+                        "Input anda harus memenuhi format /nearby_hangout_kuy (int:radius)"));
             }
-            return Collections.singletonList(new TextMessage("Kirimkan lokasi Anda!"));
+            return Collections.singletonList(new TextMessage("Silahkan kirim lokasi Anda"));
         }
 
-        return Collections.singletonList(
-                new TextMessage(event.getMessage().getText().replace("/echo", ""))
-        ); // just return list of TextMessage for multi-line reply!
-        // Return empty list of TextMessage if not replying. DO NOT RETURN NULL!!!
+        return Collections.singletonList(new TextMessage(""));
     }
 
     @Override

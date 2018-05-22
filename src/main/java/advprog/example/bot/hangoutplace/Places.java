@@ -52,10 +52,6 @@ public class Places {
         }
     }
 
-    public String getPlaces(String longitude, String latitude) {
-        return longitude + " " + latitude;
-    }
-
     public String getNearestPlaces(double latitude, double longitude) {
         parseJson();
         Place nearest = places.get(0);
