@@ -1,6 +1,7 @@
 package advprog.bot.feature.uberestimate;
 
 import advprog.bot.feature.uberestimate.uber.Location;
+import advprog.bot.feature.uberestimate.uber.PriceDetails;
 import advprog.bot.feature.uberestimate.uber.UberService;
 import advprog.bot.line.AbstractLineChatHandlerDecorator;
 import advprog.bot.line.LineChatHandler;
@@ -39,6 +40,7 @@ public class UberEstimateChatHandler extends AbstractLineChatHandlerDecorator {
 
     private String lastIntents;
     private String lastQuery;
+    private Location lastLocation;
     private TreeMap<String, ArrayList<Location>> userData;
 
     public UberEstimateChatHandler(LineChatHandler decoratedHandler) {
@@ -65,9 +67,30 @@ public class UberEstimateChatHandler extends AbstractLineChatHandlerDecorator {
                             new TextMessage("No location saved")
                     );
                 } else {
-                    lastIntents = "uber";
+                    ArrayList<Location> locations =  userData.get(sender);
+
+                    List<ImageCarouselColumn> columns = new ArrayList<ImageCarouselColumn>();
+
+                    for (Location current : locations) {
+                        columns.add(new ImageCarouselColumn("https://getuikit.com/v2/docs/images/placeholder_200x100.svg",
+                                new PostbackAction(
+                                        current.getPlaceName(),
+                                        "what",
+                                        "lat= "
+                                                + Double.toString(current.getLat())
+                                                + " lon= " + Double.toString(current.getLon())
+                                        + " " + current.getPlaceName()
+                                                + " " + current.getStreet()
+                                )));
+                    }
+
+                    ImageCarouselTemplate carouselTemplate = new ImageCarouselTemplate(columns);
+                    TemplateMessage templateMessage =
+                            new TemplateMessage(
+                                    "carousel alt text", carouselTemplate);
+
                     return Collections.singletonList(
-                            new TextMessage("Please share your location")
+                            templateMessage
                     );
                 }
             case "/add_destination":
@@ -84,7 +107,14 @@ public class UberEstimateChatHandler extends AbstractLineChatHandlerDecorator {
                 break;
             case "lat=":
                 UberService uberService = new UberService();
-                break;
+                lastIntents = "uber";
+                lastLocation = new Location(
+                        Double.parseDouble(input[1]),
+                        Double.parseDouble(input[3]),
+                        input[4],
+                        input[5]
+                );
+                return Collections.singletonList(new TextMessage("Please share your location"));
             default:
                 break;
         }
@@ -97,12 +127,12 @@ public class UberEstimateChatHandler extends AbstractLineChatHandlerDecorator {
     protected List<Message> handleLocationMessage(MessageEvent<LocationMessageContent> event) {
         Source source = event.getSource();
         String sender = source.getUserId();
+        LocationMessageContent location = event.getMessage();
         switch (lastIntents) {
             case "add":
                 if (!userData.containsKey(sender)) {
                     userData.put(sender, new ArrayList<Location>());
                 }
-                LocationMessageContent location = event.getMessage();
                 ArrayList<Location> loc = userData.get(sender);
                 loc.add(
                         new Location(
@@ -121,31 +151,36 @@ public class UberEstimateChatHandler extends AbstractLineChatHandlerDecorator {
                         new TextMessage("Location Saved " + tmp)
                 );
             case "uber":
-                ArrayList<Location> locations =  userData.get(sender);
-
-                List<ImageCarouselColumn> columns = new ArrayList<ImageCarouselColumn>();
-
-                for (Location current : locations) {
-                    columns.add(new ImageCarouselColumn("https://getuikit.com/v2/docs/images/placeholder_200x100.svg",
-                                                            new PostbackAction(
-                                                                    current.getPlaceName(),
-                                                                    "what",
-                                                                    "lat= "
-                                                                            + Double.toString(current.getLat())
-                                                                            + " lon= " + Double.toString(current.getLon())
-                                                            )));
-                }
-
-                ImageCarouselTemplate carouselTemplate = new ImageCarouselTemplate(columns);
-                TemplateMessage templateMessage =
-                        new TemplateMessage(
-                                "carousel alt text", carouselTemplate);
-
-                return Collections.singletonList(
-                        templateMessage
+                UberService uberService = new UberService();
+                List<PriceDetails> priceDetails = uberService.getPriceDetails(
+                        uberService.getJsonPriceDetails(lastLocation,
+                                    new Location(
+                                            location.getLatitude(),
+                                            location.getLongitude(),
+                                            location.getAddress(),
+                                            location.getAddress()
+                                    )
+                        )
                 );
 
+                String rides = "";
+                for (PriceDetails price : priceDetails) {
+                    rides = rides + "\n- Uber "
+                            + price.getProvider() + ": " + price.getDuration() + " minutes, "
+                            + price.getPrice();
+                }
 
+                return Collections.singletonList(
+                        new TextMessage(
+                                "Destination: " + lastLocation.getPlaceName()
+                                + " " + lastLocation.getStreet() + "\n"
+                                        + Double.toString(priceDetails.get(0).getDistance())
+                                + " kilometers from current position\n"
+                                        + "Estimated travel time and fares for each Uber services:\n"
+                                + rides + "\n"
+                                + "Data provided by [Uber](https://www.uber.com)"
+                        )
+                );
             default:
                 break;
         }
