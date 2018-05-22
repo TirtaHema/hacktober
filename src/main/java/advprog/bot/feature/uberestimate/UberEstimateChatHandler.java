@@ -5,36 +5,25 @@ import advprog.bot.feature.uberestimate.uber.PriceDetails;
 import advprog.bot.feature.uberestimate.uber.UberService;
 import advprog.bot.line.AbstractLineChatHandlerDecorator;
 import advprog.bot.line.LineChatHandler;
-import com.linecorp.bot.client.LineMessagingClient;
-import com.linecorp.bot.model.ReplyMessage;
-import com.linecorp.bot.model.action.DatetimePickerAction;
-import com.linecorp.bot.model.action.MessageAction;
 import com.linecorp.bot.model.action.PostbackAction;
-import com.linecorp.bot.model.action.URIAction;
-import com.linecorp.bot.model.event.Event;
 import com.linecorp.bot.model.event.MessageEvent;
-import com.linecorp.bot.model.event.PostbackEvent;
-import com.linecorp.bot.model.event.message.*;
+import com.linecorp.bot.model.event.message.AudioMessageContent;
+import com.linecorp.bot.model.event.message.ImageMessageContent;
+import com.linecorp.bot.model.event.message.LocationMessageContent;
+import com.linecorp.bot.model.event.message.StickerMessageContent;
+import com.linecorp.bot.model.event.message.TextMessageContent;
 import com.linecorp.bot.model.event.source.Source;
 import com.linecorp.bot.model.message.Message;
 import com.linecorp.bot.model.message.TemplateMessage;
 import com.linecorp.bot.model.message.TextMessage;
-import com.linecorp.bot.model.message.template.CarouselColumn;
-import com.linecorp.bot.model.message.template.CarouselTemplate;
 import com.linecorp.bot.model.message.template.ImageCarouselColumn;
 import com.linecorp.bot.model.message.template.ImageCarouselTemplate;
-import com.linecorp.bot.model.response.BotApiResponse;
-import com.linecorp.bot.spring.boot.annotation.EventMapping;
 
-
-import java.util.*;
-
-import java.util.concurrent.ExecutionException;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.TreeMap;
 import java.util.logging.Logger;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.lang.NonNull;
-
 
 public class UberEstimateChatHandler extends AbstractLineChatHandlerDecorator {
     private static final Logger LOGGER = Logger.getLogger(UberEstimateChatHandler.class.getName());
@@ -46,7 +35,7 @@ public class UberEstimateChatHandler extends AbstractLineChatHandlerDecorator {
 
     public UberEstimateChatHandler(LineChatHandler decoratedHandler) {
         this.decoratedLineChatHandler = decoratedHandler;
-        userData = new TreeMap<String, ArrayList<Location> >();
+        userData = new TreeMap<String, ArrayList<Location>>();
         lastIntents = "";
         lastQuery = "";
         LOGGER.info("Uber chat handler added!");
@@ -62,7 +51,6 @@ public class UberEstimateChatHandler extends AbstractLineChatHandlerDecorator {
                 lastQuery = "";
                 Source source = event.getSource();
                 String sender = source.getUserId();
-                // System.out.println("asdsadasdasdasdasdassdasdapsdaspodjaspodjspodjXZCXZCXZC\nASDASDASDAS " + sender);
                 ArrayList<Location> location =  userData.get(sender);
                 if (location == null) {
                     return Collections.singletonList(
@@ -172,7 +160,8 @@ public class UberEstimateChatHandler extends AbstractLineChatHandlerDecorator {
                                 "Destination: " + lastLocation.getPlaceName() + " "
                                         + Double.toString(priceDetails.get(0).getDistance())
                                 + " kilometers from current position\n\n"
-                                        + "Estimated travel time and fares for each Uber services:\n"
+                                        + "Estimated travel time and "
+                                        + "fares for each Uber services:\n"
                                 + rides + "\n\n"
                                 + "Data provided by [Uber](https://www.uber.com)"
                         )
