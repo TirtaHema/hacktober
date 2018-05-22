@@ -131,8 +131,8 @@ public class UberEstimateChatHandler extends AbstractLineChatHandlerDecorator {
                                                                     current.getPlaceName(),
                                                                     "what",
                                                                     "lat= "
-                                                                            + current.getLat()
-                                                                            + " lon= " + current.getLon()
+                                                                            + Double.toString(current.getLat())
+                                                                            + " lon= " + Double.toString(current.getLon())
                                                             )));
                 }
 
