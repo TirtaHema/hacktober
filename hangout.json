@@ -1,4 +1,4 @@
-"Places" :
+{"Places" :
 [{
   "location": "Jakarta",
   "address": "Jalan Cisanggiri 2, Petogogan, Kebayoran Baru, RT.5/RW.4, Petogogan, Kby. Baru, Kota Jakarta Selatan, Daerah Khusus Ibukota Jakarta 15810",
@@ -8,14 +8,14 @@
   "latitude": -6.239953
 },
 
-{
-  "location": "Jakarta",
-  "address": "Jl. Kapten Tendean No.41, RT.2/RW.3, Kuningan Bar., Mampang Prpt., Kota Jakarta Selatan, Daerah Khusus Ibukota Jakarta 12790",
-  "name": "Warung Nagih",
-  "description": "Tempat makan outdoor yang santai dan menyajikan aneka jajanan khas Indonesia, seperti roti bakar, dll.",
-  "longitude": 106.822010,
-  "latitude": -6.240121
-},
+  {
+    "location": "Jakarta",
+    "address": "Jl. Kapten Tendean No.41, RT.2/RW.3, Kuningan Bar., Mampang Prpt., Kota Jakarta Selatan, Daerah Khusus Ibukota Jakarta 12790",
+    "name": "Warung Nagih",
+    "description": "Tempat makan outdoor yang santai dan menyajikan aneka jajanan khas Indonesia, seperti roti bakar, dll.",
+    "longitude": 106.822010,
+    "latitude": -6.240121
+  },
   {
     "location": "Jakarta",
     "address": "AKR Tower Level MM, Jalan Perjuangan No. 5, Kebon Jeruk, RT.11/RW.10, Kb. Jeruk, Kota Jakarta Barat, Daerah Khusus Ibukota Jakarta 11530",
@@ -121,4 +121,4 @@
     "longitude": 106.816348,
     "latitude": -6.272899
   }
-]
+]}
