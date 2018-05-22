@@ -15,7 +15,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 
-public class FakeNewsChatHandlerTest {
+public class NewsChatHandlerTest {
     FakeNewsChatHandler fakeNewsChatHandler;
 
     @Before

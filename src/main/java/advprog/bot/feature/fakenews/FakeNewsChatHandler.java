@@ -25,13 +25,14 @@ public class FakeNewsChatHandler extends AbstractLineChatHandlerDecorator {
 
     @Override
     protected boolean canHandleTextMessage(MessageEvent<TextMessageContent> event) {
-        return false;
+        return true;
     }
 
     @Override
     protected List<Message> handleTextMessage(MessageEvent<TextMessageContent> event) {
+        News news = FakeNewsHelper.check(event.getMessage().getText());
         return Collections.singletonList(
-                new TextMessage("")
+                new TextMessage(news.getCategory() + "\n" + news.getNote())
         ); // just return list of TextMessage for multi-line reply!
         // Return empty list of TextMessage if not replying. DO NOT RETURN NULL!!!
     }
