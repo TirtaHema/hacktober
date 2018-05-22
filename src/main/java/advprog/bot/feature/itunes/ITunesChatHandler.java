@@ -40,7 +40,7 @@ public class ITunesChatHandler extends AbstractLineChatHandlerDecorator {
     @Override
     protected List<Message> handleTextMessage(MessageEvent<TextMessageContent> event) {
         String[] inputText = event.getMessage().getText().split(" ");
-        if (inputText[0].equals("/itunes_preview") && inputText.length > 1) {
+        if (event.getMessage().getText().contains("/itunes_preview")) {
             try {
                 return previewArtist(event.getMessage().getText());
             } catch (IOException e) {
