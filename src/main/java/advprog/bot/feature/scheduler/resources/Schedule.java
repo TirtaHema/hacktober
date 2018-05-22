@@ -1,6 +1,8 @@
 package advprog.bot.feature.scheduler.resources;
 
-public class Schedule {
+import org.jetbrains.annotations.NotNull;
+
+public class Schedule implements Comparable<Schedule> {
     private String time;
     private String description;
 
@@ -13,15 +15,12 @@ public class Schedule {
         return time;
     }
 
-    public void setTime(String time) {
-        this.time = time;
-    }
-
     public String getDescription() {
         return description;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    @Override
+    public int compareTo(@NotNull Schedule other) {
+        return this.time.compareTo(other.getTime());
     }
 }

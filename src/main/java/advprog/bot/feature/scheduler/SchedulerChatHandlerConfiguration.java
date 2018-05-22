@@ -10,7 +10,7 @@ import org.springframework.context.annotation.Configuration;
 public class SchedulerChatHandlerConfiguration {
 
     @Bean
-    SchedulerChatHandler echoChatHandler(BotController controller) {
+    SchedulerChatHandler schedulerChatHandler(BotController controller) {
         LineChatHandler currenctChatHandler = controller.getLineChatHandler();
         SchedulerChatHandler handler = new SchedulerChatHandler(currenctChatHandler);
         controller.replaceLineChatHandler(handler);

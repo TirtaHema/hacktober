@@ -21,12 +21,18 @@ import com.linecorp.bot.model.message.Message;
 import com.linecorp.bot.model.message.TemplateMessage;
 import com.linecorp.bot.model.message.TextMessage;
 
-import java.time.Instant;
-import java.util.*;
-import java.util.logging.Logger;
-
 import com.linecorp.bot.model.message.template.CarouselColumn;
 import com.linecorp.bot.model.message.template.CarouselTemplate;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.TreeMap;
+import java.util.TreeSet;
+import java.util.logging.Logger;
+
 import org.springframework.beans.factory.annotation.Autowired;
 
 public class SchedulerChatHandler extends AbstractLineChatHandlerDecorator {
@@ -34,13 +40,13 @@ public class SchedulerChatHandler extends AbstractLineChatHandlerDecorator {
     private LineMessagingClient lineMessagingClient;
 
     private static final String[] HOURS = new String[]{"00:00-01:00", "01:00-02:00", "02:00-03:00",
-                                                    "03:00-04:00", "04:00-05:00", "05:00-06:00",
-                                                    "06:00-07:00", "07:00-08:00", "08:00-09:00",
-                                                    "09:00-10:00", "10:00-11:00", "11:00-12:00",
-                                                    "12:00-13:00", "13:00-14:00", "14:00-15:00",
-                                                    "15:00-16:00", "16:00-17:00", "17:00-18:00",
-                                                    "18:00-19:00", "19:00-20:00", "20:00-21:00",
-                                                    "21:00-22:00", "22:00-23:00", "23:00-00:00"};
+                                                       "03:00-04:00", "04:00-05:00", "05:00-06:00",
+                                                       "06:00-07:00", "07:00-08:00", "08:00-09:00",
+                                                       "09:00-10:00", "10:00-11:00", "11:00-12:00",
+                                                       "12:00-13:00", "13:00-14:00", "14:00-15:00",
+                                                       "15:00-16:00", "16:00-17:00", "17:00-18:00",
+                                                       "18:00-19:00", "19:00-20:00", "20:00-21:00",
+                                                       "21:00-22:00", "22:00-23:00", "23:00-00:00"};
 
     private static final Logger LOGGER = Logger.getLogger(SchedulerChatHandler.class.getName());
 
@@ -62,7 +68,16 @@ public class SchedulerChatHandler extends AbstractLineChatHandlerDecorator {
 
     @Override
     protected boolean canHandleTextMessage(MessageEvent<TextMessageContent> event) {
-        return true;
+        Source source = event.getSource();
+        if (source instanceof GroupSource) {
+            String command = event.getMessage().getText().split(" ")[0];
+            return command.equals("/create_schedule") || command.equals("jadwal");
+        } else if (source instanceof UserSource) {
+            String userId = event.getSource().getSenderId();
+            return userRequestGroup.containsKey(userId);
+        } else {
+            return false;
+        }
     }
 
     @Override
@@ -86,22 +101,36 @@ public class SchedulerChatHandler extends AbstractLineChatHandlerDecorator {
                     userRequestGroup.put(userId, groupId);
 
                     return Collections.singletonList(
-                            new TextMessage("")
-                    );
-                } else if (command.equals("jadwal")) {
-                    return Collections.singletonList(
-                            new TextMessage("")
+                            new TextMessage("Pilih waktu yang diinginkan pada private chat")
                     );
                 } else {
+                    String groupId = ((GroupSource) source).getGroupId();
+                    String date = event.getTimestamp().toString().substring(0, 10);
+
+                    if (isJadwalExists(groupId, date)) {
+                        TreeSet<Schedule> schedules = groupUsedSchedule.get(groupId).get(date);
+
+                        StringBuilder response = new StringBuilder();
+                        int lineCounter = 1;
+                        for (Schedule schedule : schedules) {
+                            response.append(Integer.toString(lineCounter))
+                                    .append(". ").append(schedule.getDescription()).append("\n");
+                            lineCounter++;
+                        }
+
+                        return Collections.singletonList(
+                                new TextMessage(response.toString())
+                        );
+                    }
                     return Collections.singletonList(
-                            new TextMessage("")
+                            new TextMessage("Tidak terdapat jadwal apapun untuk hari ini")
                     );
                 }
-            } else if (source instanceof UserSource) {
+            } else {
                 String userId = source.getSenderId();
 
-                if (userRequestGroup.containsKey(userId)) {
-
+                if (userRequestGroup.containsKey(userId)
+                        && isDateMessage(event.getMessage().getText())) {
                     String groupId = userRequestGroup.get(userId);
 
                     if (!groupFreeSchedule.containsKey(groupId)) {
@@ -118,15 +147,35 @@ public class SchedulerChatHandler extends AbstractLineChatHandlerDecorator {
                     userRequestDate.put(userId, date);
                     TreeSet<String> hours = groupFreeSchedule.get(groupId).get(date);
 
-                    List<Action> hoursOpts = new ArrayList<>();
+                    int itemCounter = 0;
+                    int carouselIndex = 0;
+                    List<List<Action>> hoursOpts = new ArrayList<>();
+                    hoursOpts.add(new ArrayList<>());
                     for (String hour : hours) {
-                        hoursOpts.add(new PostbackAction(hour, hour, hour));
+                        if (itemCounter == 3) {
+                            itemCounter = 0;
+                            carouselIndex++;
+                            hoursOpts.add(new ArrayList<>());
+                        }
+                        if (hour.contains("Used")) {
+                            hoursOpts.get(carouselIndex).add(new PostbackAction(
+                                    hour, hour.substring(0, 11), hour.substring(0, 11)));
+                        } else {
+                            hoursOpts.get(carouselIndex).add(new PostbackAction(hour, hour, hour));
+                        }
+
+                        itemCounter++;
+                    }
+
+                    List<CarouselColumn> carouselCols = new ArrayList<>();
+                    for (List<Action> row : hoursOpts) {
+                        carouselCols.add(new CarouselColumn(
+                                null, "Set Waktu Kegiatan",
+                                "Pilih Waktu yang Diinginkan", row));
                     }
 
                     CarouselTemplate carouselTemplate = new CarouselTemplate(
-                            Arrays.asList(
-                                    new CarouselColumn(null, "Jadwal", "Jadwal", hoursOpts)
-                            )
+                            carouselCols
                     );
 
                     TemplateMessage templateMessage =
@@ -136,55 +185,74 @@ public class SchedulerChatHandler extends AbstractLineChatHandlerDecorator {
                     return Collections.singletonList(
                             templateMessage
                     );
-                } else if (userRequestDate.containsKey(userId)) {
+                } else if (userRequestDate.containsKey(userId)
+                        && isTimeMessage(event.getMessage().getText())) {
 
+                    String groupId = userRequestGroup.get(userId);
+                    String date = userRequestDate.get(userId);
                     String time = event.getMessage().getText();
+
+                    if (!groupFreeSchedule.get(groupId).get(date).contains(time)) {
+                        return Collections.singletonList(
+                                new TextMessage("Waktu telah dipakai untuk kegiatan lain.\n"
+                                        +  "Silahkan pilih waktu yang belum terpakai.")
+                        );
+                    }
+
                     userRequestTime.put(userId, time);
 
                     return Collections.singletonList(
-                            new TextMessage("Masukan deskripsi.")
+                            new TextMessage("Masukan Deskripsi")
                     );
                 } else if (userRequestTime.containsKey(userId)) {
-                    String groupId = ((GroupSource) source).getGroupId();
+                    String groupId = userRequestGroup.get(userId);
                     String date = userRequestDate.get(userId);
                     String requestedHour = userRequestTime.get(userId);
                     String description = event.getMessage().getText();
+
+                    if (!groupUsedSchedule.containsKey(groupId)) {
+                        groupUsedSchedule.put(groupId, new TreeMap<>());
+                    }
+                    if (!groupUsedSchedule.get(groupId).containsKey(date)) {
+                        groupUsedSchedule.get(groupId).put(date, new TreeSet<>());
+                    }
+
                     groupUsedSchedule.get(groupId).get(date)
                             .add(new Schedule(requestedHour, description));
+
+                    TreeSet<String> hours = groupFreeSchedule.get(groupId).get(date);
+
+                    hours.remove(requestedHour);
+                    hours.add(requestedHour + " (Used)");
+                    userRequestGroup.remove(userId);
+                    userRequestDate.remove(userId);
+                    userRequestTime.remove(userId);
 
                     String userDisplayName = lineMessagingClient
                             .getProfile(userId).get().getDisplayName();
                     String response = userDisplayName + " telah menambahkan jadwal baru"
-                            + " pada tanggal " + date + " pukul " + requestedHour;
+                            + " pada tanggal " + date + " pukul " + requestedHour + "\n\n"
+                            + "Deskripsi :\n" + description;
+
                     lineMessagingClient.pushMessage(new PushMessage(groupId,
                             Collections.singletonList(
                                     new TextMessage(response)
                             )
                     ));
 
-                    TreeSet<String> hours = groupFreeSchedule.get(groupId).get(date);
-
-                    hours.remove(requestedHour);
-                    userRequestGroup.remove(userId);
-                    userRequestDate.remove(userId);
-                    userRequestTime.remove(userId);
-
                     return Collections.singletonList(
                             new TextMessage("Jadwal baru telah ditambahkan!")
                     );
                 } else {
                     return Collections.singletonList(
-                            new TextMessage("!!!")
+                            new TextMessage("Pastikan input Anda sesuai dengan perintah")
                     );
                 }
-            } else {
-                return Collections.singletonList(
-                        new TextMessage("!!!")
-                );
             }
         } catch (Exception e) {
+            e.printStackTrace();
             return Collections.singletonList(
-                    new TextMessage("")
+                    new TextMessage("Terjadi kesalahan/error!")
             );
         }
     }
@@ -212,40 +280,59 @@ public class SchedulerChatHandler extends AbstractLineChatHandlerDecorator {
     private void initDayFreeHours(String groupId, String date) {
         TreeSet<String> set = groupFreeSchedule.get(groupId).get(date);
 
-        for (String hour : HOURS) {
-            set.add(hour);
-        }
+        set.addAll(Arrays.asList(HOURS));
     }
 
-    private boolean is_date_message(String message) {
-        String[] msg_split = message.split("-");
+    private boolean isDateMessage(String message) {
+        String[] msgSplit = message.split("-");
 
-        if (msg_split.length == 3) {
-            return msg_split[0].length() == 4 && msg_split[1].length() == 2
-                    && msg_split[2].length() == 2 && is_digit(msg_split[0])
-                    && is_digit(msg_split[1]) && is_digit(msg_split[2]);
+        if (msgSplit.length == 3) {
+            return msgSplit[0].length() == 4 && msgSplit[1].length() == 2
+                    && msgSplit[2].length() == 2 && isDigit(msgSplit[0])
+                    && isDigit(msgSplit[1]) && isDigit(msgSplit[2]);
         } else {
             return false;
         }
     }
 
-    private boolean is_time_message(String message) {
-        String[] msg_split = message.split("-");
-        String[] left_split = msg_split[0].split(":");
-        String[] right_split = msg_split[1].split(":");
+    private boolean isTimeMessage(String message) {
+        String[] msgSplit = message.split("-");
 
-        return left_split[0].length() == 2 && left_split[1].length() == 2
-                && is_digit(left_split[0]) && is_digit(left_split[1])
-                && right_split[0].length() == 2 && right_split[1].length() == 2
-                && is_digit(right_split[0]) && is_digit(right_split[1]);
+        if (msgSplit.length < 2) {
+            return false;
+        }
+
+        String[] leftSplit = msgSplit[0].split(":");
+        String[] rightSplit = msgSplit[1].split(":");
+
+        return leftSplit[0].length() == 2 && leftSplit[1].length() == 2
+                && isDigit(leftSplit[0]) && isDigit(leftSplit[1])
+                && rightSplit[0].length() == 2 && rightSplit[1].length() == 2
+                && isDigit(rightSplit[0]) && isDigit(rightSplit[1]);
     }
 
-    private boolean is_digit(String str) {
+    private boolean isDigit(String str) {
         try {
             Integer.parseInt(str);
         } catch (Exception e) {
             return false;
         }
         return true;
+    }
+
+    private boolean isJadwalExists(String groupId, String date) {
+        if (!groupUsedSchedule.containsKey(groupId)) {
+            return false;
+        }
+
+        TreeMap<String, TreeSet<Schedule>> groupSchedule = groupUsedSchedule.get(groupId);
+
+        if (!groupSchedule.containsKey(date)) {
+            return false;
+        }
+
+        TreeSet<Schedule> groupScheduleWithDate = groupSchedule.get(date);
+
+        return groupScheduleWithDate.size() > 0;
     }
 }
