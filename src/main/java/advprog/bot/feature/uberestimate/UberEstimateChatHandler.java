@@ -1,6 +1,7 @@
 package advprog.bot.feature.uberestimate;
 
 import advprog.bot.feature.uberestimate.uber.Location;
+import advprog.bot.feature.uberestimate.uber.UberService;
 import advprog.bot.line.AbstractLineChatHandlerDecorator;
 import advprog.bot.line.LineChatHandler;
 import com.linecorp.bot.client.LineMessagingClient;
@@ -39,9 +40,6 @@ public class UberEstimateChatHandler extends AbstractLineChatHandlerDecorator {
     private String lastIntents;
     private String lastQuery;
     private TreeMap<String, ArrayList<Location>> userData;
-
-    @Autowired
-    private LineMessagingClient lineMessagingClient;
 
     public UberEstimateChatHandler(LineChatHandler decoratedHandler) {
         this.decoratedLineChatHandler = decoratedHandler;
@@ -85,6 +83,7 @@ public class UberEstimateChatHandler extends AbstractLineChatHandlerDecorator {
                 lastIntents = "remove";
                 break;
             case "lat=":
+                UberService uberService = new UberService();
 
             default:
                 break;
@@ -93,77 +92,6 @@ public class UberEstimateChatHandler extends AbstractLineChatHandlerDecorator {
                 new TextMessage("test")
         );
     }
-
-
-    @EventMapping
-    public void handleTextMessageEvent(MessageEvent<TextMessageContent> event) throws Exception {
-        TextMessageContent message = event.getMessage();
-        handleTextContent(event.getReplyToken(), event, message);
-    }
-
-    private void handleTextContent(String replyToken, Event event, TextMessageContent content)
-            throws Exception {
-        String text = content.getText();
-
-
-        switch (text) {
-            case "carousel": {
-                CarouselTemplate carouselTemplate = new CarouselTemplate(
-                        Arrays.asList(
-                                new CarouselColumn("https://getuikit.com/v2/docs/images/placeholder_200x100.svg", "hoge", "fuga", Arrays.asList(
-                                        new URIAction("Go to line.me",
-                                                "https://line.me"),
-                                        new URIAction("Go to line.me",
-                                                "https://line.me"),
-                                        new PostbackAction("Say hello1",
-                                                "hello こんにちは")
-                                )),
-                                new CarouselColumn("https://getuikit.com/v2/docs/images/placeholder_200x100.svg", "hoge", "fuga", Arrays.asList(
-                                        new PostbackAction("言 hello2",
-                                                "hello こんにちは",
-                                                "hello こんにちは"),
-                                        new PostbackAction("言 hello2",
-                                                "hello こんにちは",
-                                                "hello こんにちは"),
-                                        new MessageAction("Say message",
-                                                "Rice=米")
-                                ))
-                        ));
-                TemplateMessage templateMessage = new TemplateMessage("Carousel alt text", carouselTemplate);
-                this.reply(replyToken, templateMessage);
-                break;
-            }
-            case "image_carousel": {
-                ImageCarouselTemplate imageCarouselTemplate = new ImageCarouselTemplate(
-                        Arrays.asList(
-                                new ImageCarouselColumn("https://getuikit.com/v2/docs/images/placeholder_200x100.svg",
-                                        new URIAction("Goto line.me",
-                                                "https://line.me")
-                                ),
-                                new ImageCarouselColumn("https://getuikit.com/v2/docs/images/placeholder_200x100.svg",
-                                        new MessageAction("Say message",
-                                                "Rice=米")
-                                ),
-                                new ImageCarouselColumn("https://getuikit.com/v2/docs/images/placeholder_200x100.svg",
-                                        new PostbackAction("言 hello2",
-                                                "hello こんにちは",
-                                                "hello こんにちは")
-                                )
-                        ));
-                TemplateMessage templateMessage = new TemplateMessage("ImageCarousel alt text", imageCarouselTemplate);
-                this.reply(replyToken, templateMessage);
-                break;
-            }
-
-            default:
-                this.replyText(
-                        replyToken,
-                        text
-                );
-                break;
-        }
-    }
-
 
     @Override
     protected List<Message> handleLocationMessage(MessageEvent<LocationMessageContent> event) {
@@ -197,9 +125,15 @@ public class UberEstimateChatHandler extends AbstractLineChatHandlerDecorator {
 
                 List<ImageCarouselColumn> columns = new ArrayList<ImageCarouselColumn>();
 
-                for(Location current : locations) {
-                    columns.add(new ImageCarouselColumn( "https://getuikit.com/v2/docs/images/placeholder_200x100.svg",
-                                                            new PostbackAction("1","lat=1&long=2","1" )));
+                for (Location current : locations) {
+                    columns.add(new ImageCarouselColumn("https://getuikit.com/v2/docs/images/placeholder_200x100.svg",
+                                                            new PostbackAction(
+                                                                    current.getPlaceName(),
+                                                                    "",
+                                                                    "lat= "
+                                                                            + current.getLat()
+                                                                            + " lon= " + current.getLon()
+                                                            )));
                 }
 
                 ImageCarouselTemplate carouselTemplate = new ImageCarouselTemplate(columns);
@@ -220,33 +154,13 @@ public class UberEstimateChatHandler extends AbstractLineChatHandlerDecorator {
         );
     }
 
-    private void reply(@NonNull String replyToken, @NonNull Message message) {
-        reply(replyToken, Collections.singletonList(message));
-    }
-
-    private void reply(@NonNull String replyToken, @NonNull List<Message> messages) {
-        try {
-            BotApiResponse apiResponse = lineMessagingClient
-                    .replyMessage(new ReplyMessage(replyToken, messages))
-                    .get();
-            LOGGER.info(apiResponse.toString());
-        } catch (InterruptedException | ExecutionException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    private void replyText(@NonNull String replyToken, @NonNull String message) {
-        if (replyToken.isEmpty()) {
-            throw new IllegalArgumentException("replyToken must not be empty");
-        }
-        if (message.length() > 1000) {
-            message = message.substring(0, 1000 - 2) + "……";
-        }
-        this.reply(replyToken, new TextMessage(message));
-    }
     @Override
     protected boolean canHandleTextMessage(MessageEvent<TextMessageContent> event) {
-        return true;
+        String[] input = event.getMessage().getText().split(" ");
+        return (input.length > 0
+                && (input[0].equals("/uber")
+                        || input[0].equals("/add_destination")
+                        || input[0].equals("lat= ")));
     }
 
     @Override

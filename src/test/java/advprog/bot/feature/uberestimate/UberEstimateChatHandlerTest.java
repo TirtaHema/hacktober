@@ -39,7 +39,6 @@ public class UberEstimateChatHandlerTest {
         assertFalse(uberEstimateChatHandler.canHandleImageMessage(null));
         assertFalse(uberEstimateChatHandler.canHandleStickerMessage(null));
         assertTrue(uberEstimateChatHandler.canHandleLocationMessage(null));
-        assertTrue(uberEstimateChatHandler.canHandleTextMessage(null));
     }
 
 }
