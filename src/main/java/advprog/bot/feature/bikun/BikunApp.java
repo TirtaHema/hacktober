@@ -4,17 +4,14 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.io.File;
 import java.io.IOException;
-import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.LocalDateTime;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.TimeZone;
 
 public class BikunApp {
     private static HalteBikun[] halteBikuns = getHalteBikunsFromJSON();
-    private static int MILI_SECOND_TO_MINUTE = 60000;
+    private static int MILI_SECOND_TO_MINUTE = 60 * 1000;
 
     public static HalteBikun findNearestHalteBikun(double latitude, double longitude) {
         double minDistance = Double.MAX_VALUE;
@@ -86,7 +83,7 @@ public class BikunApp {
             }
 
             if (min == -1) {
-                min = dateFormat.parse(halteBikun.getJadwal()[0]).getTime() - currentTime.getTime() + 86400000;
+                min = dateFormat.parse(halteBikun.getJadwal()[0]).getTime() - currentTime.getTime() + (24*60*60*1000);
             }
         }
         catch (ParseException e) {

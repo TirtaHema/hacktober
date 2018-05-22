@@ -2,10 +2,8 @@ package advprog.bot.feature.bikun;
 
 import advprog.bot.line.AbstractLineChatHandlerDecorator;
 import advprog.bot.line.LineChatHandler;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.linecorp.bot.model.action.Action;
 import com.linecorp.bot.model.action.MessageAction;
-import com.linecorp.bot.model.action.PostbackAction;
 import com.linecorp.bot.model.action.URIAction;
 import com.linecorp.bot.model.event.MessageEvent;
 import com.linecorp.bot.model.event.message.*;
@@ -18,8 +16,6 @@ import com.linecorp.bot.model.message.template.ButtonsTemplate;
 import com.linecorp.bot.model.message.template.CarouselColumn;
 import com.linecorp.bot.model.message.template.CarouselTemplate;
 
-import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.LinkedList;
@@ -114,11 +110,20 @@ public class BikunChatHandler extends AbstractLineChatHandlerDecorator {
                 halteBikun.getNama(), "Universitas Indonesia",
                 halteBikun.getLatitude(), halteBikun.getLongitude()
         );
+
+        int waktu = BikunApp.getWaitingTime(halteBikun);
+        int jam = waktu / 60;
+        int menit = waktu % 60;
+        String strWaktu = "";
+        if (jam > 0) {
+            strWaktu += jam + " jam ";
+        }
+        strWaktu += menit + " menit";
         TextMessage halteBikunDetail = new TextMessage(
                 String.format("Halte terdekat dari lokasi Anda adalah :\n"
                                 + "%s\n"
-                                + "Bikun selanjutnya akan tiba dalam waktu %d menit",
-                        halteBikun.getNama(), BikunApp.getWaitingTime(halteBikun))
+                                + "Bikun selanjutnya akan tiba dalam waktu %s",
+                        halteBikun.getNama(), strWaktu)
         );
 
         replies.add(halteBikunLocation);
