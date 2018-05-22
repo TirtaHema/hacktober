@@ -47,8 +47,9 @@ public class BikunChatHandler extends AbstractLineChatHandlerDecorator {
 //                        "Share your current location",
 //                        actions)
 //                ));
-        replies.add(new TextMessage("ancol"));
-        return replies;
+        return Collections.singletonList(
+                new TextMessage(event.getMessage().getText()
+        ));
     }
 
     @Override
