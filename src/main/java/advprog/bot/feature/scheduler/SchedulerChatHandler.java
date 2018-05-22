@@ -103,7 +103,7 @@ public class SchedulerChatHandler extends AbstractLineChatHandlerDecorator {
                 if (userRequestGroup.containsKey(userId)
                         && is_date_message(event.getMessage().getText())) {
 
-                    String groupId = ((GroupSource) source).getGroupId();
+                    String groupId = userRequestGroup.get(userId);
 
                     if (!groupFreeSchedule.containsKey(groupId)) {
                         groupFreeSchedule.put(groupId, new HashMap<>());
