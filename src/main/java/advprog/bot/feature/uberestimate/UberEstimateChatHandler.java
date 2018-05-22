@@ -62,6 +62,7 @@ public class UberEstimateChatHandler extends AbstractLineChatHandlerDecorator {
                 lastQuery = "";
                 Source source = event.getSource();
                 String sender = source.getUserId();
+                // System.out.println("asdsadasdasdasdasdassdasdapsdaspodjaspodjspodjXZCXZCXZC\nASDASDASDAS " + sender);
                 ArrayList<Location> location =  userData.get(sender);
                 if (location == null) {
                     return Collections.singletonList(
@@ -103,9 +104,6 @@ public class UberEstimateChatHandler extends AbstractLineChatHandlerDecorator {
                 lastIntents = "add";
                 lastQuery = inp.substring(17);
                 return Collections.singletonList(new TextMessage("Please share your location"));
-            case "/remove_destination":
-                lastIntents = "remove";
-                break;
             case "lat=":
                 lastIntents = "uber";
                 String street = "";
@@ -146,13 +144,8 @@ public class UberEstimateChatHandler extends AbstractLineChatHandlerDecorator {
                                 lastQuery
                         )
                 );
-                String tmp = sender + " ";
-                ArrayList<Location> cur = userData.get(sender);
-                for (Location current : cur) {
-                    tmp = tmp + current.getPlaceName() + " " + Double.toString(current.getLat()) + "\n";
-                }
                 return Collections.singletonList(
-                        new TextMessage("Location Saved " + tmp)
+                        new TextMessage("Location Saved")
                 );
             case "uber":
                 UberService uberService = new UberService();
@@ -178,9 +171,9 @@ public class UberEstimateChatHandler extends AbstractLineChatHandlerDecorator {
                         new TextMessage(
                                 "Destination: " + lastLocation.getPlaceName() + " "
                                         + Double.toString(priceDetails.get(0).getDistance())
-                                + " kilometers from current position\n"
+                                + " kilometers from current position\n\n"
                                         + "Estimated travel time and fares for each Uber services:\n"
-                                + rides + "\n"
+                                + rides + "\n\n"
                                 + "Data provided by [Uber](https://www.uber.com)"
                         )
                 );

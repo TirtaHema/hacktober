@@ -17,7 +17,17 @@ public class ChatHandlerTestUtil {
             String message
     ) {
         TextMessageContent tmc = new TextMessageContent("id", message);
-        return new MessageEvent<>(replyToken, mock(Source.class), tmc, Instant.now());
+        return new MessageEvent<>(replyToken, new Source() {
+            @Override
+            public String getUserId() {
+                return "def";
+            }
+
+            @Override
+            public String getSenderId() {
+                return null;
+            }
+        }, tmc, Instant.now());
 
     }
 
@@ -35,7 +45,17 @@ public class ChatHandlerTestUtil {
             Double longitude
     ) {
         LocationMessageContent lmc = new LocationMessageContent("dd", "","",latitude, longitude);
-        return new MessageEvent<>(replyToken, mock(Source.class), lmc, Instant.now());
+        return new MessageEvent<>(replyToken, new Source() {
+            @Override
+            public String getUserId() {
+                return "haha";
+            }
+
+            @Override
+            public String getSenderId() {
+                return null;
+            }
+        }, lmc, Instant.now());
 
     }
 
