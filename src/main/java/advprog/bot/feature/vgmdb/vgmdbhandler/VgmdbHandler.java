@@ -35,21 +35,22 @@ public class VgmdbHandler extends AbstractLineChatHandlerDecorator {
     protected List<Message> handleTextMessage(MessageEvent<TextMessageContent> event) {
         List<String> data = getData();
         String result = "";
-        List<TextMessage> listMessage = new ArrayList<>();
-        for(int i = 0; i < 10; i++){
-            /*if(i !=0 && i%20==0){
-                TextMessage text = new TextMessage(result);
+        List<Message> listMessage = new ArrayList<>();
+        for(int i = 0; i < 20; i++){
+            if(i !=0 && i%20==0){
+                Message text = new TextMessage(result);
                 listMessage.add(text);
                 result = "";
-                result += data.get(i);
+                result += data.get(i) + "\n\n";
             }else{
-                result += data.get(i);
-            }*/
-            result+= data.get(i) + "\n\n";
+                result += data.get(i) + "\n\n";
+            }
         }
         result = result.substring(0,result.length()-2);
+        Message text = new TextMessage(result);
+        listMessage.add(text);
 
-        return Collections.singletonList(new TextMessage(result));// just return list of TextMessage for multi-line reply!
+        return listMessage;// just return list of TextMessage for multi-line reply!
         // Return empty list of TextMessage if not replying. DO NOT RETURN NULL!!!
     }
 
