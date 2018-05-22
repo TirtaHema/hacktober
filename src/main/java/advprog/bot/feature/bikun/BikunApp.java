@@ -25,7 +25,7 @@ public class BikunApp {
         ObjectMapper objectMapper = new ObjectMapper();
         HalteBikun[] halteBikuns = new HalteBikun[0];
         try {
-            File file = new File("dataHalteBikun.json");
+            File file = new File("./src/main/java/advprog/bot/feature/bikun/dataHalteBikun.json");
             halteBikuns = objectMapper.readValue(file, HalteBikun[].class);
         }
         catch (IOException e) {}
