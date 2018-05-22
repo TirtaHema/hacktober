@@ -69,7 +69,8 @@ public class ITunesChatHandlerTest {
         MessageEvent<TextMessageContent> me =
             ChatHandlerTestUtil.fakeMessageEvent("dsf", message);
 
-        assertEquals(expectedMessages, itunesChatHandler.handleTextMessageEvent(me, messages));
+        assertTrue(itunesChatHandler.handleTextMessageEvent(me, messages)
+            .get(0).toString().contains("Bruno Mars"));
     }
 
     @Test

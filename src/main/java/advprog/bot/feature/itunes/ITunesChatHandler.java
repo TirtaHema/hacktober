@@ -9,15 +9,22 @@ import com.linecorp.bot.model.event.message.ImageMessageContent;
 import com.linecorp.bot.model.event.message.LocationMessageContent;
 import com.linecorp.bot.model.event.message.StickerMessageContent;
 import com.linecorp.bot.model.event.message.TextMessageContent;
+import com.linecorp.bot.model.message.AudioMessage;
+import com.linecorp.bot.model.message.ImageMessage;
 import com.linecorp.bot.model.message.Message;
 import com.linecorp.bot.model.message.TextMessage;
 
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.logging.Logger;
 
 public class ITunesChatHandler extends AbstractLineChatHandlerDecorator {
     private static final Logger LOGGER = Logger.getLogger(ITunesChatHandler.class.getName());
+    private static String ItunesPreviewImageUrl =
+        "https://upload.wikimedia.org/wikipedia/commons/thumb/5/55/Download_on_iTunes.svg/200px-Download_on_iTunes.svg.png";
 
     public ITunesChatHandler(LineChatHandler decoratedHandler) {
         this.decoratedLineChatHandler = decoratedHandler;
@@ -34,14 +41,10 @@ public class ITunesChatHandler extends AbstractLineChatHandlerDecorator {
     protected List<Message> handleTextMessage(MessageEvent<TextMessageContent> event) {
         String[] inputText = event.getMessage().getText().split(" ");
         if (inputText[0].equals("/itunes_preview") && inputText.length > 1) {
-            if (inputText[1].equals("bruno")) {
-                return Collections.singletonList(
-                    new TextMessage("Bruno Mars")
-                );
-            } else {
-                return Collections.singletonList(
-                    new TextMessage("Sorry, your artist is not in iTunes")
-                );
+            try {
+                return previewArtist(event.getMessage().getText());
+            } catch (IOException e) {
+                e.printStackTrace();
             }
         }
         return Collections.singletonList(
@@ -50,6 +53,31 @@ public class ITunesChatHandler extends AbstractLineChatHandlerDecorator {
 
         // just return list of TextMessage for multi-line reply!
         // Return empty list of TextMessage if not replying. DO NOT RETURN NULL!!!
+
+
+    }
+
+    protected List<Message> previewArtist(String input) throws IOException {
+        ArrayList<String> result = new ArrayList<>();
+        String inputArtist = input.replace("/itunes_preview ", "").toLowerCase();
+        inputArtist.replace(" ", "+");
+        ITunesParser parser = new ITunesParser(inputArtist);
+        result = parser.getRandom();
+        if (result == null) {
+            return Collections.singletonList(
+                new TextMessage("Sorry, your artist is not in iTunes")
+            );
+        }
+        String artist = result.get(0);
+        String track = result.get(1);
+        String link = result.get(2);
+        return Arrays.asList(
+            new TextMessage(artist + " - " + track),
+            new AudioMessage(track, 28),
+            new ImageMessage(
+                "https://upload.wikimedia.org/wikipedia/commons/5/55/Download_on_iTunes.svg",
+                ItunesPreviewImageUrl)
+        );
     }
 
     @Override
