@@ -63,6 +63,7 @@ public class ITunesChatHandler extends AbstractLineChatHandlerDecorator {
         inputArtist.replace(" ", "+");
         ITunesParser parser = new ITunesParser(inputArtist);
         result = parser.getRandom();
+        System.out.println(result);
         if (result == null) {
             return Collections.singletonList(
                 new TextMessage("Sorry, your artist is not in iTunes")
@@ -71,9 +72,10 @@ public class ITunesChatHandler extends AbstractLineChatHandlerDecorator {
         String artist = result.get(0);
         String track = result.get(1);
         String link = result.get(2);
+        System.out.println(artist + "-" + track);
         return Arrays.asList(
             new TextMessage(artist + " - " + track),
-            new AudioMessage(track, 28),
+            new AudioMessage(link, 28),
             new ImageMessage(
                 "https://upload.wikimedia.org/wikipedia/commons/5/55/Download_on_iTunes.svg",
                 ItunesPreviewImageUrl)
