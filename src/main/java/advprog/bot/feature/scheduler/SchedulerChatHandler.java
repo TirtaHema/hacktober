@@ -212,7 +212,7 @@ public class SchedulerChatHandler extends AbstractLineChatHandlerDecorator {
     }
 
     private void initDayFreeHours(String groupId, String date) {
-        TreeSet set = groupFreeSchedule.get(groupId).get(date);
+        TreeSet<String> set = groupFreeSchedule.get(groupId).get(date);
 
         for (String hour : HOURS) {
             set.add(hour);
