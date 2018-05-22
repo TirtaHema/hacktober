@@ -30,7 +30,8 @@ public class InteractiveAyatFetcherServiceImpl implements InteractiveAyatFetcher
     }
 
     @Override
-    public AyatQuran fetchAyat(String userId, int ayat) throws IllegalStateException, IOException, JSONException {
+    public AyatQuran fetchAyat(String userId, int ayat)
+            throws IllegalStateException, IOException, JSONException {
         if (!userInteraction.containsKey(userId) || userInteraction.get(userId) == 0) {
             throw new IllegalStateException("User haven't selected surah");
         }

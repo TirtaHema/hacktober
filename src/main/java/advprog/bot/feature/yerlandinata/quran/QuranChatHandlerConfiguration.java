@@ -7,6 +7,7 @@ import advprog.bot.feature.yerlandinata.quran.fetcher.SurahQuranFetcher;
 import advprog.bot.feature.yerlandinata.quran.fetcher.SurahQuranFetcherImpl;
 import advprog.bot.feature.yerlandinata.quran.privatechat.interactive.InteractivePrivateQuranChatHandler;
 import advprog.bot.feature.yerlandinata.quran.privatechat.interactive.service.InteractiveAyatFetcherService;
+import advprog.bot.feature.yerlandinata.quran.privatechat.interactive.service.InteractiveAyatFetcherServiceImpl;
 import advprog.bot.feature.yerlandinata.quran.privatechat.noninteractive.PrivateQuranChatHandler;
 import advprog.bot.line.LineChatHandler;
 
@@ -55,18 +56,8 @@ public class QuranChatHandlerConfiguration {
     }
 
     @Bean
-    InteractiveAyatFetcherService interactiveAyatFetcherServiceStub() {
-        return new InteractiveAyatFetcherService() {
-            @Override
-            public void recordUserSurahSelection(String userId, int surah) {
-
-            }
-
-            @Override
-            public AyatQuran fetchAyat(String userId, int ayat) throws IllegalStateException {
-                return null;
-            }
-        };
+    InteractiveAyatFetcherService interactiveAyatFetcher(AyatQuranFetcher ayatQuranFetcher) {
+        return new InteractiveAyatFetcherServiceImpl(ayatQuranFetcher);
     }
 
     @Bean
