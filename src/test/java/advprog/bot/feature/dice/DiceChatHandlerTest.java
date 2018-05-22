@@ -17,7 +17,6 @@ import java.util.List;
 import org.junit.Test;
 
 
-
 public class DiceChatHandlerTest {
 
     private DiceChatHandler diceChatHandler;
@@ -32,6 +31,64 @@ public class DiceChatHandlerTest {
                 EventTestUtil.createDummyTextMessage("/roll 5d6");
 
         assertTrue(diceChatHandler.canHandleTextMessage(event));
+    }
+
+    @Test
+    public void testHandleTextMessageSpinCoin() {
+        List<TextMessage> expectedMessages1 = new LinkedList<>();
+        List<TextMessage> expectedMessages2 = new LinkedList<>();
+
+        expectedMessages1.add(new TextMessage("face"));
+        expectedMessages2.add(new TextMessage("tail"));
+
+        MessageEvent<TextMessageContent> event =
+                EventTestUtil.createDummyTextMessage("/coin");
+
+        List<Message> reply = diceChatHandler.handleTextMessage(event);
+
+        assertTrue(reply.equals(expectedMessages1) || reply.equals(expectedMessages2));
+    }
+
+    @Test
+    public void testHandleTextMessageRollDice() {
+        List<TextMessage> expectedMessages = new LinkedList<>();
+
+        expectedMessages.add(new TextMessage("Result: 1d1 (1)"));
+
+        MessageEvent<TextMessageContent> event =
+                EventTestUtil.createDummyTextMessage("/roll 1d1");
+
+        List<Message> reply = diceChatHandler.handleTextMessage(event);
+
+        assertEquals(expectedMessages, reply);
+    }
+
+    @Test
+    public void testHandleTextMessageMultiRollDice() {
+        List<TextMessage> expectedMessages = new LinkedList<>();
+
+        expectedMessages.add(new TextMessage("(1)"));
+
+        MessageEvent<TextMessageContent> event =
+                EventTestUtil.createDummyTextMessage("/multiroll 1 1d1");
+
+        List<Message> reply = diceChatHandler.handleTextMessage(event);
+
+        assertEquals(expectedMessages, reply);
+    }
+
+    @Test
+    public void testHandleTextMessageIsLucky() {
+        List<TextMessage> expectedMessages = new LinkedList<>();
+
+        expectedMessages.add(new TextMessage("Total count: 1"));
+
+        MessageEvent<TextMessageContent> event =
+                EventTestUtil.createDummyTextMessage("/is_lucky 1 1d1");
+
+        List<Message> reply = diceChatHandler.handleTextMessage(event);
+
+        assertEquals(expectedMessages, reply);
     }
 
     @Test
@@ -69,6 +126,14 @@ public class DiceChatHandlerTest {
 
     @Test
     public void testHandleMultiRoll() {
+        String result = diceChatHandler.handleMultiRoll(1, 1, 1);
+        String expected = "(1)";
+
+        assertEquals(expected, result);
+    }
+
+    @Test
+    public void testHandleMultiRollFail() {
         String result = diceChatHandler.handleMultiRoll(0, 0, 0);
         String expected = "Please follow the format /multiroll NUM xdy, with NUM, x, y > 0";
 
