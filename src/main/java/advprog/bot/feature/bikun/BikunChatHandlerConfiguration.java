@@ -9,7 +9,7 @@ import org.springframework.context.annotation.Configuration;
 public class BikunChatHandlerConfiguration {
 
     @Bean
-    BikunChatHandler echoChatHandler(BotController controller) {
+    BikunChatHandler bikunChatHandler(BotController controller) {
         LineChatHandler currenctChatHandler = controller.getLineChatHandler();
         BikunChatHandler handler = new BikunChatHandler(currenctChatHandler);
         controller.replaceLineChatHandler(handler);
