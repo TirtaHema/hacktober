@@ -23,7 +23,6 @@ public class CgvScreenScrapper {
 
             for (Element schedule : row.select("li.schedule-type")) {
                 audio = schedule.text();
-                System.out.println(audio);
                 if (!audio.contains(studio)) {
                     continue;
                 }

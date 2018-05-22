@@ -66,7 +66,12 @@ public class CGVScheduleHandler extends AbstractLineChatHandlerDecorator {
                 LOGGER.info("ERROR");
             }
         } else if (text.equals("/cgv_change_cinema")) {
-            result = Collections.emptyList();
+            try {
+                CgvScreenScrapper.setUrl(event.getMessage().getText().split(" ")[1]);
+                result = Collections.singletonList(new TextMessage("Success! Url Valid!"));
+            } catch (Exception e) {
+                result = Collections.singletonList(new TextMessage("Failed! Url Not Valid!"));
+            }
         }
         return result;
     }
