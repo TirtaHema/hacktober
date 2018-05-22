@@ -49,6 +49,25 @@ public class InteractiveAyatFetcherImplTest {
     }
 
     @Test(expected = IllegalStateException.class)
+    public void testRejectGetAyatTwice() throws IOException, JSONException {
+        int surah = 7;
+        int ayat = 10;
+        AyatQuran expectedAyatQuran = new AyatQuran(
+                "araf", ayat, "indo", "ar", "https", 3
+        );
+        when(ayatQuranFetcher.fetchAyatQuran(eq(surah), eq(ayat)))
+                .thenReturn(expectedAyatQuran);
+        String userId1 = "id";
+        String userId2 = "id2";
+        interactiveAyatFetcherService.recordUserSurahSelection(userId1, surah);
+        interactiveAyatFetcherService.recordUserSurahSelection(userId2, 99);
+        AyatQuran actualAyatQuran = interactiveAyatFetcherService.fetchAyat(userId1, ayat);
+        assertEquals(expectedAyatQuran, actualAyatQuran);
+        verify(ayatQuranFetcher).fetchAyatQuran(surah, ayat);
+        interactiveAyatFetcherService.fetchAyat(userId1, ayat);
+    }
+
+    @Test(expected = IllegalStateException.class)
     public void testRejectRecordWrongTime() {
         interactiveAyatFetcherService.recordUserSurahSelection("a", 1);
         interactiveAyatFetcherService.recordUserSurahSelection("a", 2);

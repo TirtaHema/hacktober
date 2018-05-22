@@ -35,8 +35,10 @@ public class InteractiveAyatFetcherServiceImpl implements InteractiveAyatFetcher
         if (!userInteraction.containsKey(userId) || userInteraction.get(userId) == 0) {
             throw new IllegalStateException("User haven't selected surah");
         }
-        return ayatQuranFetcher.fetchAyatQuran(
+        AyatQuran ayatQuran = ayatQuranFetcher.fetchAyatQuran(
                 userInteraction.get(userId), ayat
         );
+        userInteraction.put(userId, 0);
+        return ayatQuran;
     }
 }
