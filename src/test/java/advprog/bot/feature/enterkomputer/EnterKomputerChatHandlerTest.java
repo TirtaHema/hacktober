@@ -1,9 +1,5 @@
 package advprog.bot.feature.enterkomputer;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
-
 import advprog.bot.ChatHandlerTestUtil;
 import advprog.bot.feature.enterkomputer.EnterKomputerChatHandler;
 import advprog.bot.line.BaseChatHandler;
@@ -18,10 +14,14 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
+import org.json.JSONException;
+import org.json.simple.JSONObject;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.junit.MockitoJUnitRunner;
+
+import static org.junit.Assert.*;
 
 @RunWith(MockitoJUnitRunner.class)
 public class EnterKomputerChatHandlerTest {
@@ -67,8 +67,13 @@ public class EnterKomputerChatHandlerTest {
     }
 
     @Test
-    public void testHandleSuccessEvent() throws IOException {
-        String msg = "/enterkomputer ssd right";
+    public void testHandleSuccessEvent() throws IOException, JSONException {
+        EnterKomputerParser parser = new EnterKomputerParser("ssd");
+        ArrayList<JSONObject> arrJson = parser.getJsonObj();
+        JSONObject objDicari = arrJson.get(0);
+        String nameDicari = objDicari.get("name").toString().toLowerCase();
+        System.out.println(nameDicari);
+        String msg = "/enterkomputer ssd " + nameDicari;
         List<Message> messages = new LinkedList<>();
         List<TextMessage> expectedMessages = new LinkedList<>();
         expectedMessages.add(new TextMessage(
@@ -77,8 +82,11 @@ public class EnterKomputerChatHandlerTest {
         MessageEvent<TextMessageContent> me =
             ChatHandlerTestUtil.fakeMessageEvent("dsf", msg
         );
-        assertEquals(expectedMessages,
-            enterkomputerChatHandler.handleTextMessageEvent(me, messages));
+        assertTrue(enterkomputerChatHandler
+            .handleTextMessageEvent(me, messages).get(0)
+            .toString().toLowerCase().contains(nameDicari));
+
+
     }
 
     @Test

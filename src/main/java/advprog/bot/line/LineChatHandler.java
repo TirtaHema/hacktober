@@ -13,12 +13,13 @@ import com.linecorp.bot.model.message.Message;
 import com.linecorp.bot.model.message.StickerMessage;
 import com.linecorp.bot.model.message.TextMessage;
 
+import java.io.IOException;
 import java.util.List;
 
 //redundancy exists for a much less confusing usage
 public interface LineChatHandler {
     List<Message> handleTextMessageEvent(MessageEvent<TextMessageContent> event,
-                                         List<Message> replyMessages);
+                                         List<Message> replyMessages) throws IOException;
 
     List<Message> handleImageMessageEvent(MessageEvent<ImageMessageContent> event,
                                  List<Message> replyMessages);

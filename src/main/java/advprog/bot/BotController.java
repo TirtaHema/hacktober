@@ -14,6 +14,7 @@ import com.linecorp.bot.model.event.message.TextMessageContent;
 import com.linecorp.bot.spring.boot.annotation.EventMapping;
 import com.linecorp.bot.spring.boot.annotation.LineMessageHandler;
 
+import java.io.IOException;
 import java.util.LinkedList;
 import java.util.logging.Logger;
 
@@ -57,7 +58,7 @@ public class BotController {
     //      (to reduce questions like: dude, how to reply to image message?)
 
     @EventMapping
-    public void handleTextMessageEvent(MessageEvent<TextMessageContent> event) {
+    public void handleTextMessageEvent(MessageEvent<TextMessageContent> event) throws IOException {
         lineMessageReplyService.reply(event.getReplyToken(),
                 lineChatHandler.handleTextMessageEvent(event, new LinkedList<>()));
     }

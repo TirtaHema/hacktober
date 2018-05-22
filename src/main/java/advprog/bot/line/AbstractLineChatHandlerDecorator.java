@@ -12,6 +12,7 @@ import com.linecorp.bot.model.message.Message;
 import com.linecorp.bot.model.message.StickerMessage;
 import com.linecorp.bot.model.message.TextMessage;
 
+import java.io.IOException;
 import java.util.Collections;
 import java.util.List;
 
@@ -27,14 +28,14 @@ public abstract class AbstractLineChatHandlerDecorator implements LineChatHandle
 
     @Override
     public List<Message> handleTextMessageEvent(MessageEvent<TextMessageContent> event,
-                                                List<Message> replyMessages) {
+                                                List<Message> replyMessages) throws IOException {
         if (canHandleTextMessage(event)) {
             replyMessages.addAll(handleTextMessage(event));
         }
         return decoratedLineChatHandler.handleTextMessageEvent(event, replyMessages);
     }
 
-    protected List<Message> handleTextMessage(MessageEvent<TextMessageContent> event) {
+    protected List<Message> handleTextMessage(MessageEvent<TextMessageContent> event) throws IOException {
         return Collections.emptyList();
     }
 
