@@ -39,17 +39,15 @@ public class BikunChatHandler extends AbstractLineChatHandlerDecorator {
     protected List<Message> handleTextMessage(MessageEvent<TextMessageContent> event) {
         List<Message> replies = new LinkedList<>();
 
-//        List<Action> actions = new ArrayList<Action>();
-//        actions.add(new URIAction("Share Location", "https://line.me/R/nv/location"));
-//        replies.add(new TemplateMessage("Confirm Location",
-//                new ButtonsTemplate("https://images.idgesg.net/images/article/2017/07/location-pixabay-1200x800-100728584-large.jpg",
-//                        "Find Nearest Halte Bikun",
-//                        "Share your current location",
-//                        actions)
-//                ));
-        return Collections.singletonList(
-                new TextMessage(event.getMessage().getText()
-        ));
+        List<Action> actions = new ArrayList<Action>();
+        actions.add(new URIAction("Share Location", "https://line.me/R/nv/location"));
+        replies.add(new TemplateMessage("Confirm Location",
+                new ButtonsTemplate("https://images.idgesg.net/images/article/2017/07/location-pixabay-1200x800-100728584-large.jpg",
+                        "Find Nearest Halte Bikun",
+                        "Share your current location",
+                        actions)
+                ));
+        return replies;
     }
 
     @Override
