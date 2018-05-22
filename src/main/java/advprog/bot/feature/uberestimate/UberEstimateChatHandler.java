@@ -129,7 +129,7 @@ public class UberEstimateChatHandler extends AbstractLineChatHandlerDecorator {
                     columns.add(new ImageCarouselColumn("https://getuikit.com/v2/docs/images/placeholder_200x100.svg",
                                                             new PostbackAction(
                                                                     current.getPlaceName(),
-                                                                    "",
+                                                                    "what",
                                                                     "lat= "
                                                                             + current.getLat()
                                                                             + " lon= " + current.getLon()
