@@ -35,6 +35,7 @@ public class EchoChatHandler extends AbstractLineChatHandlerDecorator {
 
     @Override
     protected List<Message> handleTextMessage(MessageEvent<TextMessageContent> event) {
+        LOGGER.info("Echo handle Text!");
         return Collections.singletonList(
                 new TextMessage(event.getMessage().getText().replace("/echo", ""))
         ); // just return list of TextMessage for multi-line reply!
