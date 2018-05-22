@@ -27,7 +27,10 @@ public class FakeNewsChatHandler extends AbstractLineChatHandlerDecorator {
 
     @Override
     protected boolean canHandleTextMessage(MessageEvent<TextMessageContent> event) {
-        return true;
+        String content = event.getMessage().getText();
+        return content.startsWith("/add_filter ") || content.startsWith("/is_fake ")
+                || content.startsWith("/is_satire ") || content.startsWith("/is_conspiracy")
+                || !FakeNewsHelper.check(content).isSafe();
     }
 
     @Override
