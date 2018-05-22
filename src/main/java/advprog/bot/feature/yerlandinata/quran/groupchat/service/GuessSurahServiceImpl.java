@@ -4,6 +4,7 @@ import advprog.bot.feature.yerlandinata.quran.AyatQuran;
 import advprog.bot.feature.yerlandinata.quran.fetcher.AyatQuranFetcher;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Random;
@@ -17,6 +18,7 @@ public class GuessSurahServiceImpl implements GuessSurahService {
 
     public GuessSurahServiceImpl(AyatQuranFetcher ayatQuranFetcher) {
         this.ayatQuranFetcher = ayatQuranFetcher;
+        this.groupMapper = new HashMap<>();
     }
 
     @Override
