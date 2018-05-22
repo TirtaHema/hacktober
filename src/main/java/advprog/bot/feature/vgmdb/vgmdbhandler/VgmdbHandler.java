@@ -40,13 +40,14 @@ public class VgmdbHandler extends AbstractLineChatHandlerDecorator {
             if(i !=0 && i%20==0){
                 TextMessage text = new TextMessage(result);
                 listMessage.add(text);
+                result = "";
                 result += data.get(i);
             }else{
                 result += data.get(i);
             }
         }
 
-        return Collections.singletonList((Message) listMessage); // just return list of TextMessage for multi-line reply!
+        return Collections.singletonList(new TextMessage(result));// just return list of TextMessage for multi-line reply!
         // Return empty list of TextMessage if not replying. DO NOT RETURN NULL!!!
     }
 
