@@ -5,11 +5,16 @@ import advprog.bot.line.LineChatHandler;
 import com.linecorp.bot.model.event.MessageEvent;
 import com.linecorp.bot.model.event.message.*;
 import com.linecorp.bot.model.message.Message;
+import com.linecorp.bot.model.message.TextMessage;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.logging.Logger;
 
 public class CGVScheduleHandler extends AbstractLineChatHandlerDecorator {
+
+    private static final Logger LOGGER = Logger.getLogger(CGVScheduleHandler.class.getName());
+
 
     public CGVScheduleHandler(LineChatHandler decorated) {
         this.decoratedLineChatHandler = decorated;
@@ -23,22 +28,47 @@ public class CGVScheduleHandler extends AbstractLineChatHandlerDecorator {
     @Override
     protected List<Message> handleTextMessage(MessageEvent<TextMessageContent> event) {
         String text = event.getMessage().getText().split(" ")[0];
-        List<Message> result;
+        List<Message> result = Collections.emptyList();
 
         if (text.equals("/cgv_gold_class")) {
-            result =  Collections.emptyList();
+            try {
+                String out = CgvScreenScrapper.screenScrapper("Gold");
+                result = Collections.singletonList(new TextMessage(out));
+            } catch (Exception e) {
+                LOGGER.info("ERROR");
+            }
         } else if (text.equals("/cgv_regular_2d")) {
-            result =  Collections.emptyList();
+            try {
+                String out = CgvScreenScrapper.screenScrapper("2D Audi");
+                result = Collections.singletonList(new TextMessage(out));
+            } catch (Exception e) {
+                LOGGER.info("ERROR");
+            }
         } else if (text.equals("/cgv_4dx_3d_cinema")) {
-            result = Collections.emptyList();
+            try {
+                String out = CgvScreenScrapper.screenScrapper("4DX3D");
+                result = Collections.singletonList(new TextMessage(out));
+            } catch (Exception e) {
+                LOGGER.info("ERROR");
+            }
         } else if (text.equals("/cgv_velvet")) {
-            result = Collections.emptyList();
+            try {
+                String out = CgvScreenScrapper.screenScrapper("Velvet");
+                result = Collections.singletonList(new TextMessage(out));
+            } catch (Exception e) {
+                LOGGER.info("ERROR");
+            }
         } else if (text.equals("/cgv_sweet_box")) {
-            result = Collections.emptyList();
+            try {
+                String out = CgvScreenScrapper.screenScrapper("Sweetbox");
+                result = Collections.singletonList(new TextMessage(out));
+            } catch (Exception e) {
+                LOGGER.info("ERROR");
+            }
         } else if (text.equals("/cgv_change_cinema")) {
             result = Collections.emptyList();
         }
-        return Collections.emptyList();
+        return result;
     }
 
     @Override
