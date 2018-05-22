@@ -11,6 +11,7 @@ import com.linecorp.bot.model.event.message.TextMessageContent;
 import com.linecorp.bot.model.message.Message;
 import com.linecorp.bot.model.message.TextMessage;
 
+import java.io.IOException;
 import java.util.Collections;
 import java.util.List;
 import java.util.logging.Logger;
@@ -30,11 +31,28 @@ public class FakeNewsChatHandler extends AbstractLineChatHandlerDecorator {
 
     @Override
     protected List<Message> handleTextMessage(MessageEvent<TextMessageContent> event) {
-        News news = FakeNewsHelper.check(event.getMessage().getText());
-        return Collections.singletonList(
-                new TextMessage(news.getCategory() + "\n" + news.getNote())
-        ); // just return list of TextMessage for multi-line reply!
-        // Return empty list of TextMessage if not replying. DO NOT RETURN NULL!!!
+        String content = event.getMessage().getText();
+
+        try {
+            if (content.startsWith("/add_filter ")) {
+                String url = content.split(" ")[1];
+                String type = content.split(" ")[2];
+                FakeNewsHelper.addFilter(url, type);
+
+                return Collections.singletonList(
+                        new TextMessage("Filter successfully added")
+                );
+            } else {
+                News news = FakeNewsHelper.check(content);
+                return Collections.singletonList(
+                        new TextMessage(news.getCategory() + "\n" + news.getNote())
+                );
+            }
+        } catch (Exception e) {
+            return Collections.singletonList(
+                    new TextMessage("Error occured")
+            );
+        }
     }
 
     @Override

@@ -1,8 +1,13 @@
 package advprog.bot.feature.fakenews;
 
+import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Arrays;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -21,6 +26,39 @@ public class FakeNewsHelper {
         return new JSONArray(content);
     }
 
+    public static JSONObject createSource(String host, String type) {
+        JSONObject source = new JSONObject();
+        source.put("site", host);
+        source.put("type1", type);
+        source.put("type2", type);
+        source.put("type3", type);
+        source.put("note", "Added by user");
+        return source;
+    }
+
+    public static void addFilter(String url, String type) throws IOException, URISyntaxException {
+        String hostName = getHostName(url);
+        JSONObject source = createSource(hostName, type);
+        addNewsSource(source);
+    }
+
+    public static void addNewsSource(JSONObject source) throws IOException {
+        JSONArray sources = loadSourceSites("customSources.json");
+        sources.put(source);
+        saveNewsSource("customSources.json", sources);
+    }
+
+    public static void saveNewsSource(String fileName, JSONArray data) throws IOException {
+        Path file = Paths.get(fileName);
+        Files.write(file, Arrays.asList(data.toString()), Charset.forName("UTF-8"));
+    }
+
+    public static String getHostName(String url) throws URISyntaxException {
+        URI uri = new URI(url);
+        String host = uri.getHost();
+        return host.startsWith("www.") ? host.substring(4) : host;
+    }
+
     private static boolean matchSource(JSONObject source, Category category) {
         boolean match = false;
         if (source.getString("type1").equalsIgnoreCase(category.toString())) {
@@ -35,9 +73,7 @@ public class FakeNewsHelper {
         return match;
     }
 
-    private static News matchContent(String content, Category category) {
-        content = content.toLowerCase();
-        JSONArray fakeSites = loadSourceSites("defaultSources.json");
+    private static News matchContent(String content, Category category, JSONArray fakeSites) {
         for (int i = 0; i < fakeSites.length(); i++) {
             JSONObject source = fakeSites.getJSONObject(i);
             String site = source.getString("site").toLowerCase();
@@ -46,6 +82,16 @@ public class FakeNewsHelper {
             }
         }
         return new News(Category.SAFE, "");
+    }
+
+    private static News matchContent(String content, Category category) {
+        content = content.toLowerCase();
+        JSONArray defaultSources = loadSourceSites("defaultSources.json");
+        if (!matchContent(content, category, defaultSources).isSafe()) {
+            return matchContent(content, category, defaultSources);
+        }
+        JSONArray customSources = loadSourceSites("customSources.json");
+        return matchContent(content, category, customSources);
     }
 
     public static News checkFake(String content) {
@@ -91,4 +137,8 @@ public class FakeNewsHelper {
         return checkUnreliable(content);
     }
 
+    public static void main(String[] args) throws Exception {
+        addFilter("https://google.com", "fake");
+        System.out.println(check("http://google.com").getCategory());
+    }
 }
