@@ -129,7 +129,7 @@ public class InteractivePrivateQuranChatHandlerTest {
     }
 
     @Test
-    public void testShowAyatQuranCorrectly() {
+    public void testShowAyatQuranCorrectly() throws IOException, JSONException {
         int surah = 7;
         String userId = "id";
         MessageEvent<TextMessageContent> me = ChatHandlerTestUtil.fakeMessageEvent(
@@ -156,7 +156,7 @@ public class InteractivePrivateQuranChatHandlerTest {
     }
 
     @Test
-    public void testHandleShowAyatQuranIllegaly() {
+    public void testHandleShowAyatQuranIllegaly() throws IOException, JSONException {
         when(interactiveAyatFetcherService.fetchAyat(anyString(), anyInt()))
                 .thenThrow(new IllegalStateException());
         MessageEvent<TextMessageContent> me = ChatHandlerTestUtil.fakeMessageEvent(
@@ -166,6 +166,22 @@ public class InteractivePrivateQuranChatHandlerTest {
                 Collections.emptyList(),
                 quranChatHandler.handleTextMessageEvent(me, new LinkedList<>())
         );
+    }
+
+    @Test
+    public void testHandleFailFetchAyat() throws IOException, JSONException {
+        when(interactiveAyatFetcherService.fetchAyat(anyString(), anyInt()))
+                .thenThrow(new JSONException(""));
+        MessageEvent<TextMessageContent> me = ChatHandlerTestUtil.fakeMessageEvent(
+                "re", "3", new UserSource("x")
+        );
+        List<Message> expectedMessage = Collections.singletonList(
+                new TextMessage(InteractivePrivateQuranChatHandler.SERVICE_DOWN)
+        );
+        List<Message> actualMessage = quranChatHandler
+                .handleTextMessageEvent(me, new LinkedList<>());
+        assertEquals(expectedMessage, actualMessage);
+        verify(interactiveAyatFetcherService).fetchAyat("x", 3);
     }
 
     @Test

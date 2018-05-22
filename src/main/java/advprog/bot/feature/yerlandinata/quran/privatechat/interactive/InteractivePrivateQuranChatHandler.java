@@ -37,6 +37,8 @@ public class InteractivePrivateQuranChatHandler extends AbstractLineChatHandlerD
 
     static final String QURAN_IMAGE = "https://upload.wikimedia.org/wikipedia/commons/"
             + "thumb/7/7b/Opened_Qur%27an.jpg/220px-Opened_Qur%27an.jpg";
+    static final String SERVICE_DOWN = "Mohon maaf, "
+            + "layanan Quran interaktif sedang tidak tersedia";
 
     private final SurahQuranFetcher surahQuranFetcher;
     private final InteractiveAyatFetcherService interactiveAyatFetcherService;
@@ -148,7 +150,11 @@ public class InteractivePrivateQuranChatHandler extends AbstractLineChatHandlerD
     private List<Message> getAyat(int ayat, String userId) {
         AyatQuran ayatQuran = null;
         try {
-            ayatQuran = interactiveAyatFetcherService.fetchAyat(userId, ayat);
+            try {
+                ayatQuran = interactiveAyatFetcherService.fetchAyat(userId, ayat);
+            } catch (IOException | JSONException e) {
+                return Collections.singletonList(new TextMessage(SERVICE_DOWN));
+            }
         } catch (IllegalStateException e) {
             return Collections.emptyList();
         }
