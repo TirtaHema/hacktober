@@ -38,13 +38,17 @@ public class SchedulerChatHandler extends AbstractLineChatHandlerDecorator {
 
     @Override
     protected boolean canHandleTextMessage(MessageEvent<TextMessageContent> event) {
-        return event.getMessage().getText().split(" ")[0].equals("/create_schedule")
-               || event.getMessage().getText().split(" ")[0].equals("jadwal") ;
+        return true;
+        /*return event.getMessage().getText().split(" ")[0].equals("/create_schedule")
+               || event.getMessage().getText().split(" ")[0].equals("jadwal");*/
     }
 
     @Override
     protected List<Message> handleTextMessage(MessageEvent<TextMessageContent> event) {
-        String command = event.getMessage().getText().split(" ")[0];
+        return Collections.singletonList(
+                new TextMessage("Hehehe")
+        );
+        /*String command = event.getMessage().getText().split(" ")[0];
 
         Source source = event.getSource();
 
@@ -85,7 +89,7 @@ public class SchedulerChatHandler extends AbstractLineChatHandlerDecorator {
             return Collections.singletonList(
                     new TextMessage("")
             );
-        }
+        }*/
 
     }
 
