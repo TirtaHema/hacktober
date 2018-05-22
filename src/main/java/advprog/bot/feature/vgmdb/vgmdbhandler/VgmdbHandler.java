@@ -36,15 +36,16 @@ public class VgmdbHandler extends AbstractLineChatHandlerDecorator {
         List<String> data = getData();
         String result = "";
         List<TextMessage> listMessage = new ArrayList<>();
-        for(int i = 0; i < data.size(); i++){
-            if(i !=0 && i%20==0){
+        for(int i = 0; i < 20; i++){
+            /*if(i !=0 && i%20==0){
                 TextMessage text = new TextMessage(result);
                 listMessage.add(text);
                 result = "";
                 result += data.get(i);
             }else{
                 result += data.get(i);
-            }
+            }*/
+            result+= data.get(i) + "\n";
         }
 
         return Collections.singletonList(new TextMessage(result));// just return list of TextMessage for multi-line reply!
