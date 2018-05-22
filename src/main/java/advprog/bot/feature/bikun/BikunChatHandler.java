@@ -6,7 +6,11 @@ import com.linecorp.bot.model.action.Action;
 import com.linecorp.bot.model.action.MessageAction;
 import com.linecorp.bot.model.action.URIAction;
 import com.linecorp.bot.model.event.MessageEvent;
-import com.linecorp.bot.model.event.message.*;
+import com.linecorp.bot.model.event.message.AudioMessageContent;
+import com.linecorp.bot.model.event.message.ImageMessageContent;
+import com.linecorp.bot.model.event.message.LocationMessageContent;
+import com.linecorp.bot.model.event.message.StickerMessageContent;
+import com.linecorp.bot.model.event.message.TextMessageContent;
 import com.linecorp.bot.model.event.source.UserSource;
 import com.linecorp.bot.model.message.LocationMessage;
 import com.linecorp.bot.model.message.Message;
@@ -34,7 +38,8 @@ public class BikunChatHandler extends AbstractLineChatHandlerDecorator {
     @Override
     protected boolean canHandleTextMessage(MessageEvent<TextMessageContent> event) {
         String message = event.getMessage().getText();
-        return (message.equals("/bikun") || message.equals("/bikun_stop") || message.split(" ")[0].equals("/bikun_stop"));
+        return (message.equals("/bikun") || message.equals("/bikun_stop")
+                || message.split(" ")[0].equals("/bikun_stop"));
     }
 
     @Override
@@ -46,14 +51,15 @@ public class BikunChatHandler extends AbstractLineChatHandlerDecorator {
             if (message.equals("/bikun")) {
                 List<Action> actions = new ArrayList<Action>();
                 actions.add(new URIAction("Share Location", "https://line.me/R/nv/location"));
+                String thumbnailImageUrl = "https://images.idgesg.net/images/article/"
+                        + "2017/07/location-pixabay-1200x800-100728584-large.jpg";
                 replies.add(new TemplateMessage("Confirm Location",
-                        new ButtonsTemplate("https://images.idgesg.net/images/article/2017/07/location-pixabay-1200x800-100728584-large.jpg",
+                        new ButtonsTemplate(thumbnailImageUrl,
                                 "Find Nearest Halte Bikun",
                                 "Share your current location",
                                 actions)
                 ));
-            }
-            else if (message.equals("/bikun_stop")) {
+            } else if (message.equals("/bikun_stop")) {
                 HalteBikun[] halteBikuns = BikunApp.getHalteBikuns();
 
                 List<List<CarouselColumn>> listHalteBikuns = new ArrayList<List<CarouselColumn>>();
@@ -64,13 +70,12 @@ public class BikunChatHandler extends AbstractLineChatHandlerDecorator {
                     do {
                         HalteBikun currentHalteBikun = halteBikuns[counter];
                         halteBikunsTemp.add(new CarouselColumn(currentHalteBikun.getImgUrl(),
-                                "Halte Bikun " + (counter+1), currentHalteBikun.getNama(),
+                                "Halte Bikun " + (counter + 1), currentHalteBikun.getNama(),
                                 Collections.singletonList(new MessageAction("Pilih",
                                         "/bikun_stop " + currentHalteBikun.getNama())
                         )));
                         counter++;
-                    }
-                    while (counter % 10 > 0 && counter < halteBikuns.length);
+                    } while (counter % 10 > 0 && counter < halteBikuns.length);
 
                     listHalteBikuns.add(halteBikunsTemp);
                 }
@@ -79,15 +84,15 @@ public class BikunChatHandler extends AbstractLineChatHandlerDecorator {
                 for (List<CarouselColumn> carouselColumns : listHalteBikuns) {
                     counter++;
                     CarouselTemplate carouselTemplate = new CarouselTemplate(carouselColumns);
-                    TemplateMessage templateMessage = new TemplateMessage("Pilih Bikun (Page "+counter+")",
+                    TemplateMessage templateMessage = new TemplateMessage(
+                            "Pilih Bikun (Page " + counter + ")",
                             carouselTemplate);
                     replies.add(templateMessage);
                 }
-            }
-            else if (message.split(" ")[0].equals("/bikun_stop")) {
+            } else if (message.split(" ")[0].equals("/bikun_stop")) {
                 String namaTargetHalte = message.replace("/bikun_stop ", "");
                 HalteBikun targetHalte = BikunApp.getHalteByName(namaTargetHalte);
-                return getHalteInformationReply(targetHalte);
+                return getHalteInformationReply(targetHalte, false, 0, 0);
             }
         }
         return replies;
@@ -100,16 +105,23 @@ public class BikunChatHandler extends AbstractLineChatHandlerDecorator {
                 content.getLatitude(), content.getLongitude()
         );
 
-        return getHalteInformationReply(nearestHalteBikun);
+        return getHalteInformationReply(nearestHalteBikun, true,
+                content.getLatitude(), content.getLongitude());
     }
 
-    private List<Message> getHalteInformationReply(HalteBikun halteBikun) {
-        List<Message> replies = new LinkedList<>();
+    private List<Message> getHalteInformationReply(HalteBikun halteBikun,
+                                                   boolean isNearest,
+                                                   double currentLatitude,
+                                                   double currentLongitude) {
 
-        LocationMessage halteBikunLocation = new LocationMessage(
-                halteBikun.getNama(), "Universitas Indonesia",
-                halteBikun.getLatitude(), halteBikun.getLongitude()
-        );
+        String text = "";
+        if (isNearest) {
+            text = "Halte Bikun terdekat dari lokasi Anda adalah :\n" + halteBikun.getNama()
+                    + "\nDengan jarak " + BikunApp.getDistance(currentLatitude, currentLongitude,
+                        halteBikun.getLatitude(), halteBikun.getLongitude());
+        } else {
+            text = "Anda memilih " + halteBikun.getNama();
+        }
 
         int waktu = BikunApp.getWaitingTime(halteBikun);
         int jam = waktu / 60;
@@ -120,12 +132,15 @@ public class BikunChatHandler extends AbstractLineChatHandlerDecorator {
         }
         strWaktu += menit + " menit";
         TextMessage halteBikunDetail = new TextMessage(
-                String.format("Halte terdekat dari lokasi Anda adalah :\n"
-                                + "%s\n"
-                                + "Bikun selanjutnya akan tiba dalam waktu %s",
-                        halteBikun.getNama(), strWaktu)
+                String.format(text + "Bikun selanjutnya akan tiba dalam waktu %s", strWaktu)
         );
 
+        List<Message> replies = new LinkedList<Message>();
+
+        LocationMessage halteBikunLocation = new LocationMessage(
+                halteBikun.getNama(), "Universitas Indonesia",
+                halteBikun.getLatitude(), halteBikun.getLongitude()
+        );
         replies.add(halteBikunLocation);
         replies.add(halteBikunDetail);
         return replies;

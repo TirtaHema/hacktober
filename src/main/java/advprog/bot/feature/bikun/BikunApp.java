@@ -10,14 +10,15 @@ import java.util.Date;
 import java.util.TimeZone;
 
 public class BikunApp {
-    private static HalteBikun[] halteBikuns = getHalteBikunsFromJSON();
+    private static HalteBikun[] halteBikuns = getHalteBikunsFromJson();
     private static int MILI_SECOND_TO_MINUTE = 60 * 1000;
 
     public static HalteBikun findNearestHalteBikun(double latitude, double longitude) {
         double minDistance = Double.MAX_VALUE;
         HalteBikun nearestHalte = null;
         for (HalteBikun halte : halteBikuns) {
-            double jarak = getDistance(latitude, longitude, halte.getLatitude(), halte.getLongitude());
+            double jarak = getDistance(latitude, longitude, halte.getLatitude(),
+                    halte.getLongitude());
             if (jarak < minDistance) {
                 minDistance = jarak;
                 nearestHalte = halte;
@@ -30,14 +31,15 @@ public class BikunApp {
         return halteBikuns;
     }
 
-    private static HalteBikun[] getHalteBikunsFromJSON() {
+    private static HalteBikun[] getHalteBikunsFromJson() {
         ObjectMapper objectMapper = new ObjectMapper();
         HalteBikun[] halteBikuns = new HalteBikun[0];
         try {
             File file = new File("./src/main/java/advprog/bot/feature/bikun/dataHalteBikun.json");
             halteBikuns = objectMapper.readValue(file, HalteBikun[].class);
+        } catch (IOException e) {
+            return halteBikuns;
         }
-        catch (IOException e) {}
         return halteBikuns;
     }
 
@@ -50,13 +52,17 @@ public class BikunApp {
         return null;
     }
 
-    public static double getDistance(double currentLatitude, double currentLongitude, double targetLatitude, double targetLongitude) {
+    public static double getDistance(double currentLatitude,
+                                     double currentLongitude,
+                                     double targetLatitude,
+                                     double targetLongitude) {
         final int R = 6371; // Radius of the earth
 
         double latDistance = Math.toRadians(currentLatitude - targetLatitude);
         double lonDistance = Math.toRadians(currentLongitude - targetLongitude);
         double a = Math.sin(latDistance / 2) * Math.sin(latDistance / 2)
-                + Math.cos(Math.toRadians(currentLatitude)) * Math.cos(Math.toRadians(targetLatitude))
+                + Math.cos(Math.toRadians(currentLatitude))
+                * Math.cos(Math.toRadians(targetLatitude))
                 * Math.sin(lonDistance / 2) * Math.sin(lonDistance / 2);
         double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
         double distance = R * c * 1000; // convert to meters
@@ -83,11 +89,12 @@ public class BikunApp {
             }
 
             if (min == -1) {
-                min = dateFormat.parse(halteBikun.getJadwal()[0]).getTime() - currentTime.getTime() + (24*60*60*1000);
+                min = dateFormat.parse(halteBikun.getJadwal()[0]).getTime()
+                        - currentTime.getTime() + (24 * 60 * 60 * 1000);
             }
+        } catch (ParseException e) {
+            return -1;
         }
-        catch (ParseException e) {
-        }
-        return (int)(min/MILI_SECOND_TO_MINUTE);
+        return (int)(min / MILI_SECOND_TO_MINUTE);
     }
 }
