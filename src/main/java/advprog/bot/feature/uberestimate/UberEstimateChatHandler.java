@@ -108,11 +108,15 @@ public class UberEstimateChatHandler extends AbstractLineChatHandlerDecorator {
                 break;
             case "lat=":
                 lastIntents = "uber";
+                String street = "";
+                for (int i = 5; i < input.length; i++) {
+                    street = street + " " + input[i];
+                }
                 lastLocation = new Location(
                         Double.parseDouble(input[1]),
                         Double.parseDouble(input[3]),
-                        input[4],
-                        input[5]
+                        street,
+                        input[4]
                 );
                 return Collections.singletonList(new TextMessage("Please share your location"));
             default:
