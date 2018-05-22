@@ -51,6 +51,7 @@ public class ITunesChatHandlerTest {
     @Test
     public void testHandleErrorEvent() throws IOException {
         String message = "/itunes_preview ";
+        System.out.println("hehehe");
         List<Message> messages = new LinkedList<>();
         List<TextMessage> expectedMessages = new LinkedList<>();
         expectedMessages.add(new TextMessage("Please specify your artist"));
