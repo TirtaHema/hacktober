@@ -71,6 +71,7 @@ public class FakeNewsChatHandler extends AbstractLineChatHandlerDecorator {
                     new TextMessage(news.getCategory() + "\n" + news.getNote())
             );
         } catch (Exception e) {
+            System.out.println(e.getMessage());
             return Collections.singletonList(
                     new TextMessage("Error occured")
             );

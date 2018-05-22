@@ -73,7 +73,7 @@ public class NewsChatHandlerTest {
         List<Message> messages = new LinkedList<>();
         List<TextMessage> expectedMessages = new LinkedList<>();
         expectedMessages.add(new TextMessage("Filter successfully added"));
-        String msg = "/add_filter http://fakenews.com fake";
+        String msg = "/add_filter http://halo.com FAKE";
         MessageEvent<TextMessageContent> me = ChatHandlerTestUtil.fakeMessageEvent(
                 "dsf", msg
         );
@@ -85,7 +85,7 @@ public class NewsChatHandlerTest {
         messages = new LinkedList<>();
         expectedMessages = new LinkedList<>();
         expectedMessages.add(new TextMessage("FAKE\nAdded by user"));
-        msg = "/add_filter http://fakenews.com";
+        msg = "/is_fake http://halo.com";
         me = ChatHandlerTestUtil.fakeMessageEvent(
                 "dsf", msg
         );
