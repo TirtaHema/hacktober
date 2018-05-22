@@ -33,7 +33,7 @@ public class UberServiceTest {
     public void testGetJsonPriceDetailsFromIsolatedLocation() {
         assertEquals(uberService.getJsonPriceDetails(
                 new Location(15.326572, -76.157227, "Sea", "Ocean"),
-                new Location(15.316572, -76.157227, "Sea", "Ocean")),
+                new Location(15.326572, -76.157227, "Sea", "Ocean")),
                 "{\"prices\":[]}"
         );
     }

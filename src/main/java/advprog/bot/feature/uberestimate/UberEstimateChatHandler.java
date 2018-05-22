@@ -22,22 +22,28 @@ import com.linecorp.bot.model.message.template.ImageCarouselColumn;
 import com.linecorp.bot.model.message.template.ImageCarouselTemplate;
 import com.linecorp.bot.model.response.BotApiResponse;
 import com.linecorp.bot.spring.boot.annotation.EventMapping;
+
+
+import java.util.*;
+
+import java.util.concurrent.ExecutionException;
+import java.util.logging.Logger;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.lang.NonNull;
 
-import java.util.*;
-import java.util.concurrent.ExecutionException;
-import java.util.logging.Logger;
 
 public class UberEstimateChatHandler extends AbstractLineChatHandlerDecorator {
     private static final Logger LOGGER = Logger.getLogger(UberEstimateChatHandler.class.getName());
 
     private String lastIntents;
     private String lastQuery;
-    private TreeMap<String, ArrayList<Location> > userData;
+    private TreeMap<String, ArrayList<Location>> userData;
 
     @Autowired
-    private LineMessagingClient lineMessagingClient;    public UberEstimateChatHandler(LineChatHandler decoratedHandler) {
+    private LineMessagingClient lineMessagingClient;
+
+    public UberEstimateChatHandler(LineChatHandler decoratedHandler) {
         this.decoratedLineChatHandler = decoratedHandler;
         userData = new TreeMap<String, ArrayList<Location> >();
         lastIntents = "";
@@ -78,6 +84,8 @@ public class UberEstimateChatHandler extends AbstractLineChatHandlerDecorator {
             case "/remove_destination":
                 lastIntents = "remove";
                 break;
+            case "lat=":
+
             default:
                 break;
         }
@@ -161,23 +169,13 @@ public class UberEstimateChatHandler extends AbstractLineChatHandlerDecorator {
     protected List<Message> handleLocationMessage(MessageEvent<LocationMessageContent> event) {
         Source source = event.getSource();
         String sender = source.getUserId();
-//        return Collections.singletonList(
-//                new TextMessage(sender + " " + lastIntents + " " + lastQuery)
-//        );
         switch (lastIntents) {
             case "add":
-                String coba = "asdf";
                 if (!userData.containsKey(sender)) {
                     userData.put(sender, new ArrayList<Location>());
-                    coba = "ghijk";
                 }
                 LocationMessageContent location = event.getMessage();
                 ArrayList<Location> loc = userData.get(sender);
-                if (loc == null) {
-                    return Collections.singletonList(
-                            new TextMessage(sender + " " + lastIntents + " hhgx " + lastQuery + " " + coba)
-                    );
-                }
                 loc.add(
                         new Location(
                                 location.getLatitude(),
@@ -222,14 +220,6 @@ public class UberEstimateChatHandler extends AbstractLineChatHandlerDecorator {
         );
     }
 
-    @EventMapping
-    public void handlePostbackEvent(PostbackEvent event) {
-        LOGGER.info("trigger postback event");
-        String replyToken = event.getReplyToken();
-        this.replyText(replyToken, "Got postback data " + event.getPostbackContent().getData() + ", param " + event.getPostbackContent().getParams().toString());
-
-    }
-
     private void reply(@NonNull String replyToken, @NonNull Message message) {
         reply(replyToken, Collections.singletonList(message));
     }
@@ -261,17 +251,17 @@ public class UberEstimateChatHandler extends AbstractLineChatHandlerDecorator {
 
     @Override
     protected boolean canHandleImageMessage(MessageEvent<ImageMessageContent> event) {
-        return true;
+        return false;
     }
 
     @Override
     protected boolean canHandleAudioMessage(MessageEvent<AudioMessageContent> event) {
-        return true;
+        return false;
     }
 
     @Override
     protected boolean canHandleStickerMessage(MessageEvent<StickerMessageContent> event) {
-        return true;
+        return false;
     }
 
     @Override
