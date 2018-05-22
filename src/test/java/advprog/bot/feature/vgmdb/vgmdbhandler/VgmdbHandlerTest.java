@@ -57,7 +57,7 @@ public class VgmdbHandlerTest {
     }
 
     @Test
-    public void errorHandleTextMessageTest(){
+    public void errorHandleTextMessageTest() {
         List<Message> expectedMessages = new LinkedList<>();
         expectedMessages.add(new TextMessage("Keyword salah"));
         String msg = "/vgdbm ost this month";

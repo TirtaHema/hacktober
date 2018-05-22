@@ -17,7 +17,7 @@ public class WebScrapperTest {
     @Test
     public void getDataTest() throws IOException {
         List<String> data = getData();
-        assertTrue(data.size()>0);
+        assertTrue(data.size() > 0);
     }
 
 }
