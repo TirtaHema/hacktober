@@ -6,6 +6,7 @@ public class HalteBikun {
     private String nama;
     private double latitude;
     private double longitude;
+    private String imgUrl;
     private String[] jadwal;
 
     public String getNama() {
@@ -18,6 +19,10 @@ public class HalteBikun {
 
     public double getLongitude() {
         return longitude;
+    }
+
+    public String getImgUrl() {
+        return imgUrl;
     }
 
     public String[] getJadwal() {
