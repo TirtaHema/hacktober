@@ -84,7 +84,7 @@ public class UberEstimateChatHandler extends AbstractLineChatHandlerDecorator {
                 break;
             case "lat=":
                 UberService uberService = new UberService();
-
+                break;
             default:
                 break;
         }
