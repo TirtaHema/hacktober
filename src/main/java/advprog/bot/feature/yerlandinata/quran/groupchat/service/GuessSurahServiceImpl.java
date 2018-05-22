@@ -33,10 +33,8 @@ public class GuessSurahServiceImpl implements GuessSurahService {
     @Override
     public boolean guess(String groupId, String guess) {
         boolean result = groupMapper.get(groupId).equals(guess);
-        if (result) {
-            groupMapper.remove(groupId);
-        }
-        return groupMapper.get(groupId).equals(guess);
+        groupMapper.remove(groupId);
+        return result;
     }
 
     @Override
