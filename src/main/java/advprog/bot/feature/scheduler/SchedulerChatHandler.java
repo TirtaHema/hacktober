@@ -31,6 +31,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.TreeMap;
 import java.util.TreeSet;
+import java.util.concurrent.ExecutionException;
 import java.util.logging.Logger;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -61,6 +62,10 @@ public class SchedulerChatHandler extends AbstractLineChatHandlerDecorator {
     private HashMap<String, String> userRequestTime
             = new HashMap<>();
 
+    public SchedulerChatHandler() {
+        LOGGER.info("Scheduler chat handler added!");
+    }
+
     public SchedulerChatHandler(LineChatHandler decoratedHandler) {
         this.decoratedLineChatHandler = decoratedHandler;
         LOGGER.info("Scheduler chat handler added!");
@@ -90,12 +95,8 @@ public class SchedulerChatHandler extends AbstractLineChatHandlerDecorator {
                 if (command.equals("/create_schedule")) {
                     String userId = source.getUserId();
 
-                    lineMessagingClient.pushMessage(new PushMessage(userId,
-                            Collections.singletonList(
-                                    new TextMessage("Masukan tanggal dalam format yyyy-mm-dd\n"
-                                            + "e.g. 2017-05-15")
-                            )
-                    ));
+                    pushMessage(userId, "Masukan tanggal dalam format yyyy-mm-dd\n"
+                            + "e.g. 2017-05-15");
 
                     String groupId = ((GroupSource) source).getGroupId();
                     userRequestGroup.put(userId, groupId);
@@ -228,17 +229,12 @@ public class SchedulerChatHandler extends AbstractLineChatHandlerDecorator {
                     userRequestDate.remove(userId);
                     userRequestTime.remove(userId);
 
-                    String userDisplayName = lineMessagingClient
-                            .getProfile(userId).get().getDisplayName();
+                    String userDisplayName = getUserDisplayName(userId);
                     String response = userDisplayName + " telah menambahkan jadwal baru"
                             + " pada tanggal " + date + " pukul " + requestedHour + "\n\n"
                             + "Deskripsi :\n" + description;
 
-                    lineMessagingClient.pushMessage(new PushMessage(groupId,
-                            Collections.singletonList(
-                                    new TextMessage(response)
-                            )
-                    ));
+                    pushMessage(groupId, response);
 
                     return Collections.singletonList(
                             new TextMessage("Jadwal baru telah ditambahkan!")
@@ -334,5 +330,20 @@ public class SchedulerChatHandler extends AbstractLineChatHandlerDecorator {
         TreeSet<Schedule> groupScheduleWithDate = groupSchedule.get(date);
 
         return groupScheduleWithDate.size() > 0;
+    }
+
+    public String getUserDisplayName(String userId) {
+        try {
+            return lineMessagingClient.getProfile(userId).get().getDisplayName();
+        } catch (InterruptedException | ExecutionException e) {
+            return "Error!";
+        }
+    }
+
+    public String pushMessage(String id, String message) {
+        lineMessagingClient.pushMessage(new PushMessage(id,
+                Collections.singletonList(new TextMessage(message))
+        ));
+        return "Success!";
     }
 }

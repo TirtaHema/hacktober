@@ -3,12 +3,17 @@ package advprog.bot.feature.scheduler;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.doReturn;
+import static org.mockito.Mockito.spy;
 
 import advprog.bot.ChatHandlerTestUtil;
 import advprog.bot.line.BaseChatHandler;
 
 import com.linecorp.bot.model.event.MessageEvent;
 import com.linecorp.bot.model.event.message.TextMessageContent;
+import com.linecorp.bot.model.event.source.GroupSource;
 import com.linecorp.bot.model.message.Message;
 import com.linecorp.bot.model.message.TemplateMessage;
 import com.linecorp.bot.model.message.TextMessage;
@@ -20,15 +25,13 @@ import org.mockito.junit.MockitoJUnitRunner;
 
 @RunWith(MockitoJUnitRunner.class)
 public class SchedulerChatHandlerTest {
-    SchedulerChatHandler schedulerChatHandler;
 
-    @Before
-    public void setUp() {
-        schedulerChatHandler = new SchedulerChatHandler(new BaseChatHandler());
-    }
+    private SchedulerChatHandler schedulerChatHandler;
 
     @Test
     public void testIgnoreNonTextMessageEvent() {
+        schedulerChatHandler = spy(SchedulerChatHandler.class);
+
         assertFalse(schedulerChatHandler.canHandleAudioMessage(null));
         assertFalse(schedulerChatHandler.canHandleImageMessage(null));
         assertFalse(schedulerChatHandler.canHandleStickerMessage(null));
@@ -37,6 +40,14 @@ public class SchedulerChatHandlerTest {
 
     @Test
     public void testCanHandleTextMessageEvent() {
+        schedulerChatHandler = spy(SchedulerChatHandler.class);
+        doReturn("user1")
+                .when(schedulerChatHandler).getUserDisplayName("user1");
+        doReturn("Success!")
+                .when(schedulerChatHandler).pushMessage(anyString(), anyString());
+        doReturn("Success!")
+                .when(schedulerChatHandler).pushMessage(anyString(), anyString());
+
         MessageEvent<TextMessageContent> event = ChatHandlerTestUtil
                 .fakeGroupMessageEvent("group1", "user1", "/create_schedule");
 
@@ -50,6 +61,14 @@ public class SchedulerChatHandlerTest {
 
     @Test
     public void testCannotHandleSomeTextMessageEvent() {
+        schedulerChatHandler = spy(SchedulerChatHandler.class);
+        doReturn("user1")
+                .when(schedulerChatHandler).getUserDisplayName("user1");
+        doReturn("Success!")
+                .when(schedulerChatHandler).pushMessage(anyString(), anyString());
+        doReturn("Success!")
+                .when(schedulerChatHandler).pushMessage(anyString(), anyString());
+
         MessageEvent<TextMessageContent> event = ChatHandlerTestUtil
                 .fakeGroupMessageEvent("group1", "user1", "hehe");
 
@@ -68,6 +87,14 @@ public class SchedulerChatHandlerTest {
 
     @Test
     public void testCanCreateSchedule() {
+        schedulerChatHandler = spy(SchedulerChatHandler.class);
+        doReturn("user1")
+                .when(schedulerChatHandler).getUserDisplayName("user1");
+        doReturn("Success!")
+                .when(schedulerChatHandler).pushMessage(anyString(), anyString());
+        doReturn("Success!")
+                .when(schedulerChatHandler).pushMessage(anyString(), anyString());
+
         MessageEvent<TextMessageContent> event = ChatHandlerTestUtil
                 .fakeGroupMessageEvent("group1", "user1", "/create_schedule");
         Message reply = schedulerChatHandler.handleTextMessage(event).get(0);
@@ -91,37 +118,15 @@ public class SchedulerChatHandlerTest {
     }
 
     @Test
-    public void testCanViewScheduleAndScheduleExists() {
-        MessageEvent<TextMessageContent> event = ChatHandlerTestUtil
-                .fakeGroupMessageEvent("group1", "user1", "/create_schedule");
-
-        Message reply = schedulerChatHandler.handleTextMessage(event).get(0);
-        assertEquals(((TextMessage) reply).getText(),
-                "Pilih waktu yang diinginkan pada private chat");
-
-        event = ChatHandlerTestUtil
-                .fakePrivateMessageEvent("user1", "2019-03-11");
-        reply = schedulerChatHandler.handleTextMessage(event).get(0);
-        assertEquals(((TemplateMessage) reply).getAltText(), "carousel alt text");
-
-        event = ChatHandlerTestUtil
-                .fakePrivateMessageEvent("user1", "00:00-01:00");
-        reply = schedulerChatHandler.handleTextMessage(event).get(0);
-        assertEquals(((TextMessage) reply).getText(), "Masukan Deskripsi");
-
-        event = ChatHandlerTestUtil
-                .fakePrivateMessageEvent("user1", "Deadline Adpro");
-        reply = schedulerChatHandler.handleTextMessage(event).get(0);
-        assertEquals(((TextMessage) reply).getText(), "Jadwal baru telah ditambahkan!");
-
-        event = ChatHandlerTestUtil
-                .fakeGroupMessageEvent("group1", "user1", "jadwal");
-        reply = schedulerChatHandler.handleTextMessage(event).get(0);
-        assertEquals(((TextMessage) reply).getText(), "1. Deadline Adpro\n");
-    }
-
-    @Test
     public void testCanViewScheduleAndScheduleIsNotExists() {
+        schedulerChatHandler = spy(SchedulerChatHandler.class);
+        doReturn("user1")
+                .when(schedulerChatHandler).getUserDisplayName("user1");
+        doReturn("Success!")
+                .when(schedulerChatHandler).pushMessage(anyString(), anyString());
+        doReturn("Success!")
+                .when(schedulerChatHandler).pushMessage(anyString(), anyString());
+
         MessageEvent<TextMessageContent> event = ChatHandlerTestUtil
                 .fakeGroupMessageEvent("group1", "user1", "jadwal");
         Message reply = schedulerChatHandler.handleTextMessage(event).get(0);
@@ -131,6 +136,14 @@ public class SchedulerChatHandlerTest {
 
     @Test
     public void testRequestNewScheduleOnUsedTime() {
+        schedulerChatHandler = spy(SchedulerChatHandler.class);
+        doReturn("user1")
+                .when(schedulerChatHandler).getUserDisplayName("user1");
+        doReturn("Success!")
+                .when(schedulerChatHandler).pushMessage(anyString(), anyString());
+        doReturn("Success!")
+                .when(schedulerChatHandler).pushMessage(anyString(), anyString());
+
         MessageEvent<TextMessageContent> event = ChatHandlerTestUtil
                 .fakeGroupMessageEvent("group1", "user1", "/create_schedule");
 
@@ -174,6 +187,14 @@ public class SchedulerChatHandlerTest {
 
     @Test
     public void testWrongFlowInPrivateChat() {
+        schedulerChatHandler = spy(SchedulerChatHandler.class);
+        doReturn("user1")
+                .when(schedulerChatHandler).getUserDisplayName("user1");
+        doReturn("Success!")
+                .when(schedulerChatHandler).pushMessage(anyString(), anyString());
+        doReturn("Success!")
+                .when(schedulerChatHandler).pushMessage(anyString(), anyString());
+
         MessageEvent<TextMessageContent> event = ChatHandlerTestUtil
                 .fakePrivateMessageEvent("user1", "/create_schedule");
         Message reply = schedulerChatHandler.handleTextMessage(event).get(0);
