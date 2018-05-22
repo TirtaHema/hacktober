@@ -30,7 +30,7 @@ public class SchedulerChatHandlerTest {
 
     @Before
     public void setUp() {
-        schedulerChatHandler = new schedulerChatHandler(new BaseChatHandler());
+        schedulerChatHandler = new SchedulerChatHandler(new BaseChatHandler());
     }
 
     @Test
