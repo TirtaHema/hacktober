@@ -38,7 +38,7 @@ public class BikunChatHandler extends AbstractLineChatHandlerDecorator {
     @Override
     protected boolean canHandleTextMessage(MessageEvent<TextMessageContent> event) {
         String message = event.getMessage().getText();
-        return (message.equals("/bikun") || message.equals("/bikun_stop"));
+        return (message.equals("/bikun") || message.equals("/bikun_stop") || message.split(" ")[0].equals("/bikun_stop"));
     }
 
     @Override
@@ -68,7 +68,7 @@ public class BikunChatHandler extends AbstractLineChatHandlerDecorator {
                     do {
                         HalteBikun currentHalteBikun = halteBikuns[counter];
                         halteBikunsTemp.add(new CarouselColumn(currentHalteBikun.getImgUrl(),
-                                "Halte Bikun " + counter, currentHalteBikun.getNama(),
+                                "Halte Bikun " + (counter+1), currentHalteBikun.getNama(),
                                 Collections.singletonList(new MessageAction("Pilih",
                                         "/bikun_stop " + currentHalteBikun.getNama())
                         )));
@@ -88,29 +88,37 @@ public class BikunChatHandler extends AbstractLineChatHandlerDecorator {
                     replies.add(templateMessage);
                 }
             }
+            else if (message.split(" ")[0].equals("/bikun_stop")) {
+                String namaTargetHalte = message.replace("/bikun_stop ", "");
+                HalteBikun targetHalte = BikunApp.getHalteByName(namaTargetHalte);
+                return getHalteInformationReply(targetHalte);
+            }
         }
         return replies;
     }
 
     @Override
     protected List<Message> handleLocationMessage(MessageEvent<LocationMessageContent> event) {
-        List<Message> replies = new LinkedList<>();
-
         LocationMessageContent content = event.getMessage();
         HalteBikun nearestHalteBikun = BikunApp.findNearestHalteBikun(
                 content.getLatitude(), content.getLongitude()
         );
-        double jarak = BikunApp.getDistance(content.getLatitude(), content.getLongitude(),
-                nearestHalteBikun.getLatitude(), nearestHalteBikun.getLongitude()
-        );
+
+        return getHalteInformationReply(nearestHalteBikun);
+    }
+
+    private List<Message> getHalteInformationReply(HalteBikun halteBikun) {
+        List<Message> replies = new LinkedList<>();
 
         LocationMessage halteBikunLocation = new LocationMessage(
-                nearestHalteBikun.getNama(), "Universitas Indonesia",
-                nearestHalteBikun.getLatitude(), nearestHalteBikun.getLongitude()
+                halteBikun.getNama(), "Universitas Indonesia",
+                halteBikun.getLatitude(), halteBikun.getLongitude()
         );
         TextMessage halteBikunDetail = new TextMessage(
-                String.format("Halte terdekat dari lokasi Anda adalah : %s dengan jarak %s meter",
-                        nearestHalteBikun.getNama(), jarak)
+                String.format("Halte terdekat dari lokasi Anda adalah :\n"
+                                + "%s\n"
+                                + "Bikun selanjutnya akan tiba dalam waktu %d menit",
+                        halteBikun.getNama(), BikunApp.getWaitingTime(halteBikun))
         );
 
         replies.add(halteBikunLocation);

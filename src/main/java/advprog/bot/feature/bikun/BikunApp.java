@@ -14,7 +14,7 @@ import java.util.TimeZone;
 
 public class BikunApp {
     private static HalteBikun[] halteBikuns = getHalteBikunsFromJSON();
-    private static int MILI_SECOND_TO_SECOND = 1000;
+    private static int MILI_SECOND_TO_MINUTE = 60000;
 
     public static HalteBikun findNearestHalteBikun(double latitude, double longitude) {
         double minDistance = Double.MAX_VALUE;
@@ -44,21 +44,41 @@ public class BikunApp {
         return halteBikuns;
     }
 
+    public static HalteBikun getHalteByName(String namaTarget) {
+        for (HalteBikun halteBikun : halteBikuns) {
+            if (halteBikun.getNama().equalsIgnoreCase(namaTarget)) {
+                return halteBikun;
+            }
+        }
+        return null;
+    }
+
     public static double getDistance(double currentLatitude, double currentLongitude, double targetLatitude, double targetLongitude) {
-        double a = currentLatitude-targetLatitude;
-        double b = currentLongitude-targetLongitude;
-        return Math.sqrt(Math.pow(a, 2.0) + Math.pow(b, 2.0));
+        final int R = 6371; // Radius of the earth
+
+        double latDistance = Math.toRadians(currentLatitude - targetLatitude);
+        double lonDistance = Math.toRadians(currentLongitude - targetLongitude);
+        double a = Math.sin(latDistance / 2) * Math.sin(latDistance / 2)
+                + Math.cos(Math.toRadians(currentLatitude)) * Math.cos(Math.toRadians(targetLatitude))
+                * Math.sin(lonDistance / 2) * Math.sin(lonDistance / 2);
+        double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+        double distance = R * c * 1000; // convert to meters
+
+        distance = Math.pow(distance, 2);
+
+        return Math.sqrt(distance);
     }
 
     public static int getWaitingTime(HalteBikun halteBikun) {
         SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");
+        dateFormat.setTimeZone(TimeZone.getTimeZone("GMT+7"));
         long min = -1;
         try {
             Date currentTime = dateFormat.parse(dateFormat.format(new Date()));
 
             for (String time : halteBikun.getJadwal()) {
-                Date EndTime = dateFormat.parse(time);
-                long difference = EndTime.getTime() - currentTime.getTime();
+                Date endTime = dateFormat.parse(time);
+                long difference = endTime.getTime() - currentTime.getTime();
                 if (difference >= 0) {
                     min = difference;
                     break;
@@ -71,6 +91,6 @@ public class BikunApp {
         }
         catch (ParseException e) {
         }
-        return (int)(min/MILI_SECOND_TO_SECOND);
+        return (int)(min/MILI_SECOND_TO_MINUTE);
     }
 }
