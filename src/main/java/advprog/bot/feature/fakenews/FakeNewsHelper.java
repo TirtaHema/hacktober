@@ -136,9 +136,4 @@ public class FakeNewsHelper {
         }
         return checkUnreliable(content);
     }
-
-    public static void main(String[] args) throws Exception {
-        addFilter("https://google.com", "fake");
-        System.out.println(check("http://google.com").getCategory());
-    }
 }

@@ -12,6 +12,7 @@ import com.linecorp.bot.model.message.Message;
 import com.linecorp.bot.model.message.TextMessage;
 
 import java.io.IOException;
+import java.net.URISyntaxException;
 import java.util.Collections;
 import java.util.List;
 import java.util.logging.Logger;
@@ -36,13 +37,19 @@ public class FakeNewsChatHandler extends AbstractLineChatHandlerDecorator {
         try {
             News news;
             if (content.startsWith("/add_filter ")) {
-                String url = content.split(" ")[1];
-                String type = content.split(" ")[2];
-                FakeNewsHelper.addFilter(url, type);
+                try {
+                    String url = content.split(" ")[1];
+                    String type = content.split(" ")[2];
+                    FakeNewsHelper.addFilter(url, type);
 
-                return Collections.singletonList(
-                        new TextMessage("Filter successfully added")
-                );
+                    return Collections.singletonList(
+                            new TextMessage("Filter successfully added")
+                    );
+                } catch (URISyntaxException e) {
+                    return Collections.singletonList(
+                            new TextMessage("Valid URL Example\nhttp://example.com/news/1")
+                    );
+                }
 
             } else if (content.startsWith("/is_fake ")) {
                 String url = content.split(" ")[1];
