@@ -14,7 +14,7 @@ import java.util.TimeZone;
 
 public class BikunApp {
     private static HalteBikun[] halteBikuns = getHalteBikunsFromJSON();
-    private static int MILI_SECOND_TO_MINUTE = 60000;
+    private static int MILI_SECOND_TO_SECOND = 1000;
 
     public static HalteBikun findNearestHalteBikun(double latitude, double longitude) {
         double minDistance = Double.MAX_VALUE;
@@ -63,9 +63,13 @@ public class BikunApp {
                     min = difference;
                 }
             }
+
+            if (min == 0) {
+                min = dateFormat.parse(halteBikun.getJadwal()[0]).getTime() - currentTime.getTime() + 86400000;
+            }
         }
         catch (ParseException e) {
         }
-        return (int)(min/MILI_SECOND_TO_MINUTE);
+        return (int)(min/MILI_SECOND_TO_SECOND);
     }
 }
