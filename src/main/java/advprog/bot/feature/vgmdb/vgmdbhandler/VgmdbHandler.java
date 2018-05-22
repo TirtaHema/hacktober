@@ -33,25 +33,29 @@ public class VgmdbHandler extends AbstractLineChatHandlerDecorator {
 
     @Override
     protected List<Message> handleTextMessage(MessageEvent<TextMessageContent> event) {
-        List<String> data = getData();
-        String result = "";
-        List<Message> listMessage = new ArrayList<>();
-        for(int i = 0; i < data.size(); i++){
-            if(i !=0 && i%20==0){
-                Message text = new TextMessage(result);
-                listMessage.add(text);
-                result = "";
-                result += data.get(i) + "\n\n";
-            }else{
-                result += data.get(i) + "\n\n";
+        if( event.getMessage().getText().trim().equalsIgnoreCase("/vgmdb ost this month")) {
+            List<String> data = getData();
+            String result = "";
+            List<Message> listMessage = new ArrayList<>();
+            for (int i = 0; i < data.size(); i++) {
+                if (i != 0 && i % 20 == 0) {
+                    Message text = new TextMessage(result);
+                    listMessage.add(text);
+                    result = "";
+                    result += data.get(i) + "\n\n";
+                } else {
+                    result += data.get(i) + "\n\n";
+                }
             }
-        }
-        result = result.substring(0,result.length()-2);
-        Message text = new TextMessage(result);
-        listMessage.add(text);
+            result = result.substring(0, result.length() - 2);
+            Message text = new TextMessage(result);
+            listMessage.add(text);
 
-        return listMessage;// just return list of TextMessage for multi-line reply!
-        // Return empty list of TextMessage if not replying. DO NOT RETURN NULL!!!
+            return listMessage;// just return list of TextMessage for multi-line reply!
+            // Return empty list of TextMessage if not replying. DO NOT RETURN NULL!!!
+        }else {
+            return Collections.singletonList(new TextMessage("Keyword salah"));
+        }
     }
 
     @Override
