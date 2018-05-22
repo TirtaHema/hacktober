@@ -36,7 +36,7 @@ public class VgmdbHandler extends AbstractLineChatHandlerDecorator {
         List<String> data = getData();
         String result = "";
         List<Message> listMessage = new ArrayList<>();
-        for(int i = 0; i < 20; i++){
+        for(int i = 0; i < data.size(); i++){
             if(i !=0 && i%20==0){
                 Message text = new TextMessage(result);
                 listMessage.add(text);
