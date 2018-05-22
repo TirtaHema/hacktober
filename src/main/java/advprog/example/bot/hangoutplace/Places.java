@@ -68,7 +68,7 @@ public class Places {
 
         return nearest.getName() + "\nLokasi : " + nearest.getLocation()
                 + "\nAlamat : " + nearest.getAddress() + "\nDeskripsi : " + nearest.getDescription()
-                + "\nJarak : " + distance + "\n\n";
+                + "\nJarak : " + Double.parseDouble(String.format("%.3f", distance)) + " km\n\n";
     }
 
     public ArrayList<Place> getRandomPlaces() {
@@ -89,13 +89,12 @@ public class Places {
         for (Place place : places) {
             double distance = Math.abs(Haversine.distance(latitude,
                     longitude, place.getLatitude(), place.getLongitude()));
-            System.out.println(count + " " + distance);
             if (radius <= distance && (radius + 1) > distance) {
                 result.append(++count + ". " + place.getName()
                         + "\nLokasi : " + place.getLocation()
                         + "\nAlamat : " + place.getAddress()
                         + "\nDeskripsi : " + place.getDescription()
-                        + "\nJarak : " + distance + "\n\n");
+                        + "\nJarak : " + Double.parseDouble(String.format("%.3f", distance)) + " km\n\n");
             }
         }
         if (result.toString().equals("")) {

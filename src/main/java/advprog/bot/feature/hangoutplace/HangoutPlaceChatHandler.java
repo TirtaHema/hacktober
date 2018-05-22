@@ -64,7 +64,7 @@ public class HangoutPlaceChatHandler extends AbstractLineChatHandlerDecorator {
                 status = "radius";
             } catch (Exception e) {
                 return Collections.singletonList(new TextMessage(
-                        "Input anda harus memenuhi format /nearby_hangout_kuy (int:radius)"));
+                        "Input anda harus memenuhi format : \n/nearby_hangout_kuy (int:radius)"));
             }
             return Collections.singletonList(new TextMessage("Silahkan kirim lokasi Anda"));
         }
@@ -135,7 +135,7 @@ public class HangoutPlaceChatHandler extends AbstractLineChatHandlerDecorator {
             );
             return Collections.singletonList(new
                     TemplateMessage("Carousel alt text", carouselTemplate));
-        } else if (status.equals("nearest")) {
+        } else if (status.equals("radius")) {
             LocationMessageContent locationMessage = e.getMessage();
             return Collections.singletonList(new TextMessage(
                     places.getPlacesByRadius(radius, locationMessage.getLatitude(),
