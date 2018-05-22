@@ -100,8 +100,7 @@ public class SchedulerChatHandler extends AbstractLineChatHandlerDecorator {
             } else if (source instanceof UserSource) {
                 String userId = source.getSenderId();
 
-                if (userRequestGroup.containsKey(userId)
-                        && is_date_message(event.getMessage().getText())) {
+                if (userRequestGroup.containsKey(userId)) {
 
                     String groupId = userRequestGroup.get(userId);
 
@@ -137,8 +136,7 @@ public class SchedulerChatHandler extends AbstractLineChatHandlerDecorator {
                     return Collections.singletonList(
                             templateMessage
                     );
-                } else if (userRequestDate.containsKey(userId)
-                        && is_time_message(event.getMessage().getText())) {
+                } else if (userRequestDate.containsKey(userId)) {
 
                     String time = event.getMessage().getText();
                     userRequestTime.put(userId, time);
@@ -176,7 +174,7 @@ public class SchedulerChatHandler extends AbstractLineChatHandlerDecorator {
                     );
                 } else {
                     return Collections.singletonList(
-                            new TextMessage("")
+                            new TextMessage("!!!")
                     );
                 }
             } else {
