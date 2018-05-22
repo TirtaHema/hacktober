@@ -107,7 +107,6 @@ public class UberEstimateChatHandler extends AbstractLineChatHandlerDecorator {
                 lastIntents = "remove";
                 break;
             case "lat=":
-                UberService uberService = new UberService();
                 lastIntents = "uber";
                 lastLocation = new Location(
                         Double.parseDouble(input[1]),
@@ -173,8 +172,7 @@ public class UberEstimateChatHandler extends AbstractLineChatHandlerDecorator {
 
                 return Collections.singletonList(
                         new TextMessage(
-                                "Destination: " + lastLocation.getPlaceName()
-                                + " " + lastLocation.getStreet() + "\n"
+                                "Destination: " + lastLocation.getPlaceName() + " "
                                         + Double.toString(priceDetails.get(0).getDistance())
                                 + " kilometers from current position\n"
                                         + "Estimated travel time and fares for each Uber services:\n"
@@ -196,7 +194,7 @@ public class UberEstimateChatHandler extends AbstractLineChatHandlerDecorator {
         return (input.length > 0
                 && (input[0].equals("/uber")
                         || input[0].equals("/add_destination")
-                        || input[0].equals("lat= ")));
+                        || input[0].equals("lat=")));
     }
 
     @Override
