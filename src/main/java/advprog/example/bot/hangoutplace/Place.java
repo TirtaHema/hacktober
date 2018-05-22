@@ -21,6 +21,11 @@ public class Place {
         this.longitude = longitude;
     }
 
+    public String getKeterangan() {
+        return name + "\nLokasi : " + location + "\nAlamat : "
+                + address + "\n Deskripsi : " + description;
+    }
+
     public String getLocation() {
         return location;
     }

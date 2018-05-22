@@ -1,4 +1,4 @@
-package advprog.example.bot.hangoutplaces;
+package advprog.example.bot.hangoutplace;
 
 import static org.junit.Assert.assertEquals;
 
