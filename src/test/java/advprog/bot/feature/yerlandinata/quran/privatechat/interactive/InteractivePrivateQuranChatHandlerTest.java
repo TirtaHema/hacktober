@@ -63,7 +63,7 @@ public class InteractivePrivateQuranChatHandlerTest {
     }
 
     @Test
-    public void testShowCarousel6Surah() throws IOException, JSONException {
+    public void testShowCarousel6SurahAndNext() throws IOException, JSONException {
         List<SurahQuran> expectedSurah =
                 IntStream.range(0, 15)
                             .mapToObj(i -> new SurahQuran(i, i, "" + i, "title" + i))
@@ -71,21 +71,33 @@ public class InteractivePrivateQuranChatHandlerTest {
 
         when(surahQuranFetcher.fetchSurahQuran())
                 .thenReturn(expectedSurah);
-        CarouselTemplate expectedCarousel = new CarouselTemplate(
-                expectedSurah
-                        .stream()
-                        .limit(6)
-                        .map(s -> new CarouselColumn(
-                                InteractivePrivateQuranChatHandler.QURAN_IMAGE,
-                                s.getEnglishName(),
-                                s.getArabName(),
-                                Collections.singletonList(
-                                        new MessageAction(
-                                                "Pilih", "/qsi " + s.getSurahNumber()
-                                        )
+        List<CarouselColumn> surahColumn = expectedSurah
+                .stream()
+                .limit(6)
+                .map(s -> new CarouselColumn(
+                        InteractivePrivateQuranChatHandler.QURAN_IMAGE,
+                        s.getEnglishName(),
+                        s.getArabName(),
+                        Collections.singletonList(
+                                new MessageAction(
+                                        "Pilih", "/qsi " + s.getSurahNumber()
                                 )
-                        )).collect(Collectors.toList())
+                        )
+                )).collect(Collectors.toList());
+        surahColumn.add((new CarouselColumn(
+                InteractivePrivateQuranChatHandler.QURAN_IMAGE,
+                "Next",
+                "Tampilkan surah lainnya",
+                Arrays.asList(
+                        new MessageAction("Surah 7 - 12", "/qsi 7:12"),
+                        new MessageAction("Surah 13 - 18", "/qsi 13:18"),
+                        new MessageAction("Surah 19 - 24", "/qsi 19:24")
+                    )
+        )));
+        CarouselTemplate expectedCarousel = new CarouselTemplate(
+                surahColumn
         );
+
         MessageEvent<TextMessageContent> me = ChatHandlerTestUtil.fakeMessageEvent(
                 "re", "/qs", new UserSource("x")
         );

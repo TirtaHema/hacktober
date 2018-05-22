@@ -107,25 +107,45 @@ public class InteractivePrivateQuranChatHandler extends AbstractLineChatHandlerD
     }
 
     private List<Message> showSurah(int begin, int end) throws IOException, JSONException {
+        List<CarouselColumn> columns = surahQuranFetcher.fetchSurahQuran()
+                .subList(begin - 1, end)
+                .stream()
+                .map(s -> new CarouselColumn(
+                        QURAN_IMAGE,
+                        s.getEnglishName(),
+                        s.getArabName(),
+                        Collections.singletonList(
+                                new MessageAction(
+                                        "Pilih",
+                                        "/qsi " + s.getSurahNumber()
+                                )
+                        )
+                ))
+                .collect(Collectors.toList());
+        columns.add(new CarouselColumn(
+                InteractivePrivateQuranChatHandler.QURAN_IMAGE,
+                "Next",
+                "Tampilkan surah lainnya",
+                Arrays.asList(
+                        new MessageAction(
+                                String.format("Surah %d - %d", end + 1, end + 1 + 5),
+                                String.format("/qsi %d:%d", end + 1, end + 1 + 5)
+                        ),
+                        new MessageAction(
+                                String.format("Surah %d - %d", end + 7, end + 1 + 11),
+                                String.format("/qsi %d:%d", end + 7, end + 1 + 11)
+                        ),
+                        new MessageAction(
+                                String.format("Surah %d - %d", end + 13, end + 1 + 17),
+                                String.format("/qsi %d:%d", end + 13, end + 1 + 17)
+                        )
+                )
+        ));
         return Collections.singletonList(
                 new TemplateMessage(
                         "Quran",
                         new CarouselTemplate(
-                                surahQuranFetcher.fetchSurahQuran()
-                                        .subList(begin - 1, end)
-                                        .stream()
-                                        .map(s -> new CarouselColumn(
-                                                QURAN_IMAGE,
-                                                s.getEnglishName(),
-                                                s.getArabName(),
-                                                Collections.singletonList(
-                                                        new MessageAction(
-                                                                "Pilih",
-                                                                "/qsi " + s.getSurahNumber()
-                                                        )
-                                                )
-                                        ))
-                                        .collect(Collectors.toList())
+                            columns
                         ))
         );
     }
@@ -150,11 +170,9 @@ public class InteractivePrivateQuranChatHandler extends AbstractLineChatHandlerD
     private List<Message> getAyat(int ayat, String userId) {
         AyatQuran ayatQuran = null;
         try {
-            try {
-                ayatQuran = interactiveAyatFetcherService.fetchAyat(userId, ayat);
-            } catch (IOException | JSONException e) {
-                return Collections.singletonList(new TextMessage(SERVICE_DOWN));
-            }
+            ayatQuran = interactiveAyatFetcherService.fetchAyat(userId, ayat);
+        } catch (IOException | JSONException e) {
+            return Collections.singletonList(new TextMessage(SERVICE_DOWN));
         } catch (IllegalStateException e) {
             return Collections.emptyList();
         }
