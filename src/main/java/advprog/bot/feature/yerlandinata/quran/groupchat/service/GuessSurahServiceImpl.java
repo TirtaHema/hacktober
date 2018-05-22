@@ -39,7 +39,6 @@ public class GuessSurahServiceImpl implements GuessSurahService {
 
     @Override
     public boolean isGuessing(String groupId) {
-        return groupMapper.containsKey(groupId)
-                && !Objects.equals(groupMapper.get(groupId), "null");
+        return groupMapper.containsKey(groupId);
     }
 }
