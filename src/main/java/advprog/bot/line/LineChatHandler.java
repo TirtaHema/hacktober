@@ -19,7 +19,7 @@ import java.util.List;
 //redundancy exists for a much less confusing usage
 public interface LineChatHandler {
     List<Message> handleTextMessageEvent(MessageEvent<TextMessageContent> event,
-                                         List<Message> replyMessages) throws IOException;
+                                         List<Message> replyMessages);
 
     List<Message> handleImageMessageEvent(MessageEvent<ImageMessageContent> event,
                                  List<Message> replyMessages);

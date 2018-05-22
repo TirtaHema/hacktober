@@ -28,15 +28,14 @@ public abstract class AbstractLineChatHandlerDecorator implements LineChatHandle
 
     @Override
     public List<Message> handleTextMessageEvent(MessageEvent<TextMessageContent> event,
-                                                List<Message> replyMessages) throws IOException {
+                                                List<Message> replyMessages) {
         if (canHandleTextMessage(event)) {
             replyMessages.addAll(handleTextMessage(event));
         }
         return decoratedLineChatHandler.handleTextMessageEvent(event, replyMessages);
     }
 
-    protected List<Message> handleTextMessage(MessageEvent<TextMessageContent> event)
-        throws IOException {
+    protected List<Message> handleTextMessage(MessageEvent<TextMessageContent> event) {
         return Collections.emptyList();
     }
 
