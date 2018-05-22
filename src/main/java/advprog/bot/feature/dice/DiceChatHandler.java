@@ -46,7 +46,7 @@ public class DiceChatHandler extends AbstractLineChatHandlerDecorator {
         String contentText = content.getText().toLowerCase();
 
         String[] msgSplit = contentText.split(" ");
-        if (msgSplit[0].equals("/coin")) {
+        if (msgSplit[0].equals("/coin") && msgSplit.length == 1) {
             String flippedCoin = randomGenerator.spinCoin();
             return Collections.singletonList(new TextMessage(flippedCoin));
         } else if (msgSplit[0].equals("/roll") && msgSplit.length == 2) {
@@ -55,14 +55,14 @@ public class DiceChatHandler extends AbstractLineChatHandlerDecorator {
             int y = Integer.parseInt(diceSplit[1]);
             String rolledDice = handleRoll(x, y);
             return Collections.singletonList(new TextMessage(rolledDice));
-        } else if (msgSplit[0].equals("/multiroll")) {
+        } else if (msgSplit[0].equals("/multiroll") && msgSplit.length == 3) {
             int num = Integer.parseInt(msgSplit[1]);
             String[] diceSplit = msgSplit[2].split("d");
             int x = Integer.parseInt(diceSplit[0]);
             int y = Integer.parseInt(diceSplit[1]);
             String rolledDice = handleMultiRoll(num, x, y);
             return Collections.singletonList(new TextMessage(rolledDice));
-        } else if (msgSplit[0].equals("/is_lucky")) {
+        } else if (msgSplit[0].equals("/is_lucky") && msgSplit.length == 3) {
             int num = Integer.parseInt(msgSplit[1]);
             String[] diceSplit = msgSplit[2].split("d");
             int x = Integer.parseInt(diceSplit[0]);
@@ -105,6 +105,11 @@ public class DiceChatHandler extends AbstractLineChatHandlerDecorator {
 
     public String handleMultiRoll(int n, int x, int y) {
         int[][] arr = randomGenerator.multiRollDice(n, x, y);
+
+        if (arr.length == 0) {
+            return "Please follow the format /multiroll NUM xdy, with NUM, x, y > 0";
+        }
+
         StringBuilder sb = new StringBuilder();
 
         for (int i = 0; i < n; i++) {
