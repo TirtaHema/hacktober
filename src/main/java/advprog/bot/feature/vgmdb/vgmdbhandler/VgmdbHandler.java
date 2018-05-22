@@ -1,22 +1,27 @@
 package advprog.bot.feature.vgmdb.vgmdbhandler;
 
+import static advprog.bot.feature.vgmdb.WebScrapper.getData;
+
 import advprog.bot.line.AbstractLineChatHandlerDecorator;
 import advprog.bot.line.LineChatHandler;
 import com.linecorp.bot.model.event.MessageEvent;
-import com.linecorp.bot.model.event.message.*;
+import com.linecorp.bot.model.event.message.AudioMessageContent;
+import com.linecorp.bot.model.event.message.ImageMessageContent;
+import com.linecorp.bot.model.event.message.LocationMessageContent;
+import com.linecorp.bot.model.event.message.StickerMessageContent;
+import com.linecorp.bot.model.event.message.TextMessageContent;
 import com.linecorp.bot.model.message.Message;
 import com.linecorp.bot.model.message.TextMessage;
-
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.logging.Logger;
 
-import static advprog.bot.feature.vgmdb.WebScrapper.getData;
-
 public class VgmdbHandler extends AbstractLineChatHandlerDecorator {
 
-    private static final Logger LOGGER = Logger.getLogger(advprog.bot.feature.echo.EchoChatHandler.class.getName());
+    private static final Logger LOGGER = Logger.getLogger(advprog
+            .bot.feature.echo.EchoChatHandler.class.getName());
 
     public VgmdbHandler(LineChatHandler decoratedHandler) {
         this.decoratedLineChatHandler = decoratedHandler;
@@ -33,12 +38,18 @@ public class VgmdbHandler extends AbstractLineChatHandlerDecorator {
 
     @Override
     protected List<Message> handleTextMessage(MessageEvent<TextMessageContent> event) {
-        if( event.getMessage().getText().trim().equalsIgnoreCase("/vgmdb ost this month")) {
-            List<String> data = getData();
+        if (event.getMessage().getText().trim().equalsIgnoreCase("/vgmdb ost this month")) {
+            List<String> data = null;
+            try {
+                data = getData();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
             String result = "";
             List<Message> listMessage = new ArrayList<>();
             for (int i = 0; i < data.size(); i++) {
                 if (i != 0 && i % 20 == 0) {
+                    result = result.substring(0, result.length() - 2);
                     Message text = new TextMessage(result);
                     listMessage.add(text);
                     result = "";
@@ -53,7 +64,7 @@ public class VgmdbHandler extends AbstractLineChatHandlerDecorator {
 
             return listMessage;// just return list of TextMessage for multi-line reply!
             // Return empty list of TextMessage if not replying. DO NOT RETURN NULL!!!
-        }else {
+        } else {
             return Collections.singletonList(new TextMessage("Keyword salah"));
         }
     }
