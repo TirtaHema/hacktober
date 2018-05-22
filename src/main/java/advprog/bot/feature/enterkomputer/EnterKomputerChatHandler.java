@@ -96,6 +96,7 @@ public class EnterKomputerChatHandler extends AbstractLineChatHandlerDecorator {
         }
         result = result.substring(0, result.length() - 1);
         //System.out.println(result);
+        System.out.println(result);
         return Collections.singletonList(
             new TextMessage((result))
         );

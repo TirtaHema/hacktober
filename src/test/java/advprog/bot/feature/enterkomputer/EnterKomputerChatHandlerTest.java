@@ -75,7 +75,7 @@ public class EnterKomputerChatHandlerTest {
         ArrayList<JSONObject> arrJson = parser.getJsonObj();
         JSONObject objDicari = arrJson.get(0);
         String nameDicari = objDicari.get("name").toString().toLowerCase();
-        System.out.println(nameDicari);
+        //System.out.println(nameDicari);
         String msg = "/enterkomputer ssd " + nameDicari;
         List<Message> messages = new LinkedList<>();
         List<TextMessage> expectedMessages = new LinkedList<>();
