@@ -52,19 +52,20 @@ public class BikunApp {
 
     public static int getWaitingTime(HalteBikun halteBikun) {
         SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");
-        long min = 0L;
+        long min = -1;
         try {
             Date currentTime = dateFormat.parse(dateFormat.format(new Date()));
 
             for (String time : halteBikun.getJadwal()) {
                 Date EndTime = dateFormat.parse(time);
                 long difference = EndTime.getTime() - currentTime.getTime();
-                if (difference < min) {
+                if (difference >= 0) {
                     min = difference;
+                    break;
                 }
             }
 
-            if (min == 0) {
+            if (min == -1) {
                 min = dateFormat.parse(halteBikun.getJadwal()[0]).getTime() - currentTime.getTime() + 86400000;
             }
         }
