@@ -63,7 +63,7 @@ public class InteractivePrivateQuranChatHandlerTest {
     }
 
     @Test
-    public void testShowCarousel10Surah() throws IOException, JSONException {
+    public void testShowCarousel6Surah() throws IOException, JSONException {
         List<SurahQuran> expectedSurah =
                 IntStream.range(0, 15)
                             .mapToObj(i -> new SurahQuran(i, i, "" + i, "title" + i))
@@ -74,7 +74,7 @@ public class InteractivePrivateQuranChatHandlerTest {
         CarouselTemplate expectedCarousel = new CarouselTemplate(
                 expectedSurah
                         .stream()
-                        .limit(10)
+                        .limit(6)
                         .map(s -> new CarouselColumn(
                                 InteractivePrivateQuranChatHandler.QURAN_IMAGE,
                                 s.getEnglishName(),

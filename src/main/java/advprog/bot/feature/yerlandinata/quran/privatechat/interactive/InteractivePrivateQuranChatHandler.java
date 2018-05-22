@@ -84,7 +84,7 @@ public class InteractivePrivateQuranChatHandler extends AbstractLineChatHandlerD
         UserSource userSource = (UserSource) event.getSource();
         if (QS_PATTERN.matcher(event.getMessage().getText()).matches()) {
             try {
-                return showSurah(1, 10);
+                return showSurah(1, 6);
             } catch (IOException | JSONException e) {
                 e.printStackTrace();
             }
