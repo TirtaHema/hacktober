@@ -8,6 +8,7 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Random;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -74,7 +75,16 @@ public class Places {
                 + "\nJarak : " + distance + "\n\n";
     }
 
-
+    public ArrayList<Place> getRandomPlaces() {
+        parseJson();
+        ArrayList<Place> res = new ArrayList<>();
+        Random random = new Random();
+        int[] randomArr = random.ints(15, 0, 15).distinct().toArray();
+        for (int i = 0; i < 4; i++) {
+            res.add(places.get(i));
+        }
+        return res;
+    }
 
     public String getPlacesByRadius(double radius, double latitude, double longitude) {
         parseJson();

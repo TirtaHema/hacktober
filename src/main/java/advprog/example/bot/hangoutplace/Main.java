@@ -9,8 +9,8 @@ public class Main {
     public static void main(String[] args) {
         double lat = -6.249095;
         double lon = 106.828162;
-        double rad = 2;
+        double rad = 4;
         Places places = new Places();
-        System.out.println(places.getNearestPlaces(lat, lon));
+        System.out.println(places.getRandomPlaces());
     }
 }
