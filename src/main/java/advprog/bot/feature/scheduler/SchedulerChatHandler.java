@@ -21,6 +21,7 @@ import com.linecorp.bot.model.message.Message;
 import com.linecorp.bot.model.message.TemplateMessage;
 import com.linecorp.bot.model.message.TextMessage;
 
+import java.time.Instant;
 import java.util.*;
 import java.util.logging.Logger;
 
@@ -67,7 +68,6 @@ public class SchedulerChatHandler extends AbstractLineChatHandlerDecorator {
     @Override
     protected List<Message> handleTextMessage(MessageEvent<TextMessageContent> event) {
         String command = event.getMessage().getText().split(" ")[0];
-
         Source source = event.getSource();
 
         try {
@@ -98,7 +98,7 @@ public class SchedulerChatHandler extends AbstractLineChatHandlerDecorator {
                     );
                 }
             } else if (source instanceof UserSource) {
-                String userId = source.getUserId();
+                String userId = source.getSenderId();
 
                 if (userRequestGroup.containsKey(userId)
                         && is_date_message(event.getMessage().getText())) {
@@ -181,7 +181,7 @@ public class SchedulerChatHandler extends AbstractLineChatHandlerDecorator {
                 }
             } else {
                 return Collections.singletonList(
-                        new TextMessage("")
+                        new TextMessage("!!!")
                 );
             }
         } catch (Exception e) {
