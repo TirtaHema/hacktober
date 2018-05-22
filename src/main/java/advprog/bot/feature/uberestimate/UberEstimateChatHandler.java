@@ -7,6 +7,7 @@ import advprog.bot.line.AbstractLineChatHandlerDecorator;
 import advprog.bot.line.LineChatHandler;
 import com.linecorp.bot.client.LineMessagingClient;
 import com.linecorp.bot.model.ReplyMessage;
+import com.linecorp.bot.model.action.DatetimePickerAction;
 import com.linecorp.bot.model.action.MessageAction;
 import com.linecorp.bot.model.action.PostbackAction;
 import com.linecorp.bot.model.action.URIAction;
@@ -67,24 +68,66 @@ public class UberEstimateChatHandler extends AbstractLineChatHandlerDecorator {
                             new TextMessage("No location saved")
                     );
                 } else {
-                    ArrayList<Location> locations =  userData.get(sender);
-
-                    List<ImageCarouselColumn> columns = new ArrayList<ImageCarouselColumn>();
-
-                    for (Location current : locations) {
-                        columns.add(new ImageCarouselColumn("https://getuikit.com/v2/docs/images/placeholder_200x100.svg",
-                                new PostbackAction(
-                                        current.getPlaceName(),
-                                        "what",
-                                        "lat= "
-                                                + Double.toString(current.getLat())
-                                                + " lon= " + Double.toString(current.getLon())
-                                        + " " + current.getPlaceName()
-                                                + " " + current.getStreet()
-                                )));
-                    }
-
-                    ImageCarouselTemplate carouselTemplate = new ImageCarouselTemplate(columns);
+                    // ArrayList<Location> locations =  userData.get(sender);
+                    // String imageUrl = createUri("/static/buttons/1040.jpg");
+                    String imageUrl = "https://getuikit.com/v2/docs/images/placeholder_200x100.svg";
+                    CarouselTemplate carouselTemplate = new CarouselTemplate(
+                            Arrays.asList(
+                                    new CarouselColumn(imageUrl, "hoge", "fuga", Arrays.asList(
+                                            new URIAction("Go to line.me",
+                                                    "https://line.me"),
+                                            new URIAction("Go to line.me",
+                                                    "https://line.me"),
+                                            new PostbackAction("Say hello1",
+                                                    "hello こんにちは")
+                                    )),
+                                    new CarouselColumn(imageUrl, "hoge", "fuga", Arrays.asList(
+                                            new PostbackAction("言 hello2",
+                                                    "hello こんにちは",
+                                                    "hello こんにちは"),
+                                            new PostbackAction("言 hello2",
+                                                    "hello こんにちは",
+                                                    "hello こんにちは"),
+                                            new MessageAction("Say message",
+                                                    "Rice=米")
+                                    )),
+                                    new CarouselColumn(imageUrl, "Datetime Picker", "Please select a date, time or datetime", Arrays.asList(
+                                            new DatetimePickerAction("Datetime",
+                                                    "action=sel",
+                                                    "datetime",
+                                                    "2017-06-18T06:15",
+                                                    "2100-12-31T23:59",
+                                                    "1900-01-01T00:00"),
+                                            new DatetimePickerAction("Date",
+                                                    "action=sel&only=date",
+                                                    "date",
+                                                    "2017-06-18",
+                                                    "2100-12-31",
+                                                    "1900-01-01"),
+                                            new DatetimePickerAction("Time",
+                                                    "action=sel&only=time",
+                                                    "time",
+                                                    "06:15",
+                                                    "23:59",
+                                                    "00:00")
+                                    ))
+                            ));
+//                    List<ImageCarouselColumn> columns = new ArrayList<ImageCarouselColumn>();
+//
+//                    for (Location current : locations) {
+//                        columns.add(new ImageCarouselColumn("https://getuikit.com/v2/docs/images/placeholder_200x100.svg",
+//                                new PostbackAction(
+//                                        current.getPlaceName(),
+//                                        "what",
+//                                        "lat= "
+//                                                + Double.toString(current.getLat())
+//                                                + " lon= " + Double.toString(current.getLon())
+//                                        + " " + current.getPlaceName()
+//                                                + " " + current.getStreet()
+//                                )));
+//                    }
+//
+//                    ImageCarouselTemplate carouselTemplate = new ImageCarouselTemplate(columns);
                     TemplateMessage templateMessage =
                             new TemplateMessage(
                                     "carousel alt text", carouselTemplate);
