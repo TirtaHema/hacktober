@@ -19,18 +19,19 @@ public class EnterKomputerParser {
     public EnterKomputerParser(String category) throws IOException {
         try {
             URL url = new URL("https://enterkomputer.com/api/product/"
-            + category + ".json");
+                + category + ".json");
             BufferedReader br = new BufferedReader(new InputStreamReader(url.openStream()));
             String str = br.readLine();
             JSONParser parser = new JSONParser();
             try {
                 Object obj = parser.parse(str);
                 JSONArray arr = (JSONArray) obj;
-                for (int i = 0; i < arr.size() ; i++) {
+                for (int i = 0; i < arr.size(); i++) {
                     JSONObject thisJson = (JSONObject) arr.get(i);
                     jsonObj.add(thisJson);
                 }
             } catch (ParseException p) {
+                System.out.println(p);
 
             }
         } catch (FileNotFoundException f) {

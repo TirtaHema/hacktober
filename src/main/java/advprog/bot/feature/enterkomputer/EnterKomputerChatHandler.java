@@ -37,7 +37,8 @@ public class EnterKomputerChatHandler extends AbstractLineChatHandlerDecorator {
     }
 
     @Override
-    protected List<Message> handleTextMessage(MessageEvent<TextMessageContent> event) throws IOException {
+    protected List<Message> handleTextMessage(MessageEvent<TextMessageContent> event)
+        throws IOException {
         // just return list of TextMessage for multi-line reply!
         // Return empty list of TextMessage if not replying. DO NOT RETURN NULL!!!
         String contentText = event.getMessage().getText();
@@ -57,7 +58,7 @@ public class EnterKomputerChatHandler extends AbstractLineChatHandlerDecorator {
             } else {
                 String category = catAndName[0];
                 String name = contentText.replace("/enterkomputer "
-                + category + " ", "");
+                    + category + " ", "");
                 return findProduct(category, name);
             }
         }
@@ -90,7 +91,7 @@ public class EnterKomputerChatHandler extends AbstractLineChatHandlerDecorator {
                 new TextMessage(("Sorry, the product name is not available"))
             );
         }
-        result = result.substring(0, result.length()-1);
+        result = result.substring(0, result.length() - 1);
         //System.out.println(result);
         return Collections.singletonList(
             new TextMessage((result))
