@@ -75,7 +75,7 @@ public class SongRecognizer {
             String json = reader(rd);
             JSONObject jsonObject = new JSONObject(json);
             JSONObject jsonobj = ((JSONArray) jsonObject.get("results")).getJSONObject(0);
-            String urlImage = "https:" + jsonobj.get("romaji_name").toString();
+            String urlImage = jsonobj.get("name").toString();
             return urlImage;
         } catch (JSONException e) {
             return null;
