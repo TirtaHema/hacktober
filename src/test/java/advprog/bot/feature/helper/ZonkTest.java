@@ -1,18 +1,28 @@
 package advprog.bot.feature.helper;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotEquals;
 
 import advprog.bot.feature.zonk.helper.Zonk;
 
 import org.junit.Before;
 import org.junit.Test;
 
+import java.util.ArrayList;
+
 public class ZonkTest {
     private Zonk zonk;
-
+    public static ArrayList<String> e = new ArrayList<>();
     @Before
     public void setUp() {
         zonk = new Zonk("haha");
+
+        e.add("haha");
+        e.add("bobo");
+        e.add("aaa");
+        e.add("bbb");
+        e.add("ccc");
     }
 
     @Test
@@ -29,21 +39,10 @@ public class ZonkTest {
     public void testMethodBuatSoal() {
         String[] question = {"what is the dog name?","helo","hela","heli","helu","heli"};
         zonk.buatSoal(question);
-        String jawaban = "helohelaheliheluheli";
+        String jawaban = "1 helo\n2 hela\n3 heli\n4 helu\n";
         assertEquals(jawaban,zonk.option("what is the dog name?"));
     }
 
-    @Test
-    public void testMethodOption() {
-        String jawaban = "bandungjogjasolobalibali";
-        assertEquals(jawaban,zonk.option("capital city of indonesia?"));
-    }
 
-    @Test
-    public void testMethodGantiSoal() {
-        String option = "bandungjogjasolobalibali";
-        zonk.gantiSoal("capital city of indonesia?","bali");
-        assertEquals(option,zonk.option("capital city of indonesia?"));
-    }
 
 }

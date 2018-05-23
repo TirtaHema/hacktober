@@ -10,7 +10,7 @@ import org.springframework.context.annotation.Configuration;
 public class ZonkChatHandlerConfiguration {
 
     @Bean
-    ZonkChatHandler zonkChatHandler(BotController controller) {
+    public ZonkChatHandler zonkChatHandler(BotController controller) {
         LineChatHandler currenctChatHandler = controller.getLineChatHandler();
         ZonkChatHandler handler = new ZonkChatHandler(currenctChatHandler);
         controller.replaceLineChatHandler(handler);

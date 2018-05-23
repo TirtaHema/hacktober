@@ -5,6 +5,8 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
+
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -13,6 +15,8 @@ import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
 public class Zonk {
+
+    public static ArrayList<String> questionList = new ArrayList<>();
 
     @SuppressWarnings("unchecked")
     public static void buatSoal(String[] soal) {
@@ -25,6 +29,7 @@ public class Zonk {
                 String temp = soal[i];
                 arr.add(temp);
             }
+            questionList.add(question);
             obj.put(question,arr);
             FileWriter fw = new FileWriter("./Question.json");
             fw.write(obj.toString());
@@ -49,8 +54,10 @@ public class Zonk {
             Object obj = parser.parse(new FileReader("./Question.json"));
             JSONObject jsonObject = (JSONObject) obj;
             JSONArray arr = (JSONArray) jsonObject.get(soal);
-            for (int i = 0;i < arr.size();i++) {
-                option += arr.get(i).toString();
+            int j = 1;
+            for (int i = 0;i < arr.size()-1;i++) {
+                option += j + " " + arr.get(i).toString()+"\n";
+                j++;
             }
             return option;
         } catch (FileNotFoundException e) {
@@ -135,10 +142,32 @@ public class Zonk {
 
     }
 
+
     public Zonk(String input) {
         String masukan = input;
+        questionList.add("deandrophobia fear of what ?");
+        questionList.add("what is the dog name?");
+        questionList.add("capital city of indonesia?");
+        questionList.add("mc donald phone number ?");
+        questionList.add("brand of phone ?");
+        questionList.add("where is fasilkom ?");
 
     }
+
+    public ArrayList<String> randomQuestion(ArrayList<String> e) {
+        Collections.shuffle(e);
+        return e;
+
+    }
+
+    public ArrayList<String> getQuestionList(){
+        return questionList;
+    }
+
+    public static void main (String[] args){
+        System.out.print(option("mc donald phone number ?"));
+    }
+
 
 
 }
