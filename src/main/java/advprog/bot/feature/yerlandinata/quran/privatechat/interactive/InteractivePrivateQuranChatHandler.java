@@ -127,7 +127,10 @@ public class InteractivePrivateQuranChatHandler extends AbstractLineChatHandlerD
                 "Tampilkan 6 surah berikutnya",
                 Collections.singletonList(
                         new MessageAction(
-                                String.format("Surah %d - %d", (index + 1) * 6 + 1, (index + 1) * 6 + 6),
+                                String.format(
+                                        "Surah %d - %d",
+                                        (index + 1) * 6 + 1, (index + 1) * 6 + 6
+                                ),
                                 String.format("/qsi :%d", index + 1)
                         )
                 )
