@@ -7,7 +7,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 
-
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
@@ -55,8 +54,8 @@ public class Zonk {
             JSONObject jsonObject = (JSONObject) obj;
             JSONArray arr = (JSONArray) jsonObject.get(soal);
             int j = 1;
-            for (int i = 0;i < arr.size()-1;i++) {
-                option += j + " " + arr.get(i).toString()+"\n";
+            for (int i = 0;i < arr.size() - 1;i++) {
+                option += j + " " + arr.get(i).toString() + "\n";
                 j++;
             }
             return option;
@@ -160,13 +159,10 @@ public class Zonk {
 
     }
 
-    public ArrayList<String> getQuestionList(){
+    public ArrayList<String> getQuestionList() {
         return questionList;
     }
 
-    public static void main (String[] args){
-        System.out.print(option("mc donald phone number ?"));
-    }
 
 
 

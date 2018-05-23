@@ -6,14 +6,15 @@ import static org.junit.Assert.assertNotEquals;
 
 import advprog.bot.feature.zonk.helper.Zonk;
 
+import java.util.ArrayList;
+
 import org.junit.Before;
 import org.junit.Test;
-
-import java.util.ArrayList;
 
 public class ZonkTest {
     private Zonk zonk;
     public static ArrayList<String> e = new ArrayList<>();
+
     @Before
     public void setUp() {
         zonk = new Zonk("haha");

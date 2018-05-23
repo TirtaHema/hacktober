@@ -2,12 +2,12 @@ package advprog.bot.feature.helper;
 
 import static org.junit.Assert.assertFalse;
 
-
 import advprog.bot.feature.zonk.ZonkChatHandler;
+
 import advprog.bot.line.BaseChatHandler;
 
-
 import org.junit.Before;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
