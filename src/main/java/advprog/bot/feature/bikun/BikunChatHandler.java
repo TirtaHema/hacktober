@@ -11,6 +11,8 @@ import com.linecorp.bot.model.event.message.ImageMessageContent;
 import com.linecorp.bot.model.event.message.LocationMessageContent;
 import com.linecorp.bot.model.event.message.StickerMessageContent;
 import com.linecorp.bot.model.event.message.TextMessageContent;
+import com.linecorp.bot.model.event.source.GroupSource;
+import com.linecorp.bot.model.event.source.UnknownSource;
 import com.linecorp.bot.model.event.source.UserSource;
 import com.linecorp.bot.model.message.LocationMessage;
 import com.linecorp.bot.model.message.Message;
@@ -116,9 +118,10 @@ public class BikunChatHandler extends AbstractLineChatHandlerDecorator {
 
         String text = "";
         if (isNearest) {
-            text = "Halte Bikun terdekat dari lokasi Anda adalah :\n" + halteBikun.getNama()
-                    + "\nDengan jarak " + BikunApp.getDistance(currentLatitude, currentLongitude,
-                        halteBikun.getLatitude(), halteBikun.getLongitude());
+            text = String.format("Halte Bikun terdekat dari lokasi Anda adalah :\n"
+                    + "%s\nDengan jarak %.2f meter", halteBikun.getNama(),
+                    BikunApp.getDistance(currentLatitude, currentLongitude,
+                            halteBikun.getLatitude(), halteBikun.getLongitude()));
         } else {
             text = "Anda memilih " + halteBikun.getNama();
         }
@@ -132,7 +135,7 @@ public class BikunChatHandler extends AbstractLineChatHandlerDecorator {
         }
         strWaktu += menit + " menit";
         TextMessage halteBikunDetail = new TextMessage(
-                String.format(text + "Bikun selanjutnya akan tiba dalam waktu %s", strWaktu)
+                String.format(text + "\nBikun selanjutnya akan tiba dalam waktu %s", strWaktu)
         );
 
         List<Message> replies = new LinkedList<Message>();
