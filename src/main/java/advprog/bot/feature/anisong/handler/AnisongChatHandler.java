@@ -39,18 +39,31 @@ public class AnisongChatHandler extends AbstractLineChatHandlerDecorator {
     protected List<Message> handleTextMessage(MessageEvent<TextMessageContent> event)  {
         try {
             String[] message = event.getMessage().getText().split(" ");
+            UserHandler userHandler = new UserHandler();
             if (message[0].equalsIgnoreCase("/listen_song")) {
                 if (!event.getSource().toString().contains("groupId")) {
-                    SongGetter songGetter = new SongGetter();
-                    String pesan = "";
-                    for (int i = 1; i < message.length; i++) {
-                        pesan += message[i];
-                        if (i < message.length - 1) {
-                            pesan += " ";
-                        }
-                    }
+                    String id = event.getSource().getSenderId();
+                    userHandler.userSession.put(id, true);
+                } else {
                     return Collections.singletonList(
-                            new AudioMessage(songGetter.getSong(pesan), 29000));
+                            new TextMessage("You must private chat me..."));
+                }
+            }
+            else {
+                if (!event.getSource().toString().contains("groupId")) {
+                    String id = event.getSource().getSenderId();
+                    if (userHandler.userSession.get(id)) {
+                        SongGetter songGetter = new SongGetter();
+                        String pesan = "";
+                        for (int i = 1; i < message.length; i++) {
+                            pesan += message[i];
+                            if (i < message.length - 1) {
+                                pesan += " ";
+                            }
+                        }
+                        return Collections.singletonList(
+                                new AudioMessage(songGetter.getSong(pesan), 29000));
+                    }
                 } else {
                     return Collections.singletonList(
                             new TextMessage("You must private chat me..."));
