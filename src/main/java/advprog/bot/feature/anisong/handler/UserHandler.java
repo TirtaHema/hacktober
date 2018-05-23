@@ -4,7 +4,7 @@ import java.util.HashMap;
 
 public class UserHandler {
 
-    public HashMap<String, Boolean> userSession;
+    public HashMap<String, String> userSession = new HashMap<>();
 
     public UserHandler() {
 
