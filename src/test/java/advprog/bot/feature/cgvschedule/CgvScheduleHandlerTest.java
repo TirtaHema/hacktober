@@ -5,7 +5,6 @@ import advprog.example.bot.EventTestUtil;
 import com.linecorp.bot.model.event.MessageEvent;
 import com.linecorp.bot.model.event.message.TextMessageContent;
 import com.linecorp.bot.model.message.Message;
-import com.linecorp.bot.model.message.TextMessage;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -19,13 +18,13 @@ import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.mock;
 
 @RunWith(MockitoJUnitRunner.class)
-public class CGVScheduleHandlerTest {
+public class CgvScheduleHandlerTest {
 
-    private CGVScheduleHandler handler;
+    private CgvScheduleHandler handler;
 
     @Before
     public void setUp() {
-        handler = new CGVScheduleHandler(mock(LineChatHandler.class));
+        handler = new CgvScheduleHandler(mock(LineChatHandler.class));
     }
 
     @Test

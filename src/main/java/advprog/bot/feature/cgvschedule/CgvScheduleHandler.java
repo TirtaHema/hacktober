@@ -3,7 +3,11 @@ package advprog.bot.feature.cgvschedule;
 import advprog.bot.line.AbstractLineChatHandlerDecorator;
 import advprog.bot.line.LineChatHandler;
 import com.linecorp.bot.model.event.MessageEvent;
-import com.linecorp.bot.model.event.message.*;
+import com.linecorp.bot.model.event.message.AudioMessageContent;
+import com.linecorp.bot.model.event.message.ImageMessageContent;
+import com.linecorp.bot.model.event.message.LocationMessageContent;
+import com.linecorp.bot.model.event.message.StickerMessageContent;
+import com.linecorp.bot.model.event.message.TextMessageContent;
 import com.linecorp.bot.model.message.Message;
 import com.linecorp.bot.model.message.TextMessage;
 
@@ -11,12 +15,12 @@ import java.util.Collections;
 import java.util.List;
 import java.util.logging.Logger;
 
-public class CGVScheduleHandler extends AbstractLineChatHandlerDecorator {
+public class CgvScheduleHandler extends AbstractLineChatHandlerDecorator {
 
-    private static final Logger LOGGER = Logger.getLogger(CGVScheduleHandler.class.getName());
+    private static final Logger LOGGER = Logger.getLogger(CgvScheduleHandler.class.getName());
 
 
-    public CGVScheduleHandler(LineChatHandler decorated) {
+    public CgvScheduleHandler(LineChatHandler decorated) {
         this.decoratedLineChatHandler = decorated;
     }
 

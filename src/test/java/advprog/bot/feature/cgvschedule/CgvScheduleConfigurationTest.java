@@ -11,15 +11,15 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
-public class CGVScheduleConfigurationTest {
+public class CgvScheduleConfigurationTest {
 
     @Test
     public void testConstruction() {
         BotController controller = mock(BotController.class);
         LineChatHandler decoratedHandler = mock(LineChatHandler.class);
         when(controller.getLineChatHandler()).thenReturn(decoratedHandler);
-        CGVScheduleConfiguration config = new CGVScheduleConfiguration();
-        CGVScheduleHandler handler = config.CGVScheduleConfiguration(controller);
+        CgvScheduleConfiguration config = new CgvScheduleConfiguration();
+        CgvScheduleHandler handler = config.cgvScheduleHandler(controller);
         assertEquals(decoratedHandler, handler.getDecoratedLineChatHandler());
     }
 }
