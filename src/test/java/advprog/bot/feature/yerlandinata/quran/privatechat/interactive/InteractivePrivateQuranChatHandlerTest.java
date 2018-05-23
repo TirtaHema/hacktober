@@ -87,12 +87,10 @@ public class InteractivePrivateQuranChatHandlerTest {
         surahColumn.add((new CarouselColumn(
                 InteractivePrivateQuranChatHandler.QURAN_IMAGE,
                 "Next",
-                "Tampilkan surah lainnya",
-                Arrays.asList(
-                        new MessageAction("Surah 7 - 12", "/qsi 7:12"),
-                        new MessageAction("Surah 13 - 18", "/qsi 13:18"),
-                        new MessageAction("Surah 19 - 24", "/qsi 19:24")
-                    )
+                "Tampilkan 6 surah berikutnya",
+                Collections.singletonList(
+                        new MessageAction("Surah 7 - 12", "/qsi :1")
+                )
         )));
         CarouselTemplate expectedCarousel = new CarouselTemplate(
                 surahColumn

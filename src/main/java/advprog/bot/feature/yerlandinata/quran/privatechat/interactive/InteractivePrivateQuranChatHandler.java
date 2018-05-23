@@ -2,7 +2,6 @@ package advprog.bot.feature.yerlandinata.quran.privatechat.interactive;
 
 import advprog.bot.feature.yerlandinata.quran.AyatQuran;
 import advprog.bot.feature.yerlandinata.quran.SurahQuran;
-import advprog.bot.feature.yerlandinata.quran.fetcher.AyatQuranFetcher;
 import advprog.bot.feature.yerlandinata.quran.fetcher.SurahQuranFetcher;
 import advprog.bot.feature.yerlandinata.quran.privatechat.interactive.service.InteractiveAyatFetcherService;
 import advprog.bot.line.AbstractLineChatHandlerDecorator;
@@ -44,7 +43,7 @@ public class InteractivePrivateQuranChatHandler extends AbstractLineChatHandlerD
     private final InteractiveAyatFetcherService interactiveAyatFetcherService;
 
     private static final Pattern QS_PATTERN = Pattern.compile("/qs");
-    private static final Pattern QSI_NEXT_PATTERN = Pattern.compile("/qsi \\d+:\\d+");
+    private static final Pattern QSI_NEXT_PATTERN = Pattern.compile("/qsi :\\d+");
     private static final Pattern QSI_CHOOSE_PATTERN = Pattern.compile("/qsi \\d+");
     private static final Pattern NUMBER_PATTERN = Pattern.compile("\\d+");
     private static final Logger LOGGER = Logger.getLogger(
@@ -84,7 +83,7 @@ public class InteractivePrivateQuranChatHandler extends AbstractLineChatHandlerD
         UserSource userSource = (UserSource) event.getSource();
         if (QS_PATTERN.matcher(event.getMessage().getText()).matches()) {
             try {
-                return showSurah(1, 6);
+                return showSurah(0);
             } catch (IOException | JSONException e) {
                 e.printStackTrace();
             }
@@ -106,9 +105,9 @@ public class InteractivePrivateQuranChatHandler extends AbstractLineChatHandlerD
         return Collections.emptyList();
     }
 
-    private List<Message> showSurah(int begin, int end) throws IOException, JSONException {
+    private List<Message> showSurah(int index) throws IOException, JSONException {
         List<CarouselColumn> columns = surahQuranFetcher.fetchSurahQuran()
-                .subList(begin - 1, end)
+                .subList(index * 6, index * 6 + 6)
                 .stream()
                 .map(s -> new CarouselColumn(
                         QURAN_IMAGE,
@@ -125,19 +124,11 @@ public class InteractivePrivateQuranChatHandler extends AbstractLineChatHandlerD
         columns.add(new CarouselColumn(
                 InteractivePrivateQuranChatHandler.QURAN_IMAGE,
                 "Next",
-                "Tampilkan surah lainnya",
-                Arrays.asList(
+                "Tampilkan 6 surah berikutnya",
+                Collections.singletonList(
                         new MessageAction(
-                                String.format("Surah %d - %d", end + 1, end + 1 + 5),
-                                String.format("/qsi %d:%d", end + 1, end + 1 + 5)
-                        ),
-                        new MessageAction(
-                                String.format("Surah %d - %d", end + 7, end + 1 + 11),
-                                String.format("/qsi %d:%d", end + 7, end + 1 + 11)
-                        ),
-                        new MessageAction(
-                                String.format("Surah %d - %d", end + 13, end + 1 + 17),
-                                String.format("/qsi %d:%d", end + 13, end + 1 + 17)
+                                String.format("Surah %d - %d", (index + 1) * 6 + 1, (index + 1) * 6 + 6),
+                                String.format("/qsi :%d", index + 1)
                         )
                 )
         ));
