@@ -101,6 +101,17 @@ public class InteractivePrivateQuranChatHandler extends AbstractLineChatHandlerD
                     Integer.parseInt(event.getMessage().getText().trim()),
                     userSource.getUserId()
             );
+        } else if (QSI_NEXT_PATTERN.matcher(event.getMessage().getText()).matches()) {
+            try {
+                return showSurah(Integer.parseInt(
+                        event.getMessage().getText()
+                                .replace("/qsi", "")
+                                .replace(":", "")
+                                .trim()
+                ));
+            } catch (IOException | JSONException e) {
+                e.printStackTrace();
+            }
         }
         return Collections.emptyList();
     }
@@ -121,20 +132,22 @@ public class InteractivePrivateQuranChatHandler extends AbstractLineChatHandlerD
                         )
                 ))
                 .collect(Collectors.toList());
-        columns.add(new CarouselColumn(
-                InteractivePrivateQuranChatHandler.QURAN_IMAGE,
-                "Next",
-                "Tampilkan 6 surah berikutnya",
-                Collections.singletonList(
-                        new MessageAction(
-                                String.format(
-                                        "Surah %d - %d",
-                                        (index + 1) * 6 + 1, (index + 1) * 6 + 6
-                                ),
-                                String.format("/qsi :%d", index + 1)
-                        )
-                )
-        ));
+        if (index < 24) {
+            columns.add(new CarouselColumn(
+                    InteractivePrivateQuranChatHandler.QURAN_IMAGE,
+                    "Next",
+                    "Tampilkan 6 surah berikutnya",
+                    Collections.singletonList(
+                            new MessageAction(
+                                    String.format(
+                                            "Surah %d - %d",
+                                            (index + 1) * 6 + 1, (index + 1) * 6 + 6
+                                    ),
+                                    String.format("/qsi :%d", index + 1)
+                            )
+                    )
+            ));
+        }
         return Collections.singletonList(
                 new TemplateMessage(
                         "Quran",

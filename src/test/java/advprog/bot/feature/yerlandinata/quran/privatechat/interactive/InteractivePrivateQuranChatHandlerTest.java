@@ -110,6 +110,54 @@ public class InteractivePrivateQuranChatHandlerTest {
     }
 
     @Test
+    public void showNextCarousel() throws IOException, JSONException {
+        List<SurahQuran> expectedSurah =
+                IntStream.range(0, 114)
+                        .mapToObj(i -> new SurahQuran(i, i, "" + i, "title" + i))
+                        .collect(Collectors.toList());
+
+        when(surahQuranFetcher.fetchSurahQuran())
+                .thenReturn(expectedSurah);
+        List<CarouselColumn> surahColumn = expectedSurah
+                .stream()
+                .skip(12)
+                .limit(6)
+                .map(s -> new CarouselColumn(
+                        InteractivePrivateQuranChatHandler.QURAN_IMAGE,
+                        s.getEnglishName(),
+                        s.getArabName(),
+                        Collections.singletonList(
+                                new MessageAction(
+                                        "Pilih", "/qsi " + s.getSurahNumber()
+                                )
+                        )
+                )).collect(Collectors.toList());
+        surahColumn.add((new CarouselColumn(
+                InteractivePrivateQuranChatHandler.QURAN_IMAGE,
+                "Next",
+                "Tampilkan 6 surah berikutnya",
+                Collections.singletonList(
+                        new MessageAction("Surah 19 - 24", "/qsi :3")
+                )
+        )));
+        CarouselTemplate expectedCarousel = new CarouselTemplate(
+                surahColumn
+        );
+
+        MessageEvent<TextMessageContent> me = ChatHandlerTestUtil.fakeMessageEvent(
+                "re", "/qsi :2", new UserSource("x")
+        );
+        List<Message> expectedMessage = Collections.singletonList(
+                new TemplateMessage("Quran", expectedCarousel)
+        );
+        List<Message> actualMessage = quranChatHandler.handleTextMessageEvent(
+                me, new LinkedList<>()
+        );
+        assertEquals(expectedMessage, actualMessage);
+        verify(surahQuranFetcher).fetchSurahQuran();
+    }
+
+    @Test
     public void testRecordUserSurahSelection() throws IOException, JSONException {
         int surah = 7;
         String userId = "userid";
