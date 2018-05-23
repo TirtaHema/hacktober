@@ -37,6 +37,7 @@ public class PlacesTest {
         double rad2 = 3;
         assertNotNull(places.getPlacesByRadius(rad2, lat, lon));
         assertEquals(places.getPlacesByRadius(rad1, lat, lon),
-                "Tidak ada tempat hangout dengan radius " + rad1 + " dari lokasi Anda.");
+                "Tidak ada tempat hangout dengan radius "
+                        + rad1 + " km dari lokasi Anda.");
     }
 }

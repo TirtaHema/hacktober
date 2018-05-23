@@ -19,15 +19,11 @@ public class Places {
     private ArrayList<Place> places;
     //location, address, name, short desc, longitude, latitude
 
-    public Places() {
-        places = new ArrayList<>();
-    }
-
     public void parseJson() {
+        places = new ArrayList<>();
         JSONParser parser = new JSONParser();
         try {
-
-            String file = "hangout.json";
+            String file = "src/main/java/advprog/example/bot/hangoutplace/hangout.json";
             FileReader reader = new FileReader(file);
             BufferedReader bufferedReader = new BufferedReader(reader);
             Object object = parser.parse(reader);
@@ -66,9 +62,10 @@ public class Places {
             }
         }
 
-        return nearest.getName() + "\nLokasi : " + nearest.getLocation()
+        return "Tempat hangout terdekat dari lokasi Anda adalah " + nearest.getName() 
+                + "\nLokasi : " + nearest.getLocation()
                 + "\nAlamat : " + nearest.getAddress() + "\nDeskripsi : " + nearest.getDescription()
-                + "\nJarak : " + Double.parseDouble(String.format("%.3f", distance)) + " km\n\n";
+                + "\nJarak : " + Double.parseDouble(String.format("%.3f", distance)) + " km";
     }
 
     public ArrayList<Place> getRandomPlaces() {
@@ -85,20 +82,23 @@ public class Places {
     public String getPlacesByRadius(double radius, double latitude, double longitude) {
         parseJson();
         StringBuilder result = new StringBuilder();
+        result.append("Tempat hangout yang berjarak " + radius + " km dari lokasi Anda adalah :");
         int count = 0;
         for (Place place : places) {
             double distance = Math.abs(Haversine.distance(latitude,
                     longitude, place.getLatitude(), place.getLongitude()));
             if (radius <= distance && (radius + 1) > distance) {
-                result.append(++count + ". " + place.getName()
+                result.append("\n\n" + ++count + ". " + place.getName()
                         + "\nLokasi : " + place.getLocation()
                         + "\nAlamat : " + place.getAddress()
                         + "\nDeskripsi : " + place.getDescription()
-                        + "\nJarak : " + Double.parseDouble(String.format("%.3f", distance)) + " km\n\n");
+                        + "\nJarak : " + Double.parseDouble(String.format("%.3f", distance))
+                        + " km");
             }
         }
-        if (result.toString().equals("")) {
-            return "Tidak ada tempat hangout dengan radius " + radius + " dari lokasi Anda.";
+        if (result.toString().equals("Tempat hangout yang berjarak "
+                + radius + " km dari lokasi Anda adalah :")) {
+            return "Tidak ada tempat hangout dengan radius " + radius + " km dari lokasi Anda.";
         } else {
             return result.toString();
         }

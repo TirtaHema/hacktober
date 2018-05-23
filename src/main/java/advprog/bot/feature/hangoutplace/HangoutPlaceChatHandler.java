@@ -6,9 +6,11 @@ package advprog.bot.feature.hangoutplace;
 import advprog.bot.line.AbstractLineChatHandlerDecorator;
 import advprog.bot.line.LineChatHandler;
 
+import advprog.example.bot.hangoutplace.Haversine;
 import advprog.example.bot.hangoutplace.Place;
 import advprog.example.bot.hangoutplace.Places;
 import com.linecorp.bot.model.action.MessageAction;
+import com.linecorp.bot.model.action.PostbackAction;
 import com.linecorp.bot.model.event.MessageEvent;
 import com.linecorp.bot.model.event.message.AudioMessageContent;
 import com.linecorp.bot.model.event.message.ImageMessageContent;
@@ -20,6 +22,8 @@ import com.linecorp.bot.model.message.TemplateMessage;
 import com.linecorp.bot.model.message.TextMessage;
 import com.linecorp.bot.model.message.template.CarouselColumn;
 import com.linecorp.bot.model.message.template.CarouselTemplate;
+import com.linecorp.bot.model.message.template.ImageCarouselColumn;
+import com.linecorp.bot.model.message.template.ImageCarouselTemplate;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -102,37 +106,26 @@ public class HangoutPlaceChatHandler extends AbstractLineChatHandlerDecorator {
         } else if (status.equals("random")) {
             LocationMessageContent locationMessage = e.getMessage();
             ArrayList<Place> randomPlaces = places.getRandomPlaces();
-            String img = ServletUriComponentsBuilder.fromCurrentContextPath()
-                    .path("src/main/java/advprog/bot/feature/hangoutplace/hangout.jpg")
-                    .build().toUriString();
-            CarouselTemplate carouselTemplate = new CarouselTemplate(
-                    Arrays.asList(
-                            new CarouselColumn(img,
-                                    randomPlaces.get(0).getName(),
-                                    randomPlaces.get(0).getLocation(),
-                                    Arrays.asList(
-                                            new MessageAction("Detail",
-                                                    randomPlaces.get(0).getKeterangan()))),
-                            new CarouselColumn(img,
-                                    randomPlaces.get(1).getName(),
-                                    randomPlaces.get(1).getLocation(),
-                                    Arrays.asList(
-                                            new MessageAction("Detail",
-                                                    randomPlaces.get(1).getKeterangan()))),
-                            new CarouselColumn(img,
-                                    randomPlaces.get(2).getName(),
-                                    randomPlaces.get(2).getLocation(),
-                                    Arrays.asList(
-                                            new MessageAction("Detail",
-                                                    randomPlaces.get(2).getKeterangan()))),
-                            new CarouselColumn(img,
-                                    randomPlaces.get(3).getName(),
-                                    randomPlaces.get(3).getLocation(),
-                                    Arrays.asList(
-                                            new MessageAction("Detail",
-                                                    randomPlaces.get(3).getKeterangan())))
-                    )
-            );
+            String img =
+                    "https://media-cdn.tripadvisor.com/media/photo-s/0a/ad/22/9d/nice-hangout-place.jpg";
+            List<CarouselColumn> columns = new ArrayList<CarouselColumn>();
+            for (int i = 0; i < 3; i++) {
+                Place place = randomPlaces.get(i);
+                double dist = Haversine.distance(locationMessage.getLatitude(),
+                        locationMessage.getLongitude(), place.getLatitude(),
+                        place.getLongitude());
+                columns.add(new CarouselColumn(img,
+                                place.getName(),
+                                place.getLocation(),
+                                Arrays.asList(
+                                        new MessageAction("View Detail",
+                                                place.getKeterangan() + "\nJarak : "
+                                                        + Double.parseDouble(String
+                                                        .format("%.3f", dist))
+                                                        + " km")))
+                );
+            }
+            CarouselTemplate carouselTemplate = new CarouselTemplate(columns);
             return Collections.singletonList(new
                     TemplateMessage("Carousel alt text", carouselTemplate));
         } else if (status.equals("radius")) {
