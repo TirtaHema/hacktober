@@ -6,13 +6,20 @@ import com.linecorp.bot.model.action.Action;
 import com.linecorp.bot.model.action.MessageAction;
 import com.linecorp.bot.model.action.URIAction;
 import com.linecorp.bot.model.event.MessageEvent;
-import com.linecorp.bot.model.event.message.*;
+import com.linecorp.bot.model.event.message.AudioMessageContent;
+import com.linecorp.bot.model.event.message.ImageMessageContent;
+import com.linecorp.bot.model.event.message.LocationMessageContent;
+import com.linecorp.bot.model.event.message.StickerMessageContent;
+import com.linecorp.bot.model.event.message.TextMessageContent;
 import com.linecorp.bot.model.event.source.UserSource;
-import com.linecorp.bot.model.message.*;
+import com.linecorp.bot.model.message.ImageMessage;
+import com.linecorp.bot.model.message.LocationMessage;
+import com.linecorp.bot.model.message.Message;
+import com.linecorp.bot.model.message.TemplateMessage;
+import com.linecorp.bot.model.message.TextMessage;
 import com.linecorp.bot.model.message.template.ButtonsTemplate;
 import com.linecorp.bot.model.message.template.CarouselColumn;
 import com.linecorp.bot.model.message.template.CarouselTemplate;
-
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -74,12 +81,15 @@ public class HospitalChatHandler extends AbstractLineChatHandlerDecorator {
                 Hospital[] hospitals = HospitalBot.getHospitals();
                 List<CarouselColumn> list = new ArrayList<>();
                 for (Hospital hospital : hospitals) {
-                    CarouselColumn data = new CarouselColumn(hospital.getImageLink(),hospital.getName(),hospital.getAddress(),
-                            Arrays.asList(new MessageAction("Pilih","/hospital " + hospital.getName())));
+                    CarouselColumn data = new CarouselColumn(hospital.getImageLink(),
+                            hospital.getName(),hospital.getAddress(),
+                            Arrays.asList(new MessageAction("Pilih",
+                                    "/hospital " + hospital.getName())));
                     list.add(data);
                 }
                 CarouselTemplate carouselTemplate = new CarouselTemplate(list);
-                TemplateMessage templateMessage = new TemplateMessage("Pilih Bikun",carouselTemplate);
+                TemplateMessage templateMessage = new TemplateMessage("Pilih Bikun",
+                        carouselTemplate);
                 replies.add(templateMessage);
             } else if (message.split(" ")[0].equals("/hospital")) {
                 String namaTargetHospital = message.replace("/hospital ","");
@@ -90,18 +100,20 @@ public class HospitalChatHandler extends AbstractLineChatHandlerDecorator {
         return replies;
     }
 
-    private List<Message> getHospitalInformationReply(Hospital hospital, double currentLatitude, double currentLongitude) {
+    private List<Message> getHospitalInformationReply(Hospital hospital,
+                                                      double currentLatitude,
+                                                      double currentLongitude) {
 
         List<Message> replies = new LinkedList<>();
+        ImageMessage hospitalImage = new ImageMessage(
+                hospital.getImageLink(), hospital.getImageLink()
+        );
+        replies.add(hospitalImage);
         LocationMessage hospitalLocation = new LocationMessage(
                 hospital.getName(), hospital.getAddress(),
                 hospital.getLatitude(), hospital.getLongitude()
         );
-
-        ImageMessage hospitalImage = new ImageMessage(
-                hospital.getImageLink(), hospital.getImageLink()
-        );
-
+        replies.add(hospitalLocation);
         StringBuilder sb = new StringBuilder();
         sb.append(hospital.getName() + "\n");
         sb.append("\n");
@@ -111,21 +123,20 @@ public class HospitalChatHandler extends AbstractLineChatHandlerDecorator {
                 hospital.getName(),HospitalBot.getDistance(currentLatitude, currentLongitude,
                         hospital.getLatitude(), hospital.getLongitude())));
         TextMessage hospitalDetail = new TextMessage(sb.toString());
-        replies.add(hospitalImage);
-        replies.add(hospitalLocation);
         replies.add(hospitalDetail);
         return replies;
     }
 
     @Override
     protected List<Message> handleLocationMessage(MessageEvent<LocationMessageContent> event) {
-        List<Message> replies = new LinkedList<>();
+        List<Message> replies;
 
         LocationMessageContent content = event.getMessage();
         Hospital nearestHospital = HospitalBot.findNearestHospital(
                 content.getLatitude(), content.getLongitude()
         );
-        replies = getHospitalInformationReply(nearestHospital,content.getLatitude(),content.getLongitude());
+        replies = getHospitalInformationReply(nearestHospital,
+                content.getLatitude(),content.getLongitude());
         return replies;
 
     }
