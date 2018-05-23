@@ -28,6 +28,7 @@ public abstract class AbstractLineChatHandlerDecorator implements LineChatHandle
     @Override
     public List<Message> handleTextMessageEvent(MessageEvent<TextMessageContent> event,
                                                 List<Message> replyMessages) {
+        System.out.println(canHandleTextMessage(event));
         if (canHandleTextMessage(event)) {
             replyMessages.addAll(handleTextMessage(event));
         }

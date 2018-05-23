@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Arrays;
 
 public class HospitalBot {
     private static Hospital[] hospitals = getHospitalFromJson();
@@ -15,7 +16,7 @@ public class HospitalBot {
             File file = new File("./src/main/java/advprog/bot/feature/hospital/hospital-list.json");
             hospitals = objectMapper.readValue(file, Hospital[].class);
         } catch (IOException e) {
-            return hospitals;
+            System.out.print(e.getMessage());
         }
         return hospitals;
     }
@@ -66,4 +67,5 @@ public class HospitalBot {
         }
         return nearestHospital;
     }
+
 }

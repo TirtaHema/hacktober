@@ -1,6 +1,7 @@
 package advprog.bot.feature.hospital;
 
 import advprog.bot.line.AbstractLineChatHandlerDecorator;
+import advprog.bot.line.BaseChatHandler;
 import advprog.bot.line.LineChatHandler;
 import com.linecorp.bot.model.action.Action;
 import com.linecorp.bot.model.action.MessageAction;
@@ -21,6 +22,7 @@ import com.linecorp.bot.model.message.template.ButtonsTemplate;
 import com.linecorp.bot.model.message.template.CarouselColumn;
 import com.linecorp.bot.model.message.template.CarouselTemplate;
 
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedList;
@@ -39,7 +41,8 @@ public class HospitalChatHandler extends AbstractLineChatHandlerDecorator {
     @Override
     protected boolean canHandleTextMessage(MessageEvent<TextMessageContent> event) {
         String message = event.getMessage().getText();
-        return (message.equals("/hospital") || message.equals("/random_hospital"));
+        return (message.equals("/hospital") || message.equals("/random_hospital")
+                ||  message.split(" ")[0].equals("/hospital"));
     }
 
     @Override
@@ -59,11 +62,12 @@ public class HospitalChatHandler extends AbstractLineChatHandlerDecorator {
 
     @Override
     protected boolean canHandleLocationMessage(MessageEvent<LocationMessageContent> event) {
-        return false;
+        return true;
     }
 
     @Override
     protected List<Message> handleTextMessage(MessageEvent<TextMessageContent> event) {
+        System.out.println("ancol");
         List<Message> replies = new LinkedList<>();
         if (event.getSource() instanceof UserSource) {
             String message = event.getMessage().getText();

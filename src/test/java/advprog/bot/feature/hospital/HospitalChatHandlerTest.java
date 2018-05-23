@@ -1,14 +1,17 @@
 package advprog.bot.feature.hospital;
 
+import static org.junit.Assert.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import advprog.bot.ChatHandlerTestUtil;
 import advprog.bot.line.BaseChatHandler;
 import com.linecorp.bot.model.action.Action;
 import com.linecorp.bot.model.action.URIAction;
 import com.linecorp.bot.model.event.MessageEvent;
 import com.linecorp.bot.model.event.message.TextMessageContent;
 import com.linecorp.bot.model.event.source.UserSource;
+import com.linecorp.bot.model.message.ImageMessage;
+import com.linecorp.bot.model.message.LocationMessage;
 import com.linecorp.bot.model.message.Message;
 import com.linecorp.bot.model.message.TemplateMessage;
 import com.linecorp.bot.model.message.TextMessage;
@@ -54,4 +57,47 @@ public class HospitalChatHandlerTest {
         assertEquals(expectedMessages, hospitalChatHandler.handleTextMessageEvent(me, messages));
     }
 
+
+
+    @Test
+    public void testHandleTextMessageEventSpecificHospital() {
+        List<Message> messages = new LinkedList<>();
+        messages.add(new TextMessage("bbb"));
+        List<Message> expectedMessages = new LinkedList<>();
+        expectedMessages.add(new TextMessage("bbb"));
+        Hospital hospital = HospitalBot.getHospital("RSUD Tarakan");
+        ImageMessage hospitalImage = new ImageMessage(
+                hospital.getImageLink(), hospital.getImageLink()
+        );
+        expectedMessages.add(hospitalImage);
+        LocationMessage hospitalLocation = new LocationMessage(
+                hospital.getName(), hospital.getAddress(),
+                hospital.getLatitude(), hospital.getLongitude()
+        );
+        expectedMessages.add(hospitalLocation);
+        StringBuilder sb = new StringBuilder();
+        sb.append(hospital.getName() + "\n");
+        sb.append("\n");
+        sb.append(hospital.getDescription() + "\n");
+        sb.append("\n");
+        sb.append(String.format("Jarak dari lokasi anda ke rumah sakit %s adalah %s meter",
+                hospital.getName(),HospitalBot.getDistance(0, 0,
+                        hospital.getLatitude(), hospital.getLongitude())));
+        TextMessage hospitalDetail = new TextMessage(sb.toString());
+        expectedMessages.add(hospitalDetail);
+        String msg = "/hospital RSUD Tarakan";
+        MessageEvent<TextMessageContent> me = new MessageEvent<>(
+                "1234", new UserSource("12345"),
+                new TextMessageContent("123456", msg), Instant.now()
+        );
+        assertEquals(expectedMessages, hospitalChatHandler.handleTextMessageEvent(me, messages));
+    }
+
+    @Test
+    public void testIgnoreNonTextMessageEvent() {
+        assertFalse(hospitalChatHandler.canHandleAudioMessage(null));
+        assertFalse(hospitalChatHandler.canHandleImageMessage(null));
+        assertFalse(hospitalChatHandler.canHandleStickerMessage(null));
+        assertTrue(hospitalChatHandler.canHandleLocationMessage(null));
+    }
 }
