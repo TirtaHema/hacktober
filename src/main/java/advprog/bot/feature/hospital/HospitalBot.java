@@ -19,6 +19,14 @@ public class HospitalBot {
         return hospitals;
     }
 
+    public static Hospital getHospital(String namaTarget) {
+        for (Hospital hospital : hospitals) {
+            if (hospital.getName().equalsIgnoreCase(namaTarget)) {
+                return hospital;
+            }
+        }
+    }
+
     public static Hospital[] getHospitals() {
         return hospitals;
     }

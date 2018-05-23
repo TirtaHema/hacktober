@@ -2,9 +2,8 @@ package advprog.bot.feature.hospital;
 
 import advprog.bot.line.AbstractLineChatHandlerDecorator;
 import advprog.bot.line.LineChatHandler;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.linecorp.bot.model.action.Action;
-import com.linecorp.bot.model.action.PostbackAction;
+import com.linecorp.bot.model.action.MessageAction;
 import com.linecorp.bot.model.action.URIAction;
 import com.linecorp.bot.model.event.MessageEvent;
 import com.linecorp.bot.model.event.message.*;
@@ -13,7 +12,7 @@ import com.linecorp.bot.model.message.*;
 import com.linecorp.bot.model.message.template.ButtonsTemplate;
 import com.linecorp.bot.model.message.template.CarouselColumn;
 import com.linecorp.bot.model.message.template.CarouselTemplate;
-import com.linecorp.bot.model.message.template.Template;
+
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -37,6 +36,26 @@ public class HospitalChatHandler extends AbstractLineChatHandlerDecorator {
     }
 
     @Override
+    protected boolean canHandleImageMessage(MessageEvent<ImageMessageContent> event) {
+        return false;
+    }
+
+    @Override
+    protected boolean canHandleAudioMessage(MessageEvent<AudioMessageContent> event) {
+        return false;
+    }
+
+    @Override
+    protected boolean canHandleStickerMessage(MessageEvent<StickerMessageContent> event) {
+        return false;
+    }
+
+    @Override
+    protected boolean canHandleLocationMessage(MessageEvent<LocationMessageContent> event) {
+        return false;
+    }
+
+    @Override
     protected List<Message> handleTextMessage(MessageEvent<TextMessageContent> event) {
         List<Message> replies = new LinkedList<>();
         if (event.getSource() instanceof UserSource) {
@@ -51,24 +70,52 @@ public class HospitalChatHandler extends AbstractLineChatHandlerDecorator {
                                 "Share your current location",
                                 actions)
                 ));
-//            } else if (message.equals("/random_hospital")) {
-//                Hospital[] hospitals = HospitalBot.getHospitals();
-//                List<CarouselColumn> list = new ArrayList<>();
-//                List<Action> actions = new ArrayList<Action>();
-//                for (Hospital hospital : hospitals) {
-//                    List<Action> actions = new ArrayList<Action>();
-//                    CarouselColumn data = new CarouselColumn(hospital.getImageLink(),hospital.getName(),hospital.getAddress(),
-//                            Arrays.asList(new PostbackAction("Pilih",hospital.getName())));
-//                    list.add(data);
-//                }
-//                CarouselTemplate carouselTemplate = new CarouselTemplate(list);
-//                Template
-//            }
+            } else if (message.equals("/random_hospital")) {
+                Hospital[] hospitals = HospitalBot.getHospitals();
+                List<CarouselColumn> list = new ArrayList<>();
+                for (Hospital hospital : hospitals) {
+                    CarouselColumn data = new CarouselColumn(hospital.getImageLink(),hospital.getName(),hospital.getAddress(),
+                            Arrays.asList(new MessageAction("Pilih","/hospital " + hospital.getName())));
+                    list.add(data);
+                }
+                CarouselTemplate carouselTemplate = new CarouselTemplate(list);
+                TemplateMessage templateMessage = new TemplateMessage("Pilih Bikun",carouselTemplate);
+                replies.add(templateMessage);
+            } else if (message.split(" ")[0].equals("/hospital")) {
+                String namaTargetHospital = message.replace("/hospital ","");
+                Hospital targetHospital = HospitalBot.getHospital(namaTargetHospital);
+                return getHospitalInformationReply(targetHospital,0,0);
+            }
         }
         return replies;
     }
 
+    private List<Message> getHospitalInformationReply(Hospital hospital, double currentLatitude, double currentLongitude) {
 
+        List<Message> replies = new LinkedList<>();
+        LocationMessage hospitalLocation = new LocationMessage(
+                hospital.getName(), hospital.getAddress(),
+                hospital.getLatitude(), hospital.getLongitude()
+        );
+
+        ImageMessage hospitalImage = new ImageMessage(
+                hospital.getImageLink(), hospital.getImageLink()
+        );
+
+        StringBuilder sb = new StringBuilder();
+        sb.append(hospital.getName() + "\n");
+        sb.append("\n");
+        sb.append(hospital.getDescription() + "\n");
+        sb.append("\n");
+        sb.append(String.format("Jarak dari lokasi anda ke rumah sakit %s adalah %s meter",
+                hospital.getName(),HospitalBot.getDistance(currentLatitude, currentLongitude,
+                        hospital.getLatitude(), hospital.getLongitude())));
+        TextMessage hospitalDetail = new TextMessage(sb.toString());
+        replies.add(hospitalImage);
+        replies.add(hospitalLocation);
+        replies.add(hospitalDetail);
+        return replies;
+    }
 
     @Override
     protected List<Message> handleLocationMessage(MessageEvent<LocationMessageContent> event) {
@@ -78,33 +125,9 @@ public class HospitalChatHandler extends AbstractLineChatHandlerDecorator {
         Hospital nearestHospital = HospitalBot.findNearestHospital(
                 content.getLatitude(), content.getLongitude()
         );
-        double jarak = HospitalBot.getDistance(content.getLatitude(),content.getLongitude(),
-                nearestHospital.getLatitude(), nearestHospital.getLongitude()
-        );
-
-        LocationMessage hospitalLocation = new LocationMessage(
-                nearestHospital.getName(), nearestHospital.getAddress(),
-                nearestHospital.getLatitude(), nearestHospital.getLongitude()
-        );
-
-        ImageMessage hospitalImage = new ImageMessage(
-                nearestHospital.getImageLink(), nearestHospital.getImageLink()
-        );
-
-        StringBuilder sb = new StringBuilder();
-        sb.append(nearestHospital.getName() + "\n");
-        sb.append("\n");
-        sb.append(nearestHospital.getDescription() + "\n");
-        sb.append("\n");
-        sb.append(String.format("Jarak dari lokasi anda ke rumah sakit %s adalah %s meter",
-                nearestHospital.getName(),jarak)
-        );
-        TextMessage hospitalDetail = new TextMessage(sb.toString());
-
-        replies.add(hospitalImage);
-        replies.add(hospitalLocation);
-        replies.add(hospitalDetail);
+        replies = getHospitalInformationReply(nearestHospital,content.getLatitude(),content.getLongitude());
         return replies;
+
     }
 
 
