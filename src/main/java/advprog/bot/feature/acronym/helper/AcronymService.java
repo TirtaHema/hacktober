@@ -140,7 +140,7 @@ public class AcronymService {
     }
 
     private String update(String userId) throws IOException {
-        if (FILE_ACCESSOR.loadFile(ACRONYM_DATA_NAME).equals("")) {
+        if (getAcronyms().keySet().isEmpty()) {
             return "No acronyms yet";
         }
         FILE_ACCESSOR.saveFile(userId, State.UPDATE_WAITING_ACRONYM);
@@ -148,7 +148,7 @@ public class AcronymService {
     }
 
     private String delete(String userId) throws IOException {
-        if (FILE_ACCESSOR.loadFile(ACRONYM_DATA_NAME).equals("")) {
+        if (getAcronyms().keySet().isEmpty()) {
             return "No acronyms yet";
         }
         FILE_ACCESSOR.saveFile(userId, State.DELETE_WAITING_ACRONYM);
