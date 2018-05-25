@@ -16,9 +16,6 @@ public class AcronymService {
     private static final String ACCESS_TOKEN = "pVBXJUHNrekJlf62vNMWsGiSGKUI+1WspucGp/Z1fK72BNgkET/NQBhHHMF84myOVytSHqAWndKKLU46pD7Ig/OiGSQ6eArvXIDoGIxvgzJgu/xP1md+V4lP90px+vmrJCRVrlAVS2/I29imTMkvjQdB04t89/1O/w1cDnyilFU=";
     private static final LineMessagingClient client = LineMessagingClient.builder(ACCESS_TOKEN).build();
 
-    public static void main(String[] args) throws Exception {
-    }
-
     public boolean isRecievingUserInput(String userId, String input) {
         String state = getState(userId);
         if (state.equals(State.NOTHING)) {
@@ -79,7 +76,7 @@ public class AcronymService {
         }
         JSONObject currentUser = participants.getJSONObject(userId);
         if (input.equals(getAcronyms().getString(acronym)) && (!currentUser.has("fault") || currentUser.getInt("fault") < 3)) {
-            currentUser.put("score", currentUser.getInt("score") + 1);
+            currentUser.increment("score");
             FILE_ACCESSOR.saveFile(groupId, array);
             return getUserName(userId) + " has answered correctly\n" + nextAcronym(groupId);
         } else {
@@ -87,7 +84,7 @@ public class AcronymService {
             if (fault == 3) {
                 return getUserName(userId) + " cannot answer anymore";
             }
-            currentUser.put("fault", fault + 1);
+            currentUser.increment("fault");
             FILE_ACCESSOR.saveFile(groupId, array);
             return getUserName(userId) + "'s answer is not correct";
         }
@@ -139,7 +136,7 @@ public class AcronymService {
         JSONObject acronyms = array.getJSONObject(0);
         acronyms.remove(array.getString(1));
         if (acronyms.keySet().isEmpty()) {
-            return restartAcronyms(groupId);
+            acronyms = getAcronyms();
         }
         String acronym = acronyms.keys().next();
         array.put(1, acronym);
@@ -228,8 +225,20 @@ public class AcronymService {
 
     private JSONObject getAcronyms() {
         String content = FILE_ACCESSOR.loadFile(ACRONYM_DATA_NAME);
-        if (content.equals("")) content="{}";
-        return new JSONObject(content);
+        if (content.equals("")) content = "{}";
+        JSONObject acronyms = new JSONObject(content);
+        Iterator<?> acronym = acronyms.keys();
+        List<Pair<String, String>> arr = new ArrayList<>();
+        while (acronym.hasNext()) {
+            String key = (String)acronym.next();
+            arr.add(new Pair<>(key, acronyms.getString(key)));
+        }
+        Collections.shuffle(arr);
+        JSONObject ret = new JSONObject("{}");
+        for (Pair<String,String> acr : arr) {
+            ret.put(acr.getKey(), acr.getValue());
+        }
+        return ret;
     }
 
     private String getUserName(String userId) throws Exception {
