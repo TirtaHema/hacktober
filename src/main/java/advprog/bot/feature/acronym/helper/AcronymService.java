@@ -143,7 +143,7 @@ public class AcronymService {
         }
         String acronym = acronyms.keys().next();
         array.put(1, acronym);
-        JSONObject participants = array.getJSONObject(3);
+        JSONObject participants = array.getJSONObject(2);
         Iterator<?> users = participants.keys();
         while (users.hasNext()) {
             String user = (String)users.next();
@@ -233,11 +233,7 @@ public class AcronymService {
     }
 
     private String getUserName(String userId) throws Exception {
-        try {
-            return client.getProfile(userId).get().getDisplayName();
-        } catch (Exception e) {
-            return e.getMessage();
-        }
+        return client.getProfile(userId).get().getDisplayName();
     }
 
     public List<String> getAcronymsList() {
