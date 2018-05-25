@@ -65,6 +65,9 @@ public class AcronymService {
         JSONArray array = new JSONArray(content);
         String acronym = array.getString(1);
         JSONObject participants = array.getJSONObject(2);
+        if (!participants.has(userId)) {
+            participants.put(userId, new JSONObject("{\"score\":0, \"fault\":0}"));
+        }
         JSONObject currentUser = participants.getJSONObject(userId);
         if (input.equals(acronym) && (!currentUser.has("fault") || currentUser.getInt("fault") < 3)) {
             currentUser.put("score", currentUser.getInt("score") + 1);
@@ -84,6 +87,7 @@ public class AcronymService {
         array.put(acronyms);
         String acronym = acronyms.keys().next();
         array.put(acronym);
+        array.put(new JSONObject("{}"));
         FILE_ACCESSOR.saveFile(groupId, array);
         return "What is the extension of " + acronym;
     }
