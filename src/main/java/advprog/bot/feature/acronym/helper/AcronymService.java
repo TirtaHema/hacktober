@@ -208,7 +208,9 @@ public class AcronymService {
     }
 
     private JSONObject getAcronyms() {
-        return new JSONObject(FILE_ACCESSOR.loadFile(ACRONYM_DATA_NAME));
+        String content = FILE_ACCESSOR.loadFile(ACRONYM_DATA_NAME);
+        if (content.equals("")) content="{}";
+        return new JSONObject(content);
     }
 
     public List<String> getAcronymsList() {
