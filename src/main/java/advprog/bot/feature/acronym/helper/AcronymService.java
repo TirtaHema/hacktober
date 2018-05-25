@@ -61,6 +61,11 @@ public class AcronymService {
     }
 
     public String processGroupInput(String groupId, String userId, String input) throws Exception {
+        try {
+            getUserName(userId);
+        } catch (Exception e) {
+            return "Please add me first";
+        }
         String content = FILE_ACCESSOR.loadFile(groupId);
         if (content.equals("")) {
             return restartAcronyms(groupId);
