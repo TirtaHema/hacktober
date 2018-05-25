@@ -53,7 +53,7 @@ public class AcronymChatHandler extends AbstractLineChatHandlerDecorator {
                         event.getSource().getUserId(),
                         event.getMessage().getText());
                 response.add(new TextMessage(firstResponse));
-                if (firstResponse.toLowerCase().equals("which")) {
+                if (firstResponse.split(" ")[0].toLowerCase().equals("which")) {
                     response.add(new TemplateMessage(ACRONYM_SERVICE.getAcronymsList().toString(),
                             createCarouselResponse(ACRONYM_SERVICE.getAcronymsList())));
                 }
