@@ -1,7 +1,11 @@
 package advprog.bot.feature.acronym.helper;
 
+import com.linecorp.bot.client.LineMessagingClient;
 import org.json.JSONArray;
 import org.json.JSONObject;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.web.client.RestTemplate;
 
 import java.io.IOException;
 import java.util.*;
@@ -9,6 +13,11 @@ import java.util.*;
 public class AcronymService {
     private static final FileAccessor FILE_ACCESSOR = new FileAccessor();
     private static final String ACRONYM_DATA_NAME = "acronyms";
+    private static final String ACCESS_TOKEN = "pVBXJUHNrekJlf62vNMWsGiSGKUI+1WspucGp/Z1fK72BNgkET/NQBhHHMF84myOVytSHqAWndKKLU46pD7Ig/OiGSQ6eArvXIDoGIxvgzJgu/xP1md+V4lP90px+vmrJCRVrlAVS2/I29imTMkvjQdB04t89/1O/w1cDnyilFU=";
+    private static final LineMessagingClient client = LineMessagingClient.builder(ACCESS_TOKEN).build();
+
+    public static void main(String[] args) throws Exception {
+    }
 
     public boolean isRecievingUserInput(String userId, String input) {
         String state = getState(userId);
@@ -69,15 +78,18 @@ public class AcronymService {
             participants.put(userId, new JSONObject("{\"score\":0, \"fault\":0}"));
         }
         JSONObject currentUser = participants.getJSONObject(userId);
-        if (input.equals(acronym) && (!currentUser.has("fault") || currentUser.getInt("fault") < 3)) {
+        if (input.equals(getAcronyms().getString(acronym)) && (!currentUser.has("fault") || currentUser.getInt("fault") < 3)) {
             currentUser.put("score", currentUser.getInt("score") + 1);
             FILE_ACCESSOR.saveFile(groupId, array);
-            return userId + " has answered correctly\n" + nextAcronym(groupId);
+            return getUserName(userId) + " has answered correctly\n" + nextAcronym(groupId);
         } else {
             int fault = (currentUser.has("fault") ? currentUser.getInt("fault") : 0);
+            if (fault == 3) {
+                return getUserName(userId) + " cannot answer anymore";
+            }
             currentUser.put("fault", fault + 1);
             FILE_ACCESSOR.saveFile(groupId, array);
-            return userId + "'s answer is not correct";
+            return getUserName(userId) + "'s answer is not correct";
         }
     }
 
@@ -89,10 +101,10 @@ public class AcronymService {
         array.put(acronym);
         array.put(new JSONObject("{}"));
         FILE_ACCESSOR.saveFile(groupId, array);
-        return "What is the extension of " + acronym;
+        return "What is the extension of " + acronym + "?";
     }
 
-    private String stopAcronym(String groupId) throws IOException {
+    private String stopAcronym(String groupId) throws Exception {
         String content = FILE_ACCESSOR.loadFile(groupId);
         JSONArray array = new JSONArray(content);
         JSONObject participants = array.getJSONObject(2);
@@ -111,7 +123,7 @@ public class AcronymService {
         });
         StringBuilder ret = new StringBuilder();
         for (Pair<Integer, String> user : leaderBoard) {
-            ret.append(user.getValue());
+            ret.append(getUserName(user.getValue()));
             ret.append(" ");
             ret.append(user.getKey());
             ret.append("\n");
@@ -215,6 +227,10 @@ public class AcronymService {
         String content = FILE_ACCESSOR.loadFile(ACRONYM_DATA_NAME);
         if (content.equals("")) content="{}";
         return new JSONObject(content);
+    }
+
+    private String getUserName(String userId) throws Exception {
+        return client.getProfile(userId).get().getDisplayName();
     }
 
     public List<String> getAcronymsList() {
