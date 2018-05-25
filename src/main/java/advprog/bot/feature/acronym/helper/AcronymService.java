@@ -1,6 +1,5 @@
 package advprog.bot.feature.acronym.helper;
 
-import javafx.util.Pair;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -221,5 +220,23 @@ public class AcronymService {
             ret.add(key + " -- " + acronyms.getString(key));
         }
         return ret;
+    }
+
+    private class Pair<K, V> {
+        private K key;
+        private V value;
+
+        public Pair(K key, V value) {
+            this.key = key;
+            this.value = value;
+        }
+
+        public K getKey() {
+            return key;
+        }
+
+        public V getValue() {
+            return value;
+        }
     }
 }
