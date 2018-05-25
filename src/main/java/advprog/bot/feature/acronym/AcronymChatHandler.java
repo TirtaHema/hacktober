@@ -74,7 +74,7 @@ public class AcronymChatHandler extends AbstractLineChatHandlerDecorator {
 
         for (String text : texts) {
             List<Action> actions = new ArrayList<>();
-            actions.add(new MessageAction("choose", text));
+            actions.add(new MessageAction("choose", text.split(" -- ")[0]));
             columnBuilder.text(text);
             columnBuilder.actions(actions);
             columns.add(columnBuilder.build());
