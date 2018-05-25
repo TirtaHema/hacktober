@@ -95,6 +95,9 @@ public class AcronymService {
 
     private String restartAcronyms(String groupId) throws IOException {
         JSONObject acronyms = getAcronyms();
+        if (acronyms.keySet().isEmpty()) {
+            return "No acronyms yet";
+        }
         JSONArray array = new JSONArray();
         array.put(acronyms);
         String acronym = acronyms.keys().next();
@@ -230,7 +233,11 @@ public class AcronymService {
     }
 
     private String getUserName(String userId) throws Exception {
-        return client.getProfile(userId).get().getDisplayName();
+        try {
+            return client.getProfile(userId).get().getDisplayName();
+        } catch (Exception e) {
+            return e.getMessage();
+        }
     }
 
     public List<String> getAcronymsList() {
