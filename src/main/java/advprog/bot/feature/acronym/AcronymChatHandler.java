@@ -64,7 +64,8 @@ public class AcronymChatHandler extends AbstractLineChatHandlerDecorator {
                     event.getSource().getUserId(),
                     event.getMessage().getText())));
         } catch (Exception e) {
-            return Collections.singletonList(new TextMessage("Something went wrong"));
+            return Collections.singletonList(
+                    new TextMessage("Something went wrong. Have you added me as a friend?"));
         }
     }
 

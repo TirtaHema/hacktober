@@ -3,9 +3,6 @@ package advprog.bot.feature.acronym.helper;
 import com.linecorp.bot.client.LineMessagingClient;
 import org.json.JSONArray;
 import org.json.JSONObject;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.MediaType;
-import org.springframework.web.client.RestTemplate;
 
 import java.io.IOException;
 import java.util.*;
@@ -46,7 +43,6 @@ public class AcronymService {
                     case "/delete_acronym":
                         return delete(userId);
                 }
-                break;
             case State.ADD_WAITING_ACRONYM:
                 return addRecieveAcronym(userId, input);
             case State.WAITING_EXTENSION:
@@ -61,11 +57,6 @@ public class AcronymService {
     }
 
     public String processGroupInput(String groupId, String userId, String input) throws Exception {
-        try {
-            getUserName(userId);
-        } catch (Exception e) {
-            return "Please add me first";
-        }
         String content = FILE_ACCESSOR.loadFile(groupId);
         if (content.equals("")) {
             return restartAcronyms(groupId);
@@ -81,17 +72,19 @@ public class AcronymService {
         }
         JSONObject currentUser = participants.getJSONObject(userId);
         if (input.equals(getAcronyms().getString(acronym)) && (!currentUser.has("fault") || currentUser.getInt("fault") < 3)) {
+            String userName = getUserName(userId);
             currentUser.increment("score");
             FILE_ACCESSOR.saveFile(groupId, array);
-            return getUserName(userId) + " has answered correctly\n" + nextAcronym(groupId);
+            return userName + " has answered correctly\n" + nextAcronym(groupId);
         } else {
+            String userName = getUserName(userId);
             int fault = (currentUser.has("fault") ? currentUser.getInt("fault") : 0);
             if (fault == 3) {
                 return getUserName(userId) + " cannot answer anymore";
             }
             currentUser.increment("fault");
             FILE_ACCESSOR.saveFile(groupId, array);
-            return getUserName(userId) + "'s answer is not correct";
+            return userName + " has answered incorrectly";
         }
     }
 
@@ -157,7 +150,7 @@ public class AcronymService {
 
     private String add(String userId) throws IOException {
         FILE_ACCESSOR.saveFile(userId, State.ADD_WAITING_ACRONYM);
-        return "Please enter your acronym";
+        return "Please write your acronym";
     }
 
     private String update(String userId) throws IOException {
