@@ -19,19 +19,16 @@ import com.linecorp.bot.model.message.TemplateMessage;
 import com.linecorp.bot.model.message.TextMessage;
 
 import java.io.IOException;
-import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
-import com.linecorp.bot.model.message.template.CarouselTemplate;
 import org.json.JSONObject;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -75,7 +72,8 @@ public class AcronymChatHandlerTest {
     public void testPrivateChat_UpdateAcronym() {
         List<Message> messages = new LinkedList<>();
         List<Message> expectedMessages = new LinkedList<>();
-        MessageEvent<TextMessageContent> me = TestUtil.createDummyPrivateTextMessage("/update_acronym");
+        MessageEvent<TextMessageContent> me = TestUtil
+                .createDummyPrivateTextMessage("/update_acronym");
         expectedMessages.add(new TextMessage("No acronyms yet"));
         assertEquals(expectedMessages, acronymChatHandler.handleTextMessageEvent(me, messages));
 
@@ -110,7 +108,8 @@ public class AcronymChatHandlerTest {
 
         expectedMessages.add(new TextMessage("No acronyms yet"));
 
-        MessageEvent<TextMessageContent> me = TestUtil.createDummyPrivateTextMessage("/delete_acronym");
+        MessageEvent<TextMessageContent> me = TestUtil
+                .createDummyPrivateTextMessage("/delete_acronym");
         assertEquals(expectedMessages, acronymChatHandler.handleTextMessageEvent(me, messages));
 
         TestUtil.addAcronym("ACR", "Acronym");
@@ -156,8 +155,6 @@ public class AcronymChatHandlerTest {
     public void testGroupChat() {
         List<Message> messages = new ArrayList<>();
         List<Message> expectedMessages = new ArrayList<>();
-        String windi = "U16efaf7d89b30e599dc82e38a7e4fb56";
-        String norman = "U63d4529458763a7fd0df60a705134d5d";
 
         MessageEvent<TextMessageContent> me = TestUtil.createDummyGroupTextMessage("start acronym");
         acronymChatHandler.handleTextMessageEvent(me, messages);
@@ -178,6 +175,7 @@ public class AcronymChatHandlerTest {
                 new TextMessage("Something went wrong. Have you added me as a friend?"));
         assertEquals(expectedMessages, acronymChatHandler.handleTextMessageEvent(me, messages));
 
+        String windi = "U16efaf7d89b30e599dc82e38a7e4fb56";
         me = TestUtil.createDummyGroupTextMessage("wrong", windi);
         expectedMessages.add(
                 new TextMessage("Windi Chandra has answered incorrectly"));
@@ -198,7 +196,9 @@ public class AcronymChatHandlerTest {
                 new TextMessage("Windi Chandra cannot answer anymore"));
         assertEquals(expectedMessages, acronymChatHandler.handleTextMessageEvent(me, messages));
 
-        me = TestUtil.createDummyGroupTextMessage((acronym.equals("ACR") ? "Acronym" : "Windi"), norman);
+        String norman = "U63d4529458763a7fd0df60a705134d5d";
+        me = TestUtil.createDummyGroupTextMessage(
+                (acronym.equals("ACR") ? "Acronym" : "Windi"), norman);
         expectedMessages.add(
                 new TextMessage("Norman Bintang has answered correctly\n"
                         + "What is the extension of "
@@ -206,7 +206,8 @@ public class AcronymChatHandlerTest {
                         + "?"));
         assertEquals(expectedMessages, acronymChatHandler.handleTextMessageEvent(me, messages));
 
-        me = TestUtil.createDummyGroupTextMessage((acronym.equals("ACR") ? "Windi" : "Acronym"), norman);
+        me = TestUtil.createDummyGroupTextMessage(
+                (acronym.equals("ACR") ? "Windi" : "Acronym"), norman);
         expectedMessages.add(
                 new TextMessage("Norman Bintang has answered correctly\n"
                         + "What is the extension of "

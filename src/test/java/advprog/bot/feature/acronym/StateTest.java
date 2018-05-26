@@ -1,10 +1,9 @@
 package advprog.bot.feature.acronym;
 
+import static org.junit.Assert.assertNotNull;
+
 import advprog.bot.feature.acronym.helper.State;
 import org.junit.Test;
-
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
 
 public class StateTest {
 

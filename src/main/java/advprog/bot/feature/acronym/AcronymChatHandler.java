@@ -38,10 +38,12 @@ public class AcronymChatHandler extends AbstractLineChatHandlerDecorator {
     @Override
     protected boolean canHandleTextMessage(MessageEvent<TextMessageContent> event) {
         if (event.getSource() instanceof UserSource) {
-            return ACRONYM_SERVICE.isRecievingUserInput(event.getSource().getUserId(), event.getMessage().getText());
+            return ACRONYM_SERVICE.isRecievingUserInput(
+                    event.getSource().getUserId(), event.getMessage().getText());
         }
 
-        return ACRONYM_SERVICE.isRecievingGroupInput(event.getSource().getSenderId(), event.getMessage().getText());
+        return ACRONYM_SERVICE.isRecievingGroupInput(
+                event.getSource().getSenderId(), event.getMessage().getText());
     }
 
     @Override

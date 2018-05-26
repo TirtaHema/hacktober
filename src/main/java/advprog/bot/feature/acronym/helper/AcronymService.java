@@ -1,17 +1,27 @@
 package advprog.bot.feature.acronym.helper;
 
 import com.linecorp.bot.client.LineMessagingClient;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.Iterator;
+import java.util.List;
+
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import java.io.IOException;
-import java.util.*;
 
 public class AcronymService {
     private static final FileAccessor FILE_ACCESSOR = new FileAccessor();
     private static final String ACRONYM_DATA_NAME = "acronyms";
-    private static final String ACCESS_TOKEN = "pVBXJUHNrekJlf62vNMWsGiSGKUI+1WspucGp/Z1fK72BNgkET/NQBhHHMF84myOVytSHqAWndKKLU46pD7Ig/OiGSQ6eArvXIDoGIxvgzJgu/xP1md+V4lP90px+vmrJCRVrlAVS2/I29imTMkvjQdB04t89/1O/w1cDnyilFU=";
-    private static final LineMessagingClient client = LineMessagingClient.builder(ACCESS_TOKEN).build();
+    private static final String ACCESS_TOKEN = "pVBXJUHNrekJlf6"
+            + "2vNMWsGiSGKUI+1WspucGp/Z1fK72BNgkET/NQBhHHMF84myOVytSHqAWndKKLU46pD"
+            + "7Ig/OiGSQ6eArvXIDoGIxvgzJgu/xP1md+V4lP90px+vmrJCRVrlAVS2/I29imTMkvjQ"
+            + "dB04t89/1O/w1cDnyilFU=";
+    private static final LineMessagingClient client = LineMessagingClient
+            .builder(ACCESS_TOKEN).build();
 
     public boolean isRecievingUserInput(String userId, String input) {
         String state = getState(userId);
@@ -35,14 +45,12 @@ public class AcronymService {
     public String processUserInput(String userId, String input) throws Exception {
         switch (getState(userId)) {
             case State.NOTHING:
-                switch (input) {
-                    case "/add_acronym":
-                        return add(userId);
-                    case "/update_acronym":
-                        return update(userId);
-                    case "/delete_acronym":
-                        return delete(userId);
+                if (input.equals("/add_acronym")) {
+                    return add(userId);
+                } else if (input.equals("/update_acronym")) {
+                    return update(userId);
                 }
+                return delete(userId);
             case State.ADD_WAITING_ACRONYM:
                 return addRecieveAcronym(userId, input);
             case State.WAITING_EXTENSION:
@@ -51,9 +59,9 @@ public class AcronymService {
                 return updateRecieveAcronym(userId, input);
             case State.DELETE_WAITING_ACRONYM:
                 return deleteRecieveAcronym(userId, input);
+            default:
+                return deleteRecieveConfirmation(userId, input);
         }
-        //STATE.DELETE_WAITING_CONFIRMATION outside for compilation and coverage purpose
-        return deleteRecieveConfirmation(userId, input);
     }
 
     public String processGroupInput(String groupId, String userId, String input) throws Exception {
@@ -71,17 +79,18 @@ public class AcronymService {
             participants.put(userId, new JSONObject("{\"score\":0, \"fault\":0}"));
         }
         JSONObject currentUser = participants.getJSONObject(userId);
-        if (input.equals(getAcronyms().getString(acronym)) && (!currentUser.has("fault") || currentUser.getInt("fault") < 3)) {
+        if (input.equals(getAcronyms().getString(acronym))
+                && (!currentUser.has("fault") || currentUser.getInt("fault") < 3)) {
             String userName = getUserName(userId);
             currentUser.increment("score");
             FILE_ACCESSOR.saveFile(groupId, array);
             return userName + " has answered correctly\n" + nextAcronym(groupId);
         } else {
-            String userName = getUserName(userId);
             int fault = (currentUser.has("fault") ? currentUser.getInt("fault") : 0);
             if (fault == 3) {
                 return getUserName(userId) + " cannot answer anymore";
             }
+            String userName = getUserName(userId);
             currentUser.increment("fault");
             FILE_ACCESSOR.saveFile(groupId, array);
             return userName + " has answered incorrectly";
@@ -201,7 +210,8 @@ public class AcronymService {
         return "Are you sure?";
     }
 
-    private String deleteRecieveConfirmation(String userId, String confirmation) throws IOException {
+    private String deleteRecieveConfirmation(
+            String userId, String confirmation) throws IOException {
         if (confirmation.toLowerCase().equals("yes")) {
             JSONObject acronyms = getAcronyms();
             acronyms.remove(getUserInputAcronym(userId));
@@ -223,7 +233,9 @@ public class AcronymService {
 
     private JSONObject getAcronyms() {
         String content = FILE_ACCESSOR.loadFile(ACRONYM_DATA_NAME);
-        if (content.equals("")) content = "{}";
+        if (content.equals("")) {
+            content = "{}";
+        }
         JSONObject acronyms = new JSONObject(content);
         Iterator<?> acronym = acronyms.keys();
         List<Pair<String, String>> arr = new ArrayList<>();

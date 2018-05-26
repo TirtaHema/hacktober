@@ -1,9 +1,9 @@
 package advprog.bot.feature.acronym;
 
+import static org.junit.Assert.assertEquals;
+
 import advprog.bot.feature.acronym.helper.FileAccessor;
 import org.junit.Test;
-
-import static org.junit.Assert.assertEquals;
 
 public class FileAccessorTest {
     @Test

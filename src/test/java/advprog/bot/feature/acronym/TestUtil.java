@@ -6,18 +6,15 @@ import com.linecorp.bot.model.action.MessageAction;
 import com.linecorp.bot.model.event.MessageEvent;
 import com.linecorp.bot.model.event.message.TextMessageContent;
 import com.linecorp.bot.model.event.source.GroupSource;
-import com.linecorp.bot.model.event.source.RoomSource;
 import com.linecorp.bot.model.event.source.UserSource;
-import com.linecorp.bot.model.message.Message;
 import com.linecorp.bot.model.message.template.CarouselColumn;
 import com.linecorp.bot.model.message.template.CarouselTemplate;
-import org.json.JSONArray;
-import org.json.JSONObject;
-
 import java.io.IOException;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 public class TestUtil {
     public static MessageEvent<TextMessageContent> createDummyPrivateTextMessage(String text) {
