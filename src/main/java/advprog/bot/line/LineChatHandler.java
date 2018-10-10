@@ -13,6 +13,7 @@ import com.linecorp.bot.model.message.Message;
 import com.linecorp.bot.model.message.StickerMessage;
 import com.linecorp.bot.model.message.TextMessage;
 
+import java.io.IOException;
 import java.util.List;
 
 //redundancy exists for a much less confusing usage

@@ -13,6 +13,7 @@ import com.linecorp.bot.model.event.message.TextMessageContent;
 import com.linecorp.bot.model.message.Message;
 import com.linecorp.bot.model.message.TextMessage;
 
+import java.io.IOException;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
@@ -34,7 +35,7 @@ public class EchoChatHandlerTest {
     }
 
     @Test
-    public void testHandleTextMessageEvent() {
+    public void testHandleTextMessageEvent() throws IOException {
         List<Message> messages = new LinkedList<>();
         messages.add(new TextMessage("bbb"));
         List<TextMessage> expectedMessages = new LinkedList<>();
@@ -44,7 +45,8 @@ public class EchoChatHandlerTest {
         MessageEvent<TextMessageContent> me = ChatHandlerTestUtil.fakeMessageEvent(
                 "dsf", msg
         );
-        assertEquals(expectedMessages, echoChatHandler.handleTextMessageEvent(me, messages));
+        assertEquals(expectedMessages,
+            echoChatHandler.handleTextMessageEvent(me, messages));
     }
 
     @Test

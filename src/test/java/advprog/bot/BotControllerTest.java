@@ -26,6 +26,7 @@ import com.linecorp.bot.model.message.Message;
 import com.linecorp.bot.model.message.StickerMessage;
 import com.linecorp.bot.model.message.TextMessage;
 
+import java.io.IOException;
 import java.time.Instant;
 import java.util.LinkedList;
 import java.util.List;
@@ -82,7 +83,7 @@ public class BotControllerTest {
     }
 
     @Test
-    public void testHandleTextMessageEvent() {
+    public void testHandleTextMessageEvent() throws IOException {
         List<Message> expectedMessages = new LinkedList<>();
         expectedMessages.add(new TextMessage("1"));
         expectedMessages.add(new TextMessage("2"));
@@ -156,7 +157,7 @@ public class BotControllerTest {
     }
 
     @Test
-    public void testDefaultMessageEvent() {
+    public void testDefaultMessageEvent() throws IOException {
         Event event = mock(Event.class);
         Source source = mock(Source.class);
         when(event.getSource()).thenReturn(source);
