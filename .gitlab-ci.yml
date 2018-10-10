@@ -35,3 +35,4 @@ DeployProduction:
   environment:
     name: production
     url: $HEROKU_APP_HOST
+
