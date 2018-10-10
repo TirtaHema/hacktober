@@ -20,6 +20,16 @@ public class ChatHandlerTestUtil {
 
     }
 
+    public static MessageEvent<TextMessageContent> fakeMessageEvent(
+            String replyToken,
+            String message,
+            Source source
+    ) {
+        TextMessageContent tmc = new TextMessageContent("id", message);
+        return new MessageEvent<>(replyToken, source, tmc, Instant.now());
+
+    }
+
     public static MessageEvent<ImageMessageContent> fakeImageEvent(
             String replyToken
     ) {
